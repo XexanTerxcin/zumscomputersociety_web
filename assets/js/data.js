@@ -318,7 +318,7 @@
 
   var faqs = [
     { q: 'Who can join ZCS?', a: 'Any enrolled student of ZNRF University of Management Sciences, from any department. You do not need to write code to be useful here — design, operations and writing wings need people too.' },
-    { q: 'How much is membership?', a: 'BDT 20 per academic semester. Pay by bKash or Upay using Send Money to 01575-836669, or hand cash to a panel member and take a receipt.' },
+    { q: 'How much is membership?', a: 'BDT 20 per academic semester. Pay by bKash or Upay using Send Money to 01540639357, or hand cash to a panel member and take a receipt.' },
     { q: 'How long does approval take?', a: 'One to three working days. The panel checks your payment against our records, then you get a confirmation email and an invite to the members WhatsApp community.' },
     { q: 'I paid but my status still says pending.', a: 'Check that you used Send Money rather than Payment, and that the transaction ID you entered matches your confirmation SMS exactly. If both are right, write to us with your registration ID.' },
     { q: 'Can I belong to more than one wing?', a: 'Yes. Pick a primary wing so somebody is responsible for you, then attend anything else you like. Most members drift across at least two.' },

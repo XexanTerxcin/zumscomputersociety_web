@@ -25,7 +25,7 @@
     university: 'ZNRF University of Management Sciences',
     motto: ['TRY', 'FAIL', 'REPEAT'],
     email: 'zumscomputersociety@gmail.com',
-    phone: '+880 1575-836669',
+    phone: '+880 1540639357',
     address: 'ZNRF University of Management Sciences, Bishwo Road, Kanchan, Rupganj, Narayanganj',
     hours: 'Sun–Thu · 10:00–17:00',
     founded: 2023
