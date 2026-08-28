@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Static placeholder so the RSS link on blog.html resolves. The PHP app renders
+  this from blog_posts where published = 1, newest first.
+-->
+<rss version="2.0">
+  <channel>
+    <title>ZUMS Computer Society — Blog</title>
+    <link>https://example.org/blog.html</link>
+    <description>Write-ups, ladders and post-mortems from the wings of ZUMS Computer Society.</description>
+    <language>en</language>
+
+    <item>
+      <title>Why a computer club should run on failure</title>
+      <link>https://example.org/post.html?id=why-we-run-on-failure</link>
+      <guid>why-we-run-on-failure</guid>
+      <pubDate>Tue, 18 Aug 2026 09:00:00 +0600</pubDate>
+      <description>The motto is not decoration. How TRY / FAIL / REPEAT shows up in how we run sessions, pick projects and hand over the panel.</description>
+    </item>
+
+    <item>
+      <title>The ICPC prep ladder we actually used</title>
+      <link>https://example.org/post.html?id=icpc-prep-ladder</link>
+      <guid>icpc-prep-ladder</guid>
+      <pubDate>Sun, 09 Aug 2026 09:00:00 +0600</pubDate>
+      <description>Four hundred problems, ordered. What to solve in week one, what to skip until you can prove a complexity bound.</description>
+    </item>
+
+    <item>
+      <title>Building the club site without a framework</title>
+      <link>https://example.org/post.html?id=building-the-club-site</link>
+      <guid>building-the-club-site</guid>
+      <pubDate>Thu, 30 Jul 2026 09:00:00 +0600</pubDate>
+      <description>PHP 8, PDO, no build step. Why we chose boring technology for something the next panel has to maintain.</description>
+    </item>
+  </channel>
+</rss>

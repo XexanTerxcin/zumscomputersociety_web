@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#03070a">
+<meta name="robots" content="noindex">
+<title>People — ZCS admin</title>
+<link rel="icon" href="../assets/img/club-logo.png" type="image/png">
+<link href="../assets/vendor/bootstrap.min.css" rel="stylesheet">
+<link href="../assets/css/fonts.css" rel="stylesheet">
+<link href="../assets/css/style.css" rel="stylesheet">
+</head>
+<body data-page="admin-people" data-base="../" data-area="admin">
+
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="site-nav"></div>
+
+<div class="app">
+  <aside class="side" id="panel-side"></aside>
+
+  <main id="main">
+    <div style="margin-bottom:24px">
+      <p class="eyebrow">Admin panel</p>
+      <h1 class="phero__title" style="font-size:clamp(1.5rem,4vw,2rem);margin-bottom:8px">People</h1>
+      <p class="muted" style="margin:0">Members, event registrations, positions, skills and the contact inbox.</p>
+    </div>
+
+    <div class="tabs" data-tabs="people" role="tablist">
+      <button type="button" data-tab="members" class="is-active" role="tab" aria-selected="true">Members</button>
+      <button type="button" data-tab="regs" role="tab" aria-selected="false">Registrations</button>
+      <button type="button" data-tab="inbox" role="tab" aria-selected="false">Inbox</button>
+      <button type="button" data-tab="taxonomy" role="tab" aria-selected="false">Positions &amp; skills</button>
+    </div>
+
+    <!-- ===================================================== members -->
+    <div class="tabpane is-active" data-tabpane="members" data-tabpane-group="people">
+      <div class="panel">
+        <div class="panel__head"><div>
+          <p class="panel__kicker">Directory</p>
+          <h2 class="panel__title">Members</h2>
+        </div>
+        <div class="btn-row">
+          <a class="btn-ghost btn-ghost--sm" href="#" download>Export CSV</a>
+          <button class="btn-zcs btn-zcs--sm" type="button">Add member</button>
+        </div></div>
+
+        <div class="toolbar">
+          <button class="chip is-active" data-filter="all">All</button>
+          <button class="chip" data-filter="active">Active</button>
+          <button class="chip" data-filter="pending">Pending</button>
+          <div class="search">
+            <span class="search__icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+            </span>
+            <input class="fld" type="search" id="mSearch" placeholder="Name, ZCS ID, program" aria-label="Search members">
+          </div>
+          <span class="mono" style="font-size:11px;color:var(--ink-3)" id="mCount"></span>
+        </div>
+
+        <div class="table-wrap">
+          <table class="table-z">
+            <thead><tr><th>Member</th><th>ZCS ID</th><th>Position</th><th>Wing</th><th>Program</th><th class="num">Points</th><th>Status</th><th></th></tr></thead>
+            <tbody id="pMembers"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- =============================================== registrations -->
+    <div class="tabpane" data-tabpane="regs" data-tabpane-group="people">
+      <div class="panel">
+        <div class="panel__head"><div>
+          <p class="panel__kicker">Events</p>
+          <h2 class="panel__title">Registrations</h2>
+        </div>
+        <a class="btn-ghost btn-ghost--sm" href="#" download>Export CSV</a></div>
+        <div class="table-wrap">
+          <table class="table-z">
+            <thead><tr><th>Ref</th><th>Name</th><th>Student ID</th><th>Event</th><th>Method</th><th>Transaction</th><th>Submitted</th><th>Status</th><th></th></tr></thead>
+            <tbody id="pRegs"></tbody>
+          </table>
+        </div>
+        <p class="help" style="margin-top:14px">
+          Approving a registration issues the QR pass and emails it. Rejecting one asks for a reason,
+          which is sent with the notice.
+        </p>
+      </div>
+    </div>
+
+    <!-- ======================================================= inbox -->
+    <div class="tabpane" data-tabpane="inbox" data-tabpane-group="people">
+      <div class="panel">
+        <div class="panel__head"><div>
+          <p class="panel__kicker">Contact form</p>
+          <h2 class="panel__title">Messages</h2>
+        </div></div>
+        <div class="table-wrap">
+          <table class="table-z">
+            <thead><tr><th></th><th>Subject</th><th>From</th><th>Email</th><th>Received</th><th></th></tr></thead>
+            <tbody id="pMsgs"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================================================== taxonomy -->
+    <div class="tabpane" data-tabpane="taxonomy" data-tabpane-group="people">
+      <div class="row g-4">
+        <div class="col-12 col-lg-6">
+          <div class="panel" style="height:100%">
+            <div class="panel__head"><div>
+              <p class="panel__kicker">Roles</p>
+              <h2 class="panel__title">Positions</h2>
+            </div></div>
+            <div id="pPositions" style="margin-bottom:18px"></div>
+            <form data-validate novalidate style="display:flex;gap:10px;flex-wrap:wrap">
+              <input class="fld" style="flex:1;min-width:180px" type="text" id="newPos" data-rule="required|min:3" placeholder="New position">
+              <button class="btn-zcs btn-zcs--sm" type="submit">Add</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="col-12 col-lg-6">
+          <div class="panel" style="height:100%">
+            <div class="panel__head"><div>
+              <p class="panel__kicker">Tags</p>
+              <h2 class="panel__title">Skills</h2>
+            </div></div>
+            <div id="pSkills" style="margin-bottom:18px"></div>
+            <form data-validate novalidate style="display:flex;gap:10px;flex-wrap:wrap">
+              <input class="fld" style="flex:1;min-width:180px" type="text" id="newSkill" data-rule="required|min:2" placeholder="New skill">
+              <button class="btn-zcs btn-zcs--sm" type="submit">Add</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<div id="site-foot"></div>
+
+<script src="../assets/vendor/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/data.js"></script>
+<script src="../assets/js/layout.js"></script>
+<script src="../assets/js/panel.js"></script>
+<script src="../assets/js/app.js"></script>
+<script>
+(function () {
+  var D = window.ZCS, U = window.ZCSUI;
+  var TONE = { pending: 'tag--soon', approved: 'tag--live', rejected: 'tag--alert', active: 'tag--live' };
+
+  U.listController({
+    host: '#pMembers',
+    countHost: '#mCount',
+    search: '#mSearch',
+    source: function () { return D.members; },
+    matchFilter: function (m, f) { return m.status === f; },
+    matchQuery: function (m, q) {
+      return (m.name + ' ' + m.uid + ' ' + m.dept + ' ' + m.position).toLowerCase().indexOf(q) > -1;
+    },
+    render: function (m) {
+      var w = D.wingBySlug(m.wing);
+      return '<tr>' +
+        '<td style="color:var(--ink)"><span style="display:flex;gap:9px;align-items:center">' +
+          '<img src="' + D.avatarFor(m.name) + '" alt="" style="width:28px;height:28px;border-radius:50%;border:1px solid var(--line)">' +
+          m.name + '</span></td>' +
+        '<td class="mono" style="font-size:11px">' + m.uid + '</td>' +
+        '<td>' + m.position + '</td>' +
+        '<td>' + (w ? w.name : '—') + '</td>' +
+        '<td>' + m.dept + '</td>' +
+        '<td class="num">' + m.points + '</td>' +
+        '<td><span class="tag ' + (TONE[m.status] || '') + '">' + m.status + '</span></td>' +
+        '<td style="text-align:right;white-space:nowrap">' +
+          '<a class="btn-ghost btn-ghost--sm" href="../member.html?uid=' + m.uid + '">View</a> ' +
+          '<button class="btn-ghost btn-ghost--sm" type="button">Edit</button></td>' +
+      '</tr>';
+    }
+  });
+
+  document.getElementById('pRegs').innerHTML = D.registrations.map(function (r) {
+    var ev = D.eventById(r.event);
+    return '<tr>' +
+      '<td class="mono" style="font-size:11px">' + r.rid + '</td>' +
+      '<td style="color:var(--ink)">' + r.name + '</td>' +
+      '<td class="mono" style="font-size:11px">' + r.studentId + '</td>' +
+      '<td>' + (ev ? ev.title : '—') + '</td>' +
+      '<td>' + r.method + '</td>' +
+      '<td class="mono" style="font-size:11px">' + r.trx + '</td>' +
+      '<td>' + U.fmtDateTime(r.at) + '</td>' +
+      '<td><span class="tag ' + (TONE[r.status] || '') + '">' + r.status + '</span></td>' +
+      '<td style="text-align:right;white-space:nowrap">' +
+        (r.status === 'pending'
+          ? '<button class="btn-ghost btn-ghost--sm" type="button">Approve</button> ' +
+            '<button class="btn-ghost btn-ghost--sm btn-ghost--danger" type="button">Reject</button>'
+          : '<button class="btn-ghost btn-ghost--sm" type="button">View</button>') +
+      '</td></tr>';
+  }).join('');
+
+  document.getElementById('pMsgs').innerHTML = D.messages.map(function (m) {
+    return '<tr>' +
+      '<td>' + (m.read ? '' : '<span class="dot"></span>') + '</td>' +
+      '<td style="color:var(--ink)">' + m.subject + '</td>' +
+      '<td>' + m.from + '</td>' +
+      '<td class="mono" style="font-size:11px">' + m.email + '</td>' +
+      '<td>' + U.fmtDateTime(m.at) + '</td>' +
+      '<td style="text-align:right;white-space:nowrap">' +
+        '<button class="btn-ghost btn-ghost--sm" type="button">Open</button> ' +
+        '<button class="btn-ghost btn-ghost--sm btn-ghost--danger" type="button">Delete</button></td>' +
+    '</tr>';
+  }).join('');
+
+  function chips(host, list, tone) {
+    document.getElementById(host).innerHTML = list.map(function (x) {
+      return '<span class="tag ' + tone + '" style="margin:0 6px 6px 0">' + x +
+        ' <button type="button" aria-label="Remove ' + x + '" style="background:none;border:0;color:inherit;cursor:pointer;padding:0 0 0 4px">&times;</button></span>';
+    }).join('');
+  }
+
+  chips('pPositions', D.positions, 'tag--live');
+
+  var skills = [];
+  D.members.forEach(function (m) {
+    m.skills.forEach(function (s) { if (skills.indexOf(s) === -1) skills.push(s); });
+  });
+  chips('pSkills', skills.sort(), 'tag--violet');
+})();
+</script>
+</body>
+</html>

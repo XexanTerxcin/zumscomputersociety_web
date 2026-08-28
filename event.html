@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#03070a">
+<meta name="description" content="Event detail — schedule, venue, fee, seats and registration for a ZUMS Computer Society event.">
+<title>Event — ZUMS Computer Society</title>
+<link rel="icon" href="assets/img/club-logo.png" type="image/png">
+<link href="assets/vendor/bootstrap.min.css" rel="stylesheet">
+<link href="assets/css/fonts.css" rel="stylesheet">
+<link href="assets/css/style.css" rel="stylesheet">
+</head>
+<body data-page="events" data-base="" data-area="site">
+
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="site-nav"></div>
+
+<main id="main">
+  <div id="evHero"></div>
+
+  <section class="section">
+    <div class="shell">
+      <div class="row g-5">
+        <div class="col-12 col-lg-8">
+          <img id="evCover" src="" alt="" style="width:100%;border:1px solid var(--line);margin-bottom:28px">
+          <div class="prose" id="evBody"></div>
+
+          <h2 class="sec-head__title" style="font-size:1.4rem;margin:36px 0 18px">Schedule</h2>
+          <ul class="timeline" id="evSchedule"></ul>
+
+          <h2 class="sec-head__title" style="font-size:1.4rem;margin:36px 0 18px">Rules and eligibility</h2>
+          <div class="prose">
+            <ul>
+              <li>Open to enrolled students of ZNRF University of Management Sciences.</li>
+              <li>Club membership is not required to register, but members get priority when seats run out.</li>
+              <li>Bring your student ID. Check-in is by QR pass at the door.</li>
+              <li>Fees are refundable up to 72 hours before the start time.</li>
+              <li>Anything you build stays yours. We ask only to show it on the projects page.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-12 col-lg-4">
+          <div class="panel" style="margin-bottom:22px">
+            <div class="panel__head">
+              <div>
+                <p class="panel__kicker">Registration</p>
+                <h2 class="panel__title" id="evFee">—</h2>
+              </div>
+            </div>
+
+            <div id="evCountdownWrap" style="margin-bottom:20px">
+              <p class="lbl">Starts in</p>
+              <div class="countdown" id="evCountdown"></div>
+            </div>
+
+            <p class="lbl" style="justify-content:flex-start">Seats <span id="evSeatText" class="muted-2" style="letter-spacing:0;text-transform:none;font-family:var(--f-body)"></span></p>
+            <div class="meter" style="margin-bottom:20px"><div class="meter__fill" id="evSeatBar"></div></div>
+
+            <dl class="dl-z" id="evFacts"></dl>
+
+            <div id="evCta" style="margin-top:22px"></div>
+          </div>
+
+          <div class="panel">
+            <div class="panel__head">
+              <div>
+                <p class="panel__kicker">Also on</p>
+                <h2 class="panel__title">Other events</h2>
+              </div>
+            </div>
+            <div id="evOthers"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="site-foot"></div>
+
+<script src="assets/vendor/bootstrap.bundle.min.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/layout.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+(function () {
+  var D = window.ZCS, U = window.ZCSUI;
+  var id = U.param('id') || D.events[0].id;
+  var ev = D.eventById(id);
+
+  if (!ev) {
+    document.getElementById('evHero').innerHTML =
+      '<section class="phero"><div class="shell"><h1 class="phero__title">Event not found</h1>' +
+      '<p class="phero__sub">That event is not on the calendar. <a href="events.html">See everything else</a>.</p></div></section>';
+    return;
+  }
+
+  var wing = D.wingBySlug(ev.wing);
+  document.title = ev.title + ' — ZUMS Computer Society';
+
+  document.getElementById('evHero').innerHTML =
+    '<section class="phero"><div class="shell">' +
+      '<ul class="crumbs"><li><a href="index.html">Home</a></li><li><a href="events.html">Events</a></li><li>' + ev.title + '</li></ul>' +
+      '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px">' +
+        U.eventStatusTag(ev) +
+        (wing ? '<span class="tag tag--cyan">' + wing.name + '</span>' : '') +
+        ev.tags.map(function (t) { return '<span class="tag">' + t + '</span>'; }).join('') +
+      '</div>' +
+      '<h1 class="phero__title">' + ev.title + '</h1>' +
+      '<p class="phero__sub">' + ev.excerpt + '</p>' +
+    '</div></section>';
+
+  document.getElementById('evCover').src = D.placeholder(ev.id, ev.title);
+  document.getElementById('evCover').alt = ev.title;
+
+  document.getElementById('evBody').innerHTML =
+    '<h2>About this event</h2>' +
+    '<p>' + ev.excerpt + '</p>' +
+    '<p>Doors open thirty minutes before the start time at <strong>' + ev.venue + '</strong>. ' +
+    'Bring a laptop and a charger; power strips are provided but never enough. Food and water are ' +
+    'available on site for the longer formats.</p>' +
+    '<p>If you have registered and can no longer come, cancel from your dashboard so the seat goes ' +
+    'to somebody on the waiting list.</p>';
+
+  document.getElementById('evSchedule').innerHTML = [
+    ['Doors open', U.fmtTime(new Date(new Date(ev.starts).getTime() - 30 * 60000)), 'Check-in by QR pass, ID required.'],
+    ['Opening brief', U.fmtTime(ev.starts), 'Rules, tracks and the judging criteria.'],
+    ['Main block', '—', 'The work itself. Mentors on the floor throughout.'],
+    ['Wrap and results', U.fmtTime(ev.ends), 'Demos, results and certificates issued against attendance.']
+  ].map(function (s, i, arr) {
+    return '<li' + (i === arr.length - 1 ? ' style="padding-bottom:0"' : '') + '>' +
+      '<p class="timeline__when">' + s[1] + '</p>' +
+      '<p class="timeline__what">' + s[0] + '</p>' +
+      '<p class="timeline__note">' + s[2] + '</p></li>';
+  }).join('');
+
+  document.getElementById('evFee').textContent = ev.fee ? U.money(ev.fee) : 'Free entry';
+
+  var pct = Math.min(100, Math.round((ev.taken / ev.seats) * 100));
+  var bar = document.getElementById('evSeatBar');
+  bar.style.width = pct + '%';
+  document.querySelector('.meter').classList.toggle('meter--warn', pct >= 80 && pct < 100);
+  document.querySelector('.meter').classList.toggle('meter--over', pct >= 100);
+  document.getElementById('evSeatText').textContent = ev.taken + ' of ' + ev.seats + ' taken';
+
+  document.getElementById('evFacts').innerHTML = [
+    ['Starts', U.fmtDateTime(ev.starts)],
+    ['Ends', U.fmtDateTime(ev.ends)],
+    ['Venue', ev.venue],
+    ['Wing', wing ? wing.name : 'Club-wide'],
+    ['Fee', ev.fee ? U.money(ev.fee) : 'Free'],
+    ['Seats', ev.seats]
+  ].map(function (f) { return '<div><dt>' + f[0] + '</dt><dd>' + f[1] + '</dd></div>'; }).join('');
+
+  var cta = document.getElementById('evCta');
+  if (ev.status === 'past') {
+    cta.innerHTML = '<p class="alert-z alert-z--info" style="margin:0">This event has finished. ' +
+      'Photos are in the <a href="gallery.html">gallery</a>.</p>';
+    document.getElementById('evCountdownWrap').style.display = 'none';
+  } else if (ev.taken >= ev.seats) {
+    cta.innerHTML = '<p class="alert-z" style="margin:0 0 14px">Every seat is taken.</p>' +
+      '<a class="btn-ghost btn-ghost--block" href="event-register.html?id=' + ev.id + '">Join the waiting list</a>';
+  } else {
+    cta.innerHTML = '<a class="btn-zcs btn-zcs--block" href="event-register.html?id=' + ev.id + '">Register now</a>';
+  }
+
+  var cd = document.getElementById('evCountdown');
+  if (ev.status !== 'past') cd.setAttribute('data-countdown', ev.starts);
+
+  document.getElementById('evOthers').innerHTML = D.events
+    .filter(function (e) { return e.id !== ev.id && e.status === 'upcoming'; })
+    .slice(0, 3).map(function (e) {
+      return '<a href="event.html?id=' + e.id + '" style="display:block;padding:11px 0;border-bottom:1px solid var(--line)">' +
+        '<span class="mono" style="font-size:10.5px;color:var(--ink-3);display:block">' + U.fmtDate(e.starts) + '</span>' +
+        '<span style="color:#fff;font-family:var(--f-display);font-weight:600;font-size:.94rem">' + e.title + '</span></a>';
+    }).join('') || '<p class="muted-2" style="font-size:.88rem;margin:0">Nothing else scheduled.</p>';
+
+  U.observeReveals();
+})();
+</script>
+</body>
+</html>

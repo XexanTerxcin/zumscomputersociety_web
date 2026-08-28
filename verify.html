@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#03070a">
+<meta name="description" content="Check whether a ZUMS Computer Society certificate is genuine, using the code printed on it.">
+<title>Verify a certificate — ZUMS Computer Society</title>
+<link rel="icon" href="assets/img/club-logo.png" type="image/png">
+<link href="assets/vendor/bootstrap.min.css" rel="stylesheet">
+<link href="assets/css/fonts.css" rel="stylesheet">
+<link href="assets/css/style.css" rel="stylesheet">
+</head>
+<body data-page="verify" data-base="" data-area="site">
+
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="site-nav"></div>
+
+<main id="main">
+
+  <section class="phero">
+    <div class="shell">
+      <ul class="crumbs"><li><a href="index.html">Home</a></li><li>Verify</li></ul>
+      <p class="eyebrow">Credential check</p>
+      <h1 class="phero__title">Verify a certificate</h1>
+      <p class="phero__sub">
+        Every certificate we issue carries a code. Enter it below and this page will tell you who
+        it belongs to, what it was issued for, and whether it is still valid. No account needed —
+        an employer can check it too.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell shell--narrow" style="margin-inline:auto">
+      <div class="panel">
+        <div class="panel__head"><div>
+          <p class="panel__kicker">Certificate code</p>
+          <h2 class="panel__title">Enter the code from the certificate</h2>
+        </div></div>
+
+        <form id="verifyForm" novalidate>
+          <label class="lbl" for="code"><span>Verification code</span></label>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <input class="fld fld--mono fld--upper" type="text" id="code" name="code"
+                   style="flex:1;min-width:220px" placeholder="ZCS-CERT-XXXXXX" maxlength="20" autocomplete="off">
+            <button class="btn-zcs" type="submit">Verify</button>
+          </div>
+          <p class="help">The code is printed under the seal, and is also in the member's dashboard.</p>
+        </form>
+
+        <div id="verifyResult" style="margin-top:26px"></div>
+
+        <div class="rule" style="margin:26px 0"></div>
+        <p class="help" style="margin:0">
+          Try one of these sample codes:
+          <button class="btn-ghost btn-ghost--sm" type="button" data-try="ZCS-CERT-8F2K91">ZCS-CERT-8F2K91</button>
+          <button class="btn-ghost btn-ghost--sm" type="button" data-try="ZCS-CERT-1BN055">ZCS-CERT-1BN055</button>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="shell shell--narrow" style="margin-inline:auto">
+      <div class="row g-3">
+        <div class="col-12 col-md-4">
+          <div class="wing" style="height:100%">
+            <h3 class="wing__name" style="font-size:1rem">Issued on attendance</h3>
+            <p class="wing__text" style="margin:0">A certificate follows a door check-in, not a registration.</p>
+          </div>
+        </div>
+        <div class="col-12 col-md-4">
+          <div class="wing" style="height:100%">
+            <h3 class="wing__name" style="font-size:1rem">Revocable</h3>
+            <p class="wing__text" style="margin:0">If a certificate is withdrawn, this page says so rather than going quiet.</p>
+          </div>
+        </div>
+        <div class="col-12 col-md-4">
+          <div class="wing" style="height:100%">
+            <h3 class="wing__name" style="font-size:1rem">Permanent</h3>
+            <p class="wing__text" style="margin:0">Codes stay checkable after the holder graduates.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div id="site-foot"></div>
+
+<script src="assets/vendor/bootstrap.bundle.min.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/layout.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+(function () {
+  var D = window.ZCS, U = window.ZCSUI;
+  var out = document.getElementById('verifyResult');
+  var input = document.getElementById('code');
+
+  function check(code) {
+    code = String(code || '').trim().toUpperCase();
+    if (!code) {
+      out.innerHTML = '<div class="alert-z">Enter a code first.</div>';
+      return;
+    }
+    var c = D.certificates[code];
+
+    if (!c) {
+      out.innerHTML =
+        '<div class="verify-card verify-card--bad">' +
+          '<div class="verify-card__seal">' +
+            '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>' +
+          '</div>' +
+          '<h3 style="margin:0 0 8px">No certificate with that code</h3>' +
+          '<p class="muted" style="margin:0">We hold no record of <span class="mono">' + code + '</span>. ' +
+          'Check for a typo, then write to the panel if it still fails.</p>' +
+        '</div>';
+      return;
+    }
+
+    var revoked = c.status !== 'valid';
+    out.innerHTML =
+      '<div class="verify-card' + (revoked ? ' verify-card--bad' : '') + '">' +
+        '<div class="verify-card__seal">' +
+          (revoked
+            ? '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>'
+            : '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12l5 5L20 6"/></svg>') +
+        '</div>' +
+        '<h3 style="margin:0 0 6px">' + (revoked ? 'This certificate was revoked' : 'Genuine certificate') + '</h3>' +
+        '<p class="muted" style="margin:0 0 20px">' +
+          (revoked
+            ? 'It was issued and later withdrawn by the panel. It should not be relied on.'
+            : 'Issued by ZUMS Computer Society and still valid.') +
+        '</p>' +
+        '<dl class="dl-z">' +
+          [['Holder', c.holder],
+           ['ZCS ID', '<a href="member.html?uid=' + c.uid + '">' + c.uid + '</a>'],
+           ['Certificate', c.title],
+           ['Issued', U.fmtDate(c.issued)],
+           ['Signed by', c.signedBy],
+           ['Code', '<span class="mono">' + code + '</span>'],
+           ['Status', revoked ? '<span class="tag tag--alert">Revoked</span>' : '<span class="tag tag--live">Valid</span>']]
+          .map(function (f) { return '<div><dt>' + f[0] + '</dt><dd>' + f[1] + '</dd></div>'; }).join('') +
+        '</dl>' +
+      '</div>';
+  }
+
+  document.getElementById('verifyForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    check(input.value);
+  });
+
+  U.$$('[data-try]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      input.value = b.getAttribute('data-try');
+      check(input.value);
+    });
+  });
+
+  var preset = U.param('code');
+  if (preset) { input.value = preset; check(preset); }
+})();
+</script>
+</body>
+</html>

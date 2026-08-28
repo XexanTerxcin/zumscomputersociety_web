@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#03070a">
+<meta name="description" content="Hackathons, contests, CTF nights, workshops and open labs run by ZUMS Computer Society. List view and month calendar.">
+<title>Events — ZUMS Computer Society</title>
+<link rel="icon" href="assets/img/club-logo.png" type="image/png">
+<link href="assets/vendor/bootstrap.min.css" rel="stylesheet">
+<link href="assets/css/fonts.css" rel="stylesheet">
+<link href="assets/css/style.css" rel="stylesheet">
+</head>
+<body data-page="events" data-base="" data-area="site">
+
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="site-nav"></div>
+
+<main id="main">
+
+  <section class="phero">
+    <div class="shell">
+      <ul class="crumbs"><li><a href="index.html">Home</a></li><li>Events</li></ul>
+      <p class="eyebrow">What is on</p>
+      <h1 class="phero__title">Events</h1>
+      <p class="phero__sub">
+        Everything the club runs, past and upcoming. Registration opens on the event page.
+        Attendance at an event — not registration for it — is what a participation certificate
+        is issued against.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+
+      <div class="tabs" data-tabs="ev" role="tablist" style="max-width:320px">
+        <button type="button" data-tab="list" class="is-active" role="tab" aria-selected="true">List</button>
+        <button type="button" data-tab="cal" role="tab" aria-selected="false">Calendar</button>
+      </div>
+
+      <div data-tabpane="list" data-tabpane-group="ev" class="tabpane is-active">
+        <div class="toolbar">
+          <button class="chip is-active" data-filter="all">All</button>
+          <button class="chip" data-filter="upcoming">Upcoming</button>
+          <button class="chip" data-filter="past">Past</button>
+          <button class="chip" data-filter="free">Free</button>
+          <div class="search">
+            <span class="search__icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+            </span>
+            <input class="fld" type="search" id="evSearch" placeholder="Search events, venues, wings" aria-label="Search events">
+          </div>
+          <span class="mono" style="font-size:11px;color:var(--ink-3)" id="evCount"></span>
+        </div>
+
+        <div class="grid" id="eventList"></div>
+      </div>
+
+      <div data-tabpane="cal" data-tabpane-group="ev" class="tabpane">
+        <div class="cal" id="eventCal"></div>
+        <p class="help" style="margin-top:12px">
+          A month grid over the same data. Click any entry to open the event.
+          An <code>.ics</code> export lands with the backend.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<div id="site-foot"></div>
+
+<script src="assets/vendor/bootstrap.bundle.min.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/layout.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+(function () {
+  var D = window.ZCS, U = window.ZCSUI;
+
+  U.listController({
+    host: '#eventList',
+    countHost: '#evCount',
+    search: '#evSearch',
+    source: function () {
+      return D.events.slice().sort(function (a, b) { return new Date(b.starts) - new Date(a.starts); });
+    },
+    matchFilter: function (ev, f) {
+      if (f === 'free') return ev.fee === 0;
+      return ev.status === f;
+    },
+    matchQuery: function (ev, q) {
+      var wing = D.wingBySlug(ev.wing);
+      return (ev.title + ' ' + ev.venue + ' ' + ev.excerpt + ' ' + (wing ? wing.name : '') + ' ' + ev.tags.join(' '))
+        .toLowerCase().indexOf(q) > -1;
+    },
+    render: U.eventCard
+  });
+
+  var now = new Date();
+  U.calendar(document.getElementById('eventCal'), now.getFullYear(), now.getMonth());
+})();
+</script>
+</body>
+</html>

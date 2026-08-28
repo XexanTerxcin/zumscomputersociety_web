@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#03070a">
+<meta name="robots" content="noindex">
+<title>Audit log — ZCS admin</title>
+<link rel="icon" href="../assets/img/club-logo.png" type="image/png">
+<link href="../assets/vendor/bootstrap.min.css" rel="stylesheet">
+<link href="../assets/css/fonts.css" rel="stylesheet">
+<link href="../assets/css/style.css" rel="stylesheet">
+</head>
+<body data-page="admin-audit" data-base="../" data-area="admin">
+
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="site-nav"></div>
+
+<div class="app">
+  <aside class="side" id="panel-side"></aside>
+
+  <main id="main">
+    <div style="margin-bottom:24px">
+      <p class="eyebrow">Admin panel</p>
+      <h1 class="phero__title" style="font-size:clamp(1.5rem,4vw,2rem);margin-bottom:8px">Audit log</h1>
+      <p class="muted" style="margin:0">
+        Who did what, and when. Append-only: entries here are never edited or removed, which is
+        what makes the finance module trustworthy across a panel handover.
+      </p>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-12 col-xl-8">
+        <div class="panel">
+          <div class="panel__head"><div>
+            <p class="panel__kicker">Activity</p>
+            <h2 class="panel__title">Every write</h2>
+          </div>
+          <a class="btn-ghost btn-ghost--sm" href="#" download>Export CSV</a></div>
+
+          <div class="toolbar">
+            <button class="chip is-active" data-filter="all">All actors</button>
+            <button class="chip" data-filter="Ayesha Siddiqua">President</button>
+            <button class="chip" data-filter="Rafiul Karim">Treasurer</button>
+            <button class="chip" data-filter="Yahya Rahman">Vice President</button>
+            <div class="search">
+              <span class="search__icon" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+              </span>
+              <input class="fld" type="search" id="aSearch" placeholder="Action or target" aria-label="Search the audit log">
+            </div>
+            <span class="mono" style="font-size:11px;color:var(--ink-3)" id="aCount"></span>
+          </div>
+
+          <div class="table-wrap">
+            <table class="table-z">
+              <thead><tr><th>When</th><th>Actor</th><th>Action</th><th>Target</th></tr></thead>
+              <tbody id="auditRows"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-xl-4">
+        <div class="panel" style="margin-bottom:22px">
+          <div class="panel__head"><div>
+            <p class="panel__kicker">Retention</p>
+            <h2 class="panel__title">What is kept</h2>
+          </div></div>
+          <dl class="dl-z">
+            <div><dt>Admin writes</dt><dd>Kept indefinitely</dd></div>
+            <div><dt>Ledger state changes</dt><dd>Kept indefinitely</dd></div>
+            <div><dt>Sign-in attempts</dt><dd>90 days</dd></div>
+            <div><dt>Request logs</dt><dd>30 days</dd></div>
+          </dl>
+        </div>
+
+        <div class="panel">
+          <div class="panel__head"><div>
+            <p class="panel__kicker">Handover</p>
+            <h2 class="panel__title">End-of-term export</h2>
+          </div></div>
+          <p class="muted" style="font-size:.92rem">
+            Bundle the ledger, every receipt, the closing balance per account and any outstanding
+            claims, so the next panel starts from a signed-off position rather than a blank sheet.
+          </p>
+          <button class="btn-zcs btn-zcs--block" type="button">Build handover bundle</button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div id="site-foot"></div>
+
+<script src="../assets/vendor/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/data.js"></script>
+<script src="../assets/js/layout.js"></script>
+<script src="../assets/js/panel.js"></script>
+<script src="../assets/js/app.js"></script>
+<script>
+(function () {
+  var D = window.ZCS, U = window.ZCSUI;
+
+  // a longer sample trail than the six rows in data.js
+  var rows = D.audit.slice();
+  var extra = [
+    ['2026-08-23T14:02:00', 'Sumaiya Noor', 'published announcement', 'a-fee-fall'],
+    ['2026-08-22T11:40:00', 'Yahya Rahman', 'updated wing', 'software-development'],
+    ['2026-08-21T17:26:00', 'Rafiul Karim', 'approved claim', 'CLM-0042'],
+    ['2026-08-20T09:14:00', 'Ayesha Siddiqua', 'deleted contact message', 'M-897'],
+    ['2026-08-19T20:51:00', 'Nusrat Jahan', 'created event', 'intra-cp-contest-7'],
+    ['2026-08-18T13:33:00', 'Rafiul Karim', 'voided ledger entry', 'L-2199'],
+    ['2026-08-17T10:05:00', 'Yahya Rahman', 'cleared page cache', 'prefix:events'],
+    ['2026-08-16T16:48:00', 'Sadia Islam', 'issued certificate', 'ZCS-CERT-4QX7M2']
+  ];
+  extra.forEach(function (e) { rows.push({ at: e[0], actor: e[1], action: e[2], target: e[3] }); });
+
+  U.listController({
+    host: '#auditRows',
+    countHost: '#aCount',
+    search: '#aSearch',
+    source: function () {
+      return rows.slice().sort(function (a, b) { return new Date(b.at) - new Date(a.at); });
+    },
+    matchFilter: function (r, f) { return r.actor === f; },
+    matchQuery: function (r, q) { return (r.action + ' ' + r.target + ' ' + r.actor).toLowerCase().indexOf(q) > -1; },
+    render: function (r) {
+      return '<tr>' +
+        '<td class="mono" style="font-size:11px;white-space:nowrap">' + U.fmtDateTime(r.at) + '</td>' +
+        '<td style="color:var(--ink)">' + r.actor + '</td>' +
+        '<td>' + r.action + '</td>' +
+        '<td class="mono" style="font-size:11px;color:var(--neon)">' + r.target + '</td>' +
+      '</tr>';
+    }
+  });
+})();
+</script>
+</body>
+</html>

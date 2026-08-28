@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#03070a">
+<meta name="description" content="Public transparency report — where ZUMS Computer Society money comes from and where it goes, by category.">
+<title>Transparency — ZUMS Computer Society</title>
+<link rel="icon" href="assets/img/club-logo.png" type="image/png">
+<link href="assets/vendor/bootstrap.min.css" rel="stylesheet">
+<link href="assets/css/fonts.css" rel="stylesheet">
+<link href="assets/css/style.css" rel="stylesheet">
+</head>
+<body data-page="finance" data-base="" data-area="site">
+
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="site-nav"></div>
+
+<main id="main">
+
+  <section class="phero">
+    <div class="shell">
+      <ul class="crumbs"><li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li><li>Transparency</li></ul>
+      <p class="eyebrow">Treasurer's report</p>
+      <h1 class="phero__title">Where the money goes</h1>
+      <p class="phero__sub">
+        Period totals by category for <span id="finPeriod"></span>. Member names, counterparties and
+        receipts are deliberately not published here — only the totals a member is entitled to see.
+        Every figure is drawn from the same ledger the treasurer works from.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <div class="kpis" style="margin-bottom:34px" id="finKpis"></div>
+
+      <div class="row g-4">
+        <div class="col-12 col-lg-6">
+          <div class="panel" style="height:100%">
+            <div class="panel__head"><div>
+              <p class="panel__kicker">Income</p>
+              <h2 class="panel__title">Where it came from</h2>
+            </div></div>
+            <div id="finIncome"></div>
+          </div>
+        </div>
+
+        <div class="col-12 col-lg-6">
+          <div class="panel" style="height:100%">
+            <div class="panel__head"><div>
+              <p class="panel__kicker">Expense</p>
+              <h2 class="panel__title">Where it went</h2>
+            </div></div>
+            <div id="finExpense"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel" style="margin-top:24px">
+        <div class="panel__head"><div>
+          <p class="panel__kicker">Accounts</p>
+          <h2 class="panel__title">Closing balances</h2>
+        </div></div>
+        <div class="table-wrap">
+          <table class="table-z" style="min-width:420px">
+            <thead><tr><th>Account</th><th class="num">Balance</th></tr></thead>
+            <tbody id="finAccounts"></tbody>
+          </table>
+        </div>
+        <p class="help" style="margin-top:14px">
+          Balances are reconciled monthly against the real statement. Money is stored as an integer
+          in the smallest currency unit — a rounding drift in a ledger is not a cosmetic bug.
+        </p>
+      </div>
+
+      <div class="panel" style="margin-top:24px">
+        <div class="panel__head"><div>
+          <p class="panel__kicker">Controls</p>
+          <h2 class="panel__title">How the ledger is kept honest</h2>
+        </div></div>
+        <div class="prose" style="font-size:.96rem">
+          <ul>
+            <li>Every rupee that moves is one row. Nothing is ever hard-deleted — a correction is a reversing entry, so history stays intact.</li>
+            <li>Every write is stamped with the acting user and the time.</li>
+            <li>Anything above a set threshold needs a second approver, so the treasurer cannot approve their own large spend.</li>
+            <li>A transfer between two club accounts is one entry, not two, so it never double-counts as income.</li>
+            <li>Membership fees feed the ledger automatically from the fee records — no double entry.</li>
+          </ul>
+        </div>
+        <div class="btn-row">
+          <a class="btn-ghost" href="resources.html">Annual report</a>
+          <a class="btn-ghost" href="contact.html">Ask the treasurer</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div id="site-foot"></div>
+
+<script src="assets/vendor/bootstrap.bundle.min.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/layout.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+(function () {
+  var D = window.ZCS, U = window.ZCSUI;
+  var f = D.finance;
+  var sum = function (rows) { return rows.reduce(function (s, r) { return s + r.amount; }, 0); };
+
+  var totalIn = sum(f.income), totalOut = sum(f.expense);
+  var closing = f.opening + totalIn - totalOut;
+
+  document.getElementById('finPeriod').textContent = f.period;
+
+  document.getElementById('finKpis').innerHTML = [
+    ['Opening balance', U.money(f.opening, f.currency), ''],
+    ['Total income', U.money(totalIn, f.currency), 'kpi__value--neon'],
+    ['Total expense', U.money(totalOut, f.currency), 'kpi__value--alert'],
+    ['Closing balance', U.money(closing, f.currency), 'kpi__value--neon']
+  ].map(function (k) {
+    return '<div class="kpi reveal"><p class="kpi__label">' + k[0] + '</p>' +
+      '<p class="kpi__value ' + k[2] + '" style="font-size:1.35rem">' + k[1] + '</p></div>';
+  }).join('');
+
+  function bars(rows, total, tone) {
+    return rows.slice().sort(function (a, b) { return b.amount - a.amount; }).map(function (r) {
+      var pct = Math.round((r.amount / total) * 100);
+      return '<div style="margin-bottom:16px">' +
+        '<div style="display:flex;justify-content:space-between;gap:10px;margin-bottom:6px">' +
+          '<span style="font-size:.92rem;color:var(--ink)">' + r.category + '</span>' +
+          '<span class="mono" style="font-size:11.5px;color:' + tone + '">' + U.money(r.amount, f.currency) + ' · ' + pct + '%</span>' +
+        '</div>' +
+        '<div class="meter' + (tone === 'var(--alert)' ? ' meter--over' : '') + '">' +
+          '<div class="meter__fill" style="width:' + pct + '%"></div></div>' +
+      '</div>';
+    }).join('');
+  }
+
+  document.getElementById('finIncome').innerHTML = bars(f.income, totalIn, 'var(--neon)');
+  document.getElementById('finExpense').innerHTML = bars(f.expense, totalOut, 'var(--alert)');
+
+  document.getElementById('finAccounts').innerHTML =
+    f.accounts.map(function (a) {
+      return '<tr><td style="color:var(--ink)">' + a.name + '</td>' +
+        '<td class="num num--in">' + U.money(a.balance, f.currency) + '</td></tr>';
+    }).join('') +
+    '<tr><td style="color:#fff;font-weight:600">Total</td>' +
+    '<td class="num num--in" style="font-weight:600">' +
+    U.money(f.accounts.reduce(function (s, a) { return s + a.balance; }, 0), f.currency) + '</td></tr>';
+
+  U.observeReveals();
+})();
+</script>
+</body>
+</html>

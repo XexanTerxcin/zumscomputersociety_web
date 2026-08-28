@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#03070a">
+<meta name="description" content="Projects built by ZUMS Computer Society members — live tools, research and the archive.">
+<title>Projects — ZUMS Computer Society</title>
+<link rel="icon" href="assets/img/club-logo.png" type="image/png">
+<link href="assets/vendor/bootstrap.min.css" rel="stylesheet">
+<link href="assets/css/fonts.css" rel="stylesheet">
+<link href="assets/css/style.css" rel="stylesheet">
+</head>
+<body data-page="projects" data-base="" data-area="site">
+
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="site-nav"></div>
+
+<main id="main">
+
+  <section class="phero">
+    <div class="shell">
+      <ul class="crumbs"><li><a href="index.html">Home</a></li><li>Projects</li></ul>
+      <p class="eyebrow">Built here</p>
+      <h1 class="phero__title">Things the club actually shipped</h1>
+      <p class="phero__sub">
+        A computer society is judged on what it has built, not on how many members it counts.
+        Archived projects stay listed — a project that stopped is still a project that taught
+        somebody something.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <div class="toolbar">
+        <button class="chip is-active" data-filter="all">All</button>
+        <button class="chip" data-filter="live">Live</button>
+        <button class="chip" data-filter="research">Research</button>
+        <button class="chip" data-filter="archived">Archived</button>
+        <div class="search">
+          <span class="search__icon" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          </span>
+          <input class="fld" type="search" id="prjSearch" placeholder="Search projects and stacks" aria-label="Search projects">
+        </div>
+        <span class="mono" style="font-size:11px;color:var(--ink-3)" id="prjCount"></span>
+      </div>
+
+      <div class="grid" id="prjList"></div>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="shell shell--narrow">
+      <div class="panel">
+        <div class="panel__head"><div>
+          <p class="panel__kicker">Propose one</p>
+          <h2 class="panel__title">Have something you want to build?</h2>
+        </div></div>
+        <p class="muted">
+          Bring it to your wing session with three things: what it does, who would use it, and
+          the smallest version that would still be useful. Wing leads allocate bench time and,
+          where it is needed, a budget line.
+        </p>
+        <div class="btn-row" style="margin-top:20px">
+          <a class="btn-ghost" href="resources.html">Project proposal template</a>
+          <a class="btn-ghost" href="contact.html">Talk to a wing lead</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div id="site-foot"></div>
+
+<script src="assets/vendor/bootstrap.bundle.min.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/layout.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+(function () {
+  var D = window.ZCS, U = window.ZCSUI;
+  U.listController({
+    host: '#prjList',
+    countHost: '#prjCount',
+    search: '#prjSearch',
+    source: function () { return D.projects.slice().sort(function (a, b) { return b.year - a.year; }); },
+    matchFilter: function (p, f) { return p.status === f; },
+    matchQuery: function (p, q) {
+      return (p.name + ' ' + p.blurb + ' ' + p.stack.join(' ')).toLowerCase().indexOf(q) > -1;
+    },
+    render: U.projectCard
+  });
+})();
+</script>
+</body>
+</html>

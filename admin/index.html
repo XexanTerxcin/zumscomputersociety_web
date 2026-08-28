@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#03070a">
+<meta name="robots" content="noindex">
+<title>Admin — ZUMS Computer Society</title>
+<link rel="icon" href="../assets/img/club-logo.png" type="image/png">
+<link href="../assets/vendor/bootstrap.min.css" rel="stylesheet">
+<link href="../assets/css/fonts.css" rel="stylesheet">
+<link href="../assets/css/style.css" rel="stylesheet">
+</head>
+<body data-page="admin-home" data-base="../" data-area="admin">
+
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="site-nav"></div>
+
+<div class="app">
+  <aside class="side" id="panel-side"></aside>
+
+  <main id="main">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:26px">
+      <div>
+        <p class="eyebrow">Admin panel</p>
+        <h1 class="phero__title" style="font-size:clamp(1.5rem,4vw,2rem);margin-bottom:8px">Overview</h1>
+        <p class="muted" style="margin:0">Everything that needs a decision today, in one place.</p>
+      </div>
+      <div class="search" style="max-width:320px">
+        <span class="search__icon" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+        </span>
+        <input class="fld" type="search" placeholder="Search members, events, posts…" aria-label="Global admin search">
+      </div>
+    </div>
+
+    <div class="kpis" style="margin-bottom:26px" id="admKpis"></div>
+
+    <div class="row g-4">
+      <div class="col-12 col-xl-7">
+        <div class="panel" style="margin-bottom:22px">
+          <div class="panel__head"><div>
+            <p class="panel__kicker">Needs a decision</p>
+            <h2 class="panel__title">Pending registrations</h2>
+          </div>
+          <a class="btn-ghost btn-ghost--sm" href="people.html">All registrations</a></div>
+          <div class="table-wrap">
+            <table class="table-z">
+              <thead><tr><th>Ref</th><th>Name</th><th>Event</th><th>Method</th><th>Status</th><th></th></tr></thead>
+              <tbody id="admRegs"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel__head"><div>
+            <p class="panel__kicker">Inbox</p>
+            <h2 class="panel__title">Contact messages</h2>
+          </div>
+          <a class="btn-ghost btn-ghost--sm" href="people.html">Open inbox</a></div>
+          <div id="admMsgs"></div>
+        </div>
+      </div>
+
+      <div class="col-12 col-xl-5">
+        <div class="panel" style="margin-bottom:22px">
+          <div class="panel__head"><div>
+            <p class="panel__kicker">Money</p>
+            <h2 class="panel__title">Awaiting approval</h2>
+          </div>
+          <a class="btn-ghost btn-ghost--sm" href="finance.html">Ledger</a></div>
+          <div id="admMoney"></div>
+        </div>
+
+        <div class="panel" style="margin-bottom:22px">
+          <div class="panel__head"><div>
+            <p class="panel__kicker">Recent activity</p>
+            <h2 class="panel__title">Audit trail</h2>
+          </div>
+          <a class="btn-ghost btn-ghost--sm" href="audit.html">Full log</a></div>
+          <div id="admAudit"></div>
+        </div>
+
+        <div class="panel">
+          <div class="panel__head"><div>
+            <p class="panel__kicker">Operations</p>
+            <h2 class="panel__title">Quick actions</h2>
+          </div></div>
+          <div class="btn-row">
+            <a class="btn-ghost btn-ghost--sm" href="content.html">New blog post</a>
+            <a class="btn-ghost btn-ghost--sm" href="content.html">New event</a>
+            <a class="btn-ghost btn-ghost--sm" href="certificates.html">Issue certificate</a>
+            <a class="btn-ghost btn-ghost--sm" href="#" download>Export members CSV</a>
+            <a class="btn-ghost btn-ghost--sm" href="#" download>Export registrations CSV</a>
+            <a class="btn-ghost btn-ghost--sm" href="settings.html">Clear page cache</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div id="site-foot"></div>
+
+<script src="../assets/vendor/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/data.js"></script>
+<script src="../assets/js/layout.js"></script>
+<script src="../assets/js/panel.js"></script>
+<script src="../assets/js/app.js"></script>
+<script>
+(function () {
+  var D = window.ZCS, U = window.ZCSUI;
+  var TONE = { pending: 'tag--soon', approved: 'tag--live', rejected: 'tag--alert', settled: 'tag--live' };
+
+  var pendingRegs = D.registrations.filter(function (r) { return r.status === 'pending'; }).length;
+  var unread = D.messages.filter(function (m) { return !m.read; }).length;
+  var pendingLedger = D.ledger.filter(function (l) { return l.status === 'pending'; }).length;
+
+  document.getElementById('admKpis').innerHTML = [
+    ['Active members', D.stats[0].value, 'kpi__value--neon', '+18 this semester'],
+    ['Pending registrations', pendingRegs, pendingRegs ? 'kpi__value--alert' : '', 'Waiting on payment checks'],
+    ['Unread messages', unread, unread ? 'kpi__value--alert' : '', 'From the contact form'],
+    ['Ledger entries pending', pendingLedger, pendingLedger ? 'kpi__value--alert' : '', 'Need a second approver'],
+    ['Upcoming events', D.events.filter(function (e) { return e.status === 'upcoming'; }).length, '', 'Across all wings'],
+    ['Cache', '3.4 MB', '', '218 keys stored']
+  ].map(function (k) {
+    return '<div class="kpi reveal"><p class="kpi__label">' + k[0] + '</p>' +
+      '<p class="kpi__value ' + k[2] + '">' + k[1] + '</p>' +
+      '<p class="kpi__delta">' + k[3] + '</p></div>';
+  }).join('');
+
+  document.getElementById('admRegs').innerHTML = D.registrations.map(function (r) {
+    var ev = D.eventById(r.event);
+    return '<tr>' +
+      '<td class="mono" style="font-size:11px">' + r.rid + '</td>' +
+      '<td style="color:var(--ink)">' + r.name + '</td>' +
+      '<td>' + (ev ? ev.title : '—') + '</td>' +
+      '<td>' + r.method + '</td>' +
+      '<td><span class="tag ' + (TONE[r.status] || '') + '">' + r.status + '</span></td>' +
+      '<td style="text-align:right;white-space:nowrap">' +
+        (r.status === 'pending'
+          ? '<button class="btn-ghost btn-ghost--sm" type="button">Approve</button>'
+          : '<button class="btn-ghost btn-ghost--sm" type="button">View</button>') +
+      '</td>' +
+    '</tr>';
+  }).join('');
+
+  document.getElementById('admMsgs').innerHTML = D.messages.map(function (m) {
+    return '<div style="display:flex;gap:12px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line)">' +
+      (m.read ? '' : '<span class="dot" style="flex-shrink:0"></span>') +
+      '<span style="min-width:0">' +
+        '<span style="display:block;color:#fff;font-size:.93rem">' + m.subject + '</span>' +
+        '<span class="mono" style="font-size:10.5px;color:var(--ink-3)">' + m.from + ' · ' + U.fmtDateTime(m.at) + '</span>' +
+      '</span>' +
+      '<button class="btn-ghost btn-ghost--sm" type="button" style="margin-left:auto">Open</button>' +
+    '</div>';
+  }).join('');
+
+  document.getElementById('admMoney').innerHTML = D.ledger
+    .filter(function (l) { return l.status !== 'settled'; })
+    .map(function (l) {
+      return '<div style="display:flex;gap:12px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line)">' +
+        '<span style="min-width:0">' +
+          '<span style="display:block;color:#fff;font-size:.93rem">' + l.category + '</span>' +
+          '<span class="mono" style="font-size:10.5px;color:var(--ink-3)">' + l.party + ' · ' + U.fmtDate(l.date) + '</span>' +
+        '</span>' +
+        '<span class="mono ' + (l.dir === 'in' ? 'num--in' : 'num--out') + '" style="margin-left:auto;color:' +
+          (l.dir === 'in' ? 'var(--neon)' : 'var(--alert)') + '">' +
+          (l.dir === 'in' ? '+' : '−') + U.money(l.amount) + '</span>' +
+      '</div>';
+    }).join('') || '<div class="empty">Nothing waiting.</div>';
+
+  document.getElementById('admAudit').innerHTML = D.audit.slice(0, 5).map(function (a) {
+    return '<div style="padding:9px 0;border-bottom:1px solid var(--line)">' +
+      '<span class="mono" style="font-size:10.5px;color:var(--ink-3);display:block">' + U.fmtDateTime(a.at) + '</span>' +
+      '<span style="font-size:.9rem;color:var(--ink-2)"><strong style="color:#fff">' + a.actor + '</strong> ' +
+        a.action + ' <span class="mono" style="color:var(--neon)">' + a.target + '</span></span>' +
+    '</div>';
+  }).join('');
+
+  U.observeReveals();
+})();
+</script>
+</body>
+</html>

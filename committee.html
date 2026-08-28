@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#03070a">
+<meta name="description" content="The executive committee of ZUMS Computer Society, this term and every term before it.">
+<title>Executive committee — ZUMS Computer Society</title>
+<link rel="icon" href="assets/img/club-logo.png" type="image/png">
+<link href="assets/vendor/bootstrap.min.css" rel="stylesheet">
+<link href="assets/css/fonts.css" rel="stylesheet">
+<link href="assets/css/style.css" rel="stylesheet">
+</head>
+<body data-page="committee" data-base="" data-area="site">
+
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="site-nav"></div>
+
+<main id="main">
+
+  <section class="phero">
+    <div class="shell">
+      <ul class="crumbs"><li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li><li>Committee</li></ul>
+      <p class="eyebrow">Governance</p>
+      <h1 class="phero__title">Executive committee</h1>
+      <p class="phero__sub">
+        Elected each academic year and handed over in writing. Past panels stay listed —
+        continuity is the point, and last year's work should still have its name on it.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <div class="tabs" data-tabs="term" id="termTabs" role="tablist"></div>
+      <div id="termPanes"></div>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="shell shell--narrow">
+      <div class="panel">
+        <div class="panel__head"><div>
+          <p class="panel__kicker">Standing for election</p>
+          <h2 class="panel__title">How the panel is chosen</h2>
+        </div></div>
+        <div class="prose" style="font-size:.96rem">
+          <ul>
+            <li>Any member with two semesters of paid membership may stand.</li>
+            <li>Nominations open in August; the vote is at the annual general meeting.</li>
+            <li>Officers serve one academic year and may stand once for re-election.</li>
+            <li>The outgoing panel publishes handover notes and a closing ledger position before leaving.</li>
+          </ul>
+        </div>
+        <a class="btn-ghost" href="resources.html">Nomination form and constitution</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div id="site-foot"></div>
+
+<script src="assets/vendor/bootstrap.bundle.min.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/layout.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+(function () {
+  var D = window.ZCS, U = window.ZCSUI;
+
+  document.getElementById('termTabs').innerHTML = D.committees.map(function (c, i) {
+    return '<button type="button" role="tab" data-tab="' + c.term + '"' +
+      (i === 0 ? ' class="is-active" aria-selected="true"' : ' aria-selected="false"') + '>' +
+      c.term + (c.current ? ' · current' : '') + '</button>';
+  }).join('');
+
+  document.getElementById('termPanes').innerHTML = D.committees.map(function (c, i) {
+    return '<div class="tabpane' + (i === 0 ? ' is-active' : '') + '" data-tabpane="' + c.term + '" data-tabpane-group="term">' +
+      '<div class="grid grid--4">' +
+        c.roster.map(function (r) {
+          var m = D.members.filter(function (x) { return x.name === r.name; })[0];
+          return '<' + (m ? 'a href="member.html?uid=' + m.uid + '"' : 'div') + ' class="member reveal">' +
+            '<img class="member__photo" src="' + D.avatarFor(r.name) + '" alt="" loading="lazy">' +
+            '<h3 class="member__name">' + r.name + '</h3>' +
+            '<p class="member__role">' + r.role + '</p>' +
+            '<p class="member__id">Term ' + c.term + '</p>' +
+          '</' + (m ? 'a' : 'div') + '>';
+        }).join('') +
+      '</div></div>';
+  }).join('');
+
+  U.observeReveals();
+})();
+</script>
+</body>
+</html>

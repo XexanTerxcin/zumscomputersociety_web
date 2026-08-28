@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#03070a">
+<meta name="description" content="A ZUMS Computer Society wing — what it does, who leads it, its members, projects and upcoming sessions.">
+<title>Wing — ZUMS Computer Society</title>
+<link rel="icon" href="assets/img/club-logo.png" type="image/png">
+<link href="assets/vendor/bootstrap.min.css" rel="stylesheet">
+<link href="assets/css/fonts.css" rel="stylesheet">
+<link href="assets/css/style.css" rel="stylesheet">
+</head>
+<body data-page="wings" data-base="" data-area="site">
+
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="site-nav"></div>
+
+<main id="main">
+  <div id="wingHero"></div>
+
+  <section class="section">
+    <div class="shell">
+      <div class="row g-5">
+        <div class="col-12 col-lg-8">
+          <div class="prose" id="wingBody"></div>
+
+          <h2 class="sec-head__title" style="font-size:1.4rem;margin:40px 0 20px">Sessions and events</h2>
+          <div class="grid grid--2" id="wingEvents"></div>
+
+          <h2 class="sec-head__title" style="font-size:1.4rem;margin:40px 0 20px">Projects from this wing</h2>
+          <div class="grid grid--2" id="wingProjects"></div>
+        </div>
+
+        <div class="col-12 col-lg-4">
+          <div class="panel" style="margin-bottom:22px">
+            <div class="panel__head">
+              <div>
+                <p class="panel__kicker">Wing facts</p>
+                <h2 class="panel__title">The basics</h2>
+              </div>
+            </div>
+            <dl class="dl-z" id="wingFacts"></dl>
+            <a class="btn-zcs btn-zcs--block" href="signup.html" style="margin-top:20px">Join this wing</a>
+          </div>
+
+          <div class="panel">
+            <div class="panel__head">
+              <div>
+                <p class="panel__kicker">People</p>
+                <h2 class="panel__title">Members here</h2>
+              </div>
+            </div>
+            <div class="grid grid--4 grid--tight" id="wingMembers"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="site-foot"></div>
+
+<script src="assets/vendor/bootstrap.bundle.min.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/layout.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+(function () {
+  var D = window.ZCS, U = window.ZCSUI;
+  var slug = U.param('slug') || D.wings[0].slug;
+  var w = D.wingBySlug(slug);
+
+  if (!w) {
+    document.getElementById('wingHero').innerHTML =
+      '<section class="phero"><div class="shell">' +
+      '<h1 class="phero__title">No such wing</h1>' +
+      '<p class="phero__sub">That wing does not exist. <a href="wings.html">See all six</a>.</p>' +
+      '</div></section>';
+    return;
+  }
+
+  document.title = w.name + ' — ZUMS Computer Society';
+
+  document.getElementById('wingHero').innerHTML =
+    '<section class="phero"><div class="shell">' +
+      '<ul class="crumbs"><li><a href="index.html">Home</a></li><li><a href="wings.html">Wings</a></li><li>' + w.name + '</li></ul>' +
+      '<div style="display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap">' +
+        '<span class="wing__icon" style="margin:0">' + U.wingIcon(w.icon) + '</span>' +
+        '<div style="flex:1;min-width:260px">' +
+          '<h1 class="phero__title" style="margin-bottom:10px">' + w.name + '</h1>' +
+          '<p class="phero__sub">' + w.blurb + '</p>' +
+          '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:14px">' +
+            w.tags.map(function (t) { return '<span class="tag tag--cyan">' + t + '</span>'; }).join('') +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+    '</div></section>';
+
+  document.getElementById('wingBody').innerHTML =
+    '<h2>What a typical semester looks like</h2>' +
+    '<p>The ' + w.name.toLowerCase() + ' wing meets weekly during term. The first two weeks are open ' +
+    'sessions with no prerequisite — turn up, take a seat, ask the stupid question early. After that ' +
+    'the wing splits into working groups around whatever it committed to for the semester.</p>' +
+    '<p>Everything the wing produces is written up and archived, so the next intake starts from ' +
+    'notes rather than from nothing. Wing leads hand over in writing at the end of their term.</p>' +
+    '<h3>Who this suits</h3>' +
+    '<ul>' +
+      '<li>Anyone curious about ' + w.tags.slice(0, 2).join(' or ').toLowerCase() + ', at any level.</li>' +
+      '<li>Students from any department — you do not need to be in CSE.</li>' +
+      '<li>People who would rather build the thing badly this week than plan it perfectly for a month.</li>' +
+    '</ul>';
+
+  document.getElementById('wingFacts').innerHTML = [
+    ['Wing lead', w.lead],
+    ['Members', w.members],
+    ['Focus', w.tags.join(', ')],
+    ['Meets', 'Weekly during term'],
+    ['Open to', 'All departments']
+  ].map(function (f) { return '<div><dt>' + f[0] + '</dt><dd>' + f[1] + '</dd></div>'; }).join('');
+
+  var evs = D.events.filter(function (e) { return e.wing === slug; });
+  document.getElementById('wingEvents').innerHTML = evs.length
+    ? evs.map(U.eventCard).join('')
+    : '<div class="empty" style="grid-column:1/-1">No sessions listed for this wing yet.</div>';
+
+  var prj = D.projects.filter(function (p) { return p.wing === slug; });
+  document.getElementById('wingProjects').innerHTML = prj.length
+    ? prj.map(U.projectCard).join('')
+    : '<div class="empty" style="grid-column:1/-1">No projects published from this wing yet.</div>';
+
+  var mem = D.members.filter(function (m) { return m.wing === slug; });
+  document.getElementById('wingMembers').innerHTML = mem.length
+    ? mem.slice(0, 8).map(function (m) {
+        return '<a href="member.html?uid=' + m.uid + '" title="' + m.name + '">' +
+          '<img class="avatar" src="' + D.avatarFor(m.name) + '" alt="' + m.name + '"></a>';
+      }).join('')
+    : '<p class="muted-2" style="grid-column:1/-1;font-size:.88rem">Nobody listed yet.</p>';
+
+  U.observeReveals();
+})();
+</script>
+</body>
+</html>

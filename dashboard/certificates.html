@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#03070a">
+<meta name="robots" content="noindex">
+<title>My certificates — ZUMS Computer Society</title>
+<link rel="icon" href="../assets/img/club-logo.png" type="image/png">
+<link href="../assets/vendor/bootstrap.min.css" rel="stylesheet">
+<link href="../assets/css/fonts.css" rel="stylesheet">
+<link href="../assets/css/style.css" rel="stylesheet">
+</head>
+<body data-page="dash-certs" data-base="../" data-area="dash">
+
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="site-nav"></div>
+
+<div class="app">
+  <aside class="side" id="panel-side"></aside>
+
+  <main id="main">
+    <div style="margin-bottom:26px">
+      <p class="eyebrow">Member dashboard</p>
+      <h1 class="phero__title" style="font-size:clamp(1.5rem,4vw,2rem);margin-bottom:8px">Certificates</h1>
+      <p class="muted" style="margin:0">
+        Everything issued to you. Each carries a code anyone can check on the public
+        <a href="../verify.html">verification page</a> — put the link on a CV, not a screenshot.
+      </p>
+    </div>
+
+    <div class="grid grid--2" id="certList"></div>
+
+    <div class="panel" style="margin-top:26px">
+      <div class="panel__head"><div>
+        <p class="panel__kicker">How these are earned</p>
+        <h2 class="panel__title">Attendance, not registration</h2>
+      </div></div>
+      <p class="muted" style="font-size:.93rem">
+        A certificate is issued after a door check-in is recorded against your pass. Registering
+        for an event and not turning up earns nothing — which is what makes the credential worth
+        having.
+      </p>
+      <div class="btn-row">
+        <a class="btn-ghost" href="events.html">My event passes</a>
+        <a class="btn-ghost" href="../contact.html">Report a missing certificate</a>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div id="site-foot"></div>
+
+<script src="../assets/vendor/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/data.js"></script>
+<script src="../assets/js/layout.js"></script>
+<script src="../assets/js/panel.js"></script>
+<script src="../assets/js/app.js"></script>
+<script>
+(function () {
+  var D = window.ZCS, U = window.ZCSUI, me = D.me;
+
+  document.getElementById('certList').innerHTML = me.certificates.map(function (c) {
+    return '<article class="pass reveal">' +
+      '<div style="display:flex;gap:18px;flex-wrap:wrap;align-items:flex-start;position:relative;z-index:1">' +
+        '<div style="flex:1;min-width:200px">' +
+          '<span class="tag tag--live" style="margin-bottom:12px">' + c.status + '</span>' +
+          '<h3 style="font-size:1.06rem;margin:10px 0 6px">' + c.title + '</h3>' +
+          '<p class="mono" style="font-size:11px;color:var(--ink-3);margin:0 0 14px">Issued ' + U.fmtDate(c.issued) + '</p>' +
+          '<div class="copybox" style="margin-bottom:14px">' +
+            '<span class="copybox__value" style="font-size:1rem">' + c.code + '</span>' +
+            '<button class="copy-btn" type="button" data-copy="' + c.code + '">Copy</button>' +
+          '</div>' +
+          '<div class="btn-row">' +
+            '<a class="btn-ghost btn-ghost--sm" href="../verify.html?code=' + c.code + '">Public link</a>' +
+            '<button class="btn-ghost btn-ghost--sm" type="button" onclick="window.print()">Download PDF</button>' +
+          '</div>' +
+        '</div>' +
+        '<img class="pass__qr" src="' + U.fakeQr(c.code) + '" alt="Verification code for ' + c.code + '">' +
+      '</div>' +
+    '</article>';
+  }).join('');
+
+  U.observeReveals();
+})();
+</script>
+</body>
+</html>

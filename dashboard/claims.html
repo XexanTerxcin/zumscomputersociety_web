@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#03070a">
+<meta name="robots" content="noindex">
+<title>Reimbursements — ZUMS Computer Society</title>
+<link rel="icon" href="../assets/img/club-logo.png" type="image/png">
+<link href="../assets/vendor/bootstrap.min.css" rel="stylesheet">
+<link href="../assets/css/fonts.css" rel="stylesheet">
+<link href="../assets/css/style.css" rel="stylesheet">
+</head>
+<body data-page="dash-claims" data-base="../" data-area="dash">
+
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="site-nav"></div>
+
+<div class="app">
+  <aside class="side" id="panel-side"></aside>
+
+  <main id="main">
+    <div style="margin-bottom:26px">
+      <p class="eyebrow">Member dashboard</p>
+      <h1 class="phero__title" style="font-size:clamp(1.5rem,4vw,2rem);margin-bottom:8px">Reimbursements</h1>
+      <p class="muted" style="margin:0">
+        Spent your own money on something for the club? File it here. You see your own claims and
+        nobody else's. An approved claim becomes an expense row in the ledger automatically.
+      </p>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-12 col-xl-7">
+        <div class="panel">
+          <div class="panel__head"><div>
+            <p class="panel__kicker">My claims</p>
+            <h2 class="panel__title">Filed so far</h2>
+          </div></div>
+          <div class="table-wrap">
+            <table class="table-z">
+              <thead><tr><th>Ref</th><th>Filed</th><th>Reason</th><th class="num">Amount</th><th>Status</th></tr></thead>
+              <tbody id="claimRows"></tbody>
+            </table>
+          </div>
+          <p class="help" style="margin-top:14px">
+            Status flow: <span class="mono">pending → approved → paid</span>. A rejected claim always
+            comes back with a written reason.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-12 col-xl-5">
+        <section class="panel">
+          <div class="panel__head"><div>
+            <p class="panel__kicker">New claim</p>
+            <h2 class="panel__title">File a reimbursement</h2>
+          </div></div>
+
+          <div class="alert-slot"></div>
+
+          <form data-validate data-done="claimDone" novalidate>
+            <label class="lbl" for="cl_amount"><span>Amount (BDT)</span><em class="req">Required</em></label>
+            <input class="fld fld--mono" type="number" id="cl_amount" min="1" step="1" data-rule="required" placeholder="0">
+            <p class="err" id="err-cl_amount"></p>
+
+            <label class="lbl" for="cl_when" style="margin-top:18px"><span>Date of spend</span><em class="req">Required</em></label>
+            <input class="fld fld--mono" type="date" id="cl_when" data-rule="required">
+            <p class="err" id="err-cl_when"></p>
+
+            <label class="lbl" for="cl_event" style="margin-top:18px"><span>Related event</span><em class="opt">Optional</em></label>
+            <div class="sel"><select class="fld" id="cl_event"><option value="">Not tied to an event</option></select></div>
+
+            <label class="lbl" for="cl_reason" style="margin-top:18px"><span>What was it for?</span><em class="req">Required</em></label>
+            <textarea class="fld" id="cl_reason" data-rule="required|min:12" style="min-height:100px" placeholder="Be specific — the treasurer approves against this line."></textarea>
+            <p class="err" id="err-cl_reason"></p>
+
+            <label class="lbl" for="cl_receipt" style="margin-top:18px"><span>Receipt</span><em class="req">Required</em></label>
+            <label class="drop" for="cl_receipt">
+              <input class="drop__input" type="file" id="cl_receipt" accept="image/jpeg,image/png,image/webp,application/pdf">
+              <span class="drop__body">
+                <span class="drop__icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 3h9l4 4v14H6z"/><path d="M9 12h7M9 16h5"/></svg>
+                </span>
+                <span class="drop__text">
+                  <span class="drop__cta">Attach the receipt</span>
+                  <span class="drop__hint">Photo or PDF · up to 5 MB</span>
+                </span>
+                <span class="drop__meta"></span>
+              </span>
+            </label>
+
+            <button class="btn-zcs btn-zcs--block" type="submit" style="margin-top:22px">
+              File claim <span class="spinner"></span>
+            </button>
+          </form>
+
+          <div id="claimDone" style="display:none">
+            <div class="alert-z alert-z--ok">Claim filed. The treasurer reviews it next.</div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div id="site-foot"></div>
+
+<script src="../assets/vendor/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/data.js"></script>
+<script src="../assets/js/layout.js"></script>
+<script src="../assets/js/panel.js"></script>
+<script src="../assets/js/app.js"></script>
+<script>
+(function () {
+  var D = window.ZCS, U = window.ZCSUI, me = D.me;
+  var TONE = { pending: 'tag--soon', approved: 'tag--cyan', paid: 'tag--live', rejected: 'tag--alert' };
+
+  document.getElementById('claimRows').innerHTML = me.claims
+    .slice().sort(function (a, b) { return new Date(b.filed) - new Date(a.filed); })
+    .map(function (c) {
+      return '<tr>' +
+        '<td class="mono" style="font-size:11px">' + c.id + '</td>' +
+        '<td>' + U.fmtDate(c.filed) + '</td>' +
+        '<td style="color:var(--ink)">' + c.reason + '</td>' +
+        '<td class="num num--out">' + U.money(c.amount) + '</td>' +
+        '<td><span class="tag ' + (TONE[c.status] || '') + '">' + c.status + '</span></td>' +
+      '</tr>';
+    }).join('');
+
+  document.getElementById('cl_event').innerHTML = '<option value="">Not tied to an event</option>' +
+    D.events.map(function (e) { return '<option value="' + e.id + '">' + e.title + '</option>'; }).join('');
+})();
+</script>
+</body>
+</html>

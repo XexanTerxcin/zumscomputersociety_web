@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#03070a">
+<meta name="description" content="Write to the ZUMS Computer Society panel — membership questions, partnerships, press and event enquiries.">
+<title>Contact — ZUMS Computer Society</title>
+<link rel="icon" href="assets/img/club-logo.png" type="image/png">
+<link href="assets/vendor/bootstrap.min.css" rel="stylesheet">
+<link href="assets/css/fonts.css" rel="stylesheet">
+<link href="assets/css/style.css" rel="stylesheet">
+</head>
+<body data-page="contact" data-base="" data-area="site">
+
+<a class="skip-link" href="#contactForm">Skip to the form</a>
+<div id="site-nav"></div>
+
+<main id="main">
+
+  <section class="phero">
+    <div class="shell">
+      <ul class="crumbs"><li><a href="index.html">Home</a></li><li>Contact</li></ul>
+      <p class="eyebrow">Get in touch</p>
+      <h1 class="phero__title">Write to the panel</h1>
+      <p class="phero__sub">
+        Every message lands in the admin panel and is answered — usually within two working days.
+        For a membership problem, quote your registration or ZCS ID and we can find you faster.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <div class="row g-4">
+
+        <div class="col-12 col-lg-7">
+          <section class="panel">
+            <div class="panel__head"><div>
+              <p class="panel__kicker">Message</p>
+              <h2 class="panel__title">Tell us what you need</h2>
+            </div></div>
+
+            <p class="reqnote">All fields are required unless marked optional.</p>
+            <div class="alert-slot"></div>
+
+            <form id="contactForm" data-validate novalidate>
+              <div class="hp" aria-hidden="true">
+                <label for="website">Website</label>
+                <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+              </div>
+
+              <div class="row g-3">
+                <div class="col-12 col-md-6">
+                  <label class="lbl" for="c_name"><span>Your name</span><em class="req">Required</em></label>
+                  <input class="fld" type="text" id="c_name" name="name" data-rule="required|min:3" autocomplete="name" placeholder="Full name">
+                  <p class="err" id="err-c_name" aria-live="polite"></p>
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <label class="lbl" for="c_email"><span>Email</span><em class="req">Required</em></label>
+                  <input class="fld" type="email" id="c_email" name="email" data-rule="required|email" autocomplete="email" placeholder="you@example.com">
+                  <p class="err" id="err-c_email" aria-live="polite"></p>
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <label class="lbl" for="c_phone"><span>Phone</span><em class="opt">Optional</em></label>
+                  <div class="phone">
+                    <span class="phone__cc">+880</span>
+                    <input class="fld fld--mono phone__input" type="tel" id="c_phone" name="phone" data-rule="phone-bd" inputmode="numeric" placeholder="01XXXXXXXXX">
+                  </div>
+                  <p class="err" id="err-c_phone" aria-live="polite"></p>
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <label class="lbl" for="c_topic"><span>Topic</span><em class="req">Required</em></label>
+                  <div class="sel">
+                    <select class="fld" id="c_topic" name="topic" data-rule="required">
+                      <option value="">Choose one</option>
+                      <option>Membership question</option>
+                      <option>Payment or fee problem</option>
+                      <option>Event or registration</option>
+                      <option>Certificate or verification</option>
+                      <option>Partnership or sponsorship</option>
+                      <option>Press</option>
+                      <option>Something else</option>
+                    </select>
+                  </div>
+                  <p class="err" id="err-c_topic" aria-live="polite"></p>
+                </div>
+
+                <div class="col-12">
+                  <label class="lbl" for="c_ref"><span>Registration or ZCS ID</span><em class="opt">Optional</em></label>
+                  <input class="fld fld--mono" type="text" id="c_ref" name="ref" placeholder="ZCS-2025-0000 or ZCS-R-10000">
+                </div>
+
+                <div class="col-12">
+                  <label class="lbl" for="c_msg"><span>Message</span><em class="req">Required</em></label>
+                  <textarea class="fld" id="c_msg" name="message" data-rule="required|min:20" placeholder="What do you need? The more specific, the faster the answer."></textarea>
+                  <p class="err" id="err-c_msg" aria-live="polite"></p>
+                </div>
+
+                <div class="col-12">
+                  <label class="check">
+                    <input type="checkbox" id="c_consent" data-rule="required">
+                    <span class="check__box"></span>
+                    <span class="check__text">ZUMS Computer Society may store this message and reply to the address above.</span>
+                  </label>
+                  <p class="err" id="err-c_consent" aria-live="polite"></p>
+                </div>
+              </div>
+
+              <button class="btn-zcs" type="submit" style="margin-top:22px">
+                Send message <span class="spinner"></span>
+              </button>
+            </form>
+          </section>
+        </div>
+
+        <div class="col-12 col-lg-5">
+          <div class="panel" style="margin-bottom:22px">
+            <div class="panel__head"><div>
+              <p class="panel__kicker">Direct</p>
+              <h2 class="panel__title">Reach us without the form</h2>
+            </div></div>
+            <dl class="dl-z" id="contactFacts"></dl>
+            <div class="social" id="contactSocial"></div>
+          </div>
+
+          <div class="panel">
+            <div class="panel__head"><div>
+              <p class="panel__kicker">Before you write</p>
+              <h2 class="panel__title">These get answered here already</h2>
+            </div></div>
+            <ul class="foot__list">
+              <li><a href="faq.html">How much is membership, and how do I pay?</a></li>
+              <li><a href="faq.html">My status still says pending — what now?</a></li>
+              <li><a href="verify.html">Is this certificate genuine?</a></li>
+              <li><a href="resources.html">Where is the constitution?</a></li>
+              <li><a href="finance.html">Where does the money go?</a></li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="shell">
+      <div class="panel" style="padding:0;overflow:hidden">
+        <div style="display:grid;place-items:center;min-height:260px;background:
+             repeating-linear-gradient(45deg, rgba(0,255,65,.04) 0 12px, transparent 12px 24px)">
+          <div style="text-align:center;padding:30px">
+            <p class="eyebrow" style="justify-content:center">Find the office</p>
+            <p style="color:#fff;font-family:var(--f-display);font-size:1.1rem;margin:0 0 6px" id="mapAddr"></p>
+            <p class="muted-2" style="font-size:.86rem;margin:0 0 16px">A live map embed goes here once the backend supplies the coordinates.</p>
+            <a class="btn-ghost btn-ghost--sm" href="https://www.google.com/maps" target="_blank" rel="noopener">Open in Maps</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div id="site-foot"></div>
+
+<script src="assets/vendor/bootstrap.bundle.min.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/layout.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+(function () {
+  var C = window.ZCS_CLUB, I = window.ZCS_ICON;
+
+  document.getElementById('contactFacts').innerHTML = [
+    ['Email', '<a href="mailto:' + C.email + '">' + C.email + '</a>'],
+    ['Phone', C.phone],
+    ['Office hours', C.hours],
+    ['Address', C.address],
+    ['University', C.university]
+  ].map(function (f) { return '<div><dt>' + f[0] + '</dt><dd style="max-width:60%">' + f[1] + '</dd></div>'; }).join('');
+
+  document.getElementById('contactSocial').innerHTML =
+    ['fb', 'ig', 'li', 'yt', 'gh', 'wa'].map(function (k) {
+      return '<a href="#" aria-label="' + k + '">' + I[k] + '</a>';
+    }).join('');
+
+  document.getElementById('mapAddr').textContent = C.address;
+})();
+</script>
+</body>
+</html>

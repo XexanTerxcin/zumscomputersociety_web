@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#03070a">
+<meta name="description" content="Alumni of ZUMS Computer Society — where they went and what they do now.">
+<title>Alumni — ZUMS Computer Society</title>
+<link rel="icon" href="assets/img/club-logo.png" type="image/png">
+<link href="assets/vendor/bootstrap.min.css" rel="stylesheet">
+<link href="assets/css/fonts.css" rel="stylesheet">
+<link href="assets/css/style.css" rel="stylesheet">
+</head>
+<body data-page="alumni" data-base="" data-area="site">
+
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="site-nav"></div>
+
+<main id="main">
+
+  <section class="phero">
+    <div class="shell">
+      <ul class="crumbs"><li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li><li>Alumni</li></ul>
+      <p class="eyebrow">After graduation</p>
+      <h1 class="phero__title">Alumni</h1>
+      <p class="phero__sub">
+        Members who graduated keep their certificate verification and their place here.
+        Alumni come back for panels, mentoring and the occasional referral — which is most of
+        the reason this page exists.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <div class="toolbar">
+        <button class="chip is-active" data-filter="all">All years</button>
+        <button class="chip" data-filter="2026">2026</button>
+        <button class="chip" data-filter="2025">2025</button>
+        <button class="chip" data-filter="2024">2024</button>
+        <div class="search">
+          <span class="search__icon" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          </span>
+          <input class="fld" type="search" id="alSearch" placeholder="Search name, employer, role" aria-label="Search alumni">
+        </div>
+        <span class="mono" style="font-size:11px;color:var(--ink-3)" id="alCount"></span>
+      </div>
+
+      <div class="grid" id="alumniList"></div>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="shell shell--narrow">
+      <div class="panel text-center">
+        <p class="eyebrow" style="justify-content:center">Graduating soon?</p>
+        <h2 class="panel__title" style="margin-bottom:10px">Tell us your graduation year</h2>
+        <p class="muted" style="max-width:48ch;margin-inline:auto">
+          Set it on your profile and you move to this directory automatically instead of falling
+          off the member list.
+        </p>
+        <div class="btn-row justify-content-center" style="margin-top:20px">
+          <a class="btn-ghost" href="dashboard/profile.html">Update my profile</a>
+          <a class="btn-ghost" href="contact.html">Offer to mentor</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div id="site-foot"></div>
+
+<script src="assets/vendor/bootstrap.bundle.min.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/layout.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+(function () {
+  var D = window.ZCS, U = window.ZCSUI;
+
+  U.listController({
+    host: '#alumniList',
+    countHost: '#alCount',
+    search: '#alSearch',
+    source: function () { return D.alumni.slice().sort(function (a, b) { return b.grad - a.grad; }); },
+    matchFilter: function (a, f) { return String(a.grad) === f; },
+    matchQuery: function (a, q) {
+      return (a.name + ' ' + a.role + ' ' + a.org).toLowerCase().indexOf(q) > -1;
+    },
+    render: function (a) {
+      var wing = D.wingBySlug(a.wing);
+      return '<article class="card-z reveal"><div class="card-z__body" style="flex-direction:row;gap:16px;align-items:flex-start">' +
+        '<img src="' + D.avatarFor(a.name) + '" alt="" style="width:64px;height:64px;border-radius:50%;border:1px solid var(--line-2);flex-shrink:0">' +
+        '<div style="min-width:0">' +
+          '<h3 class="card-z__title" style="font-size:1.02rem">' + a.name + '</h3>' +
+          '<p class="card-z__text" style="margin:4px 0 8px">' + a.role + ' at <strong style="color:var(--ink)">' + a.org + '</strong></p>' +
+          '<div style="display:flex;gap:6px;flex-wrap:wrap">' +
+            '<span class="tag">Class of ' + a.grad + '</span>' +
+            (wing ? '<span class="tag tag--cyan">' + wing.name + '</span>' : '') +
+          '</div>' +
+        '</div>' +
+      '</div></article>';
+    }
+  });
+})();
+</script>
+</body>
+</html>

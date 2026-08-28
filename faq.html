@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#03070a">
+<meta name="description" content="Common questions about joining ZUMS Computer Society, fees, wings, certificates and data.">
+<title>FAQ — ZUMS Computer Society</title>
+<link rel="icon" href="assets/img/club-logo.png" type="image/png">
+<link href="assets/vendor/bootstrap.min.css" rel="stylesheet">
+<link href="assets/css/fonts.css" rel="stylesheet">
+<link href="assets/css/style.css" rel="stylesheet">
+</head>
+<body data-page="faq" data-base="" data-area="site">
+
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="site-nav"></div>
+
+<main id="main">
+
+  <section class="phero">
+    <div class="shell">
+      <ul class="crumbs"><li><a href="index.html">Home</a></li><li>FAQ</li></ul>
+      <p class="eyebrow">Questions</p>
+      <h1 class="phero__title">Frequently asked</h1>
+      <p class="phero__sub">
+        The eight questions the panel answers most often. If yours is not here,
+        <a href="contact.html">write to us</a> — and we will add it.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell shell--narrow" style="margin-inline:auto">
+      <div class="search" style="margin-bottom:24px;max-width:none">
+        <span class="search__icon" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+        </span>
+        <input class="fld" type="search" id="faqSearch" placeholder="Search the FAQ" aria-label="Search the FAQ">
+      </div>
+
+      <div id="faqList"></div>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="shell shell--narrow" style="margin-inline:auto">
+      <div class="panel text-center">
+        <h2 class="panel__title" style="margin-bottom:10px">Still stuck?</h2>
+        <p class="muted" style="max-width:44ch;margin-inline:auto">
+          The contact form reaches the panel directly, and every message is answered — usually
+          within two working days.
+        </p>
+        <div class="btn-row justify-content-center" style="margin-top:20px">
+          <a class="btn-zcs" href="contact.html">Write to the panel</a>
+          <a class="btn-ghost" href="signup.html">Join the club</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div id="site-foot"></div>
+
+<script src="assets/vendor/bootstrap.bundle.min.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/layout.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+(function () {
+  var D = window.ZCS, U = window.ZCSUI;
+  var host = document.getElementById('faqList');
+
+  function render(rows) {
+    host.innerHTML = rows.length ? rows.map(function (f, i) {
+      return '<div class="acc">' +
+        '<button class="acc__btn" type="button" aria-expanded="false">' + f.q + '</button>' +
+        '<div class="acc__panel">' + f.a + '</div>' +
+      '</div>';
+    }).join('') : '<div class="empty">No question matches that.</div>';
+  }
+
+  render(D.faqs);
+
+  var t;
+  document.getElementById('faqSearch').addEventListener('input', function (e) {
+    clearTimeout(t);
+    var q = e.target.value.trim().toLowerCase();
+    t = setTimeout(function () {
+      render(D.faqs.filter(function (f) { return (f.q + ' ' + f.a).toLowerCase().indexOf(q) > -1; }));
+    }, 140);
+  });
+})();
+</script>
+</body>
+</html>

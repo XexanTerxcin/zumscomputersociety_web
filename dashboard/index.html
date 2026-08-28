@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#03070a">
+<meta name="robots" content="noindex">
+<title>Dashboard — ZUMS Computer Society</title>
+<link rel="icon" href="../assets/img/club-logo.png" type="image/png">
+<link href="../assets/vendor/bootstrap.min.css" rel="stylesheet">
+<link href="../assets/css/fonts.css" rel="stylesheet">
+<link href="../assets/css/style.css" rel="stylesheet">
+</head>
+<body data-page="dash-home" data-base="../" data-area="dash">
+
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="site-nav"></div>
+
+<div class="app">
+  <aside class="side" id="panel-side"></aside>
+
+  <main id="main">
+    <div style="margin-bottom:26px">
+      <p class="eyebrow">Member dashboard</p>
+      <h1 class="phero__title" style="font-size:clamp(1.5rem,4vw,2rem);margin-bottom:8px" id="dashHello">Welcome back</h1>
+      <p class="muted" style="margin:0" id="dashSub"></p>
+    </div>
+
+    <div class="kpis" style="margin-bottom:26px" id="dashKpis"></div>
+
+    <div class="row g-4">
+      <div class="col-12 col-xl-7">
+        <div class="panel" style="margin-bottom:22px">
+          <div class="panel__head"><div>
+            <p class="panel__kicker">Next up</p>
+            <h2 class="panel__title">Your upcoming passes</h2>
+          </div>
+          <a class="btn-ghost btn-ghost--sm" href="events.html">All passes</a></div>
+          <div id="dashPasses"></div>
+        </div>
+
+        <div class="panel">
+          <div class="panel__head"><div>
+            <p class="panel__kicker">Money</p>
+            <h2 class="panel__title">Fee status</h2>
+          </div>
+          <a class="btn-ghost btn-ghost--sm" href="fees.html">History</a></div>
+          <div id="dashFees"></div>
+        </div>
+      </div>
+
+      <div class="col-12 col-xl-5">
+        <div class="panel" style="margin-bottom:22px">
+          <div class="panel__head"><div>
+            <p class="panel__kicker">Notice board</p>
+            <h2 class="panel__title">What you should know</h2>
+          </div></div>
+          <div id="dashNotices"></div>
+        </div>
+
+        <div class="panel">
+          <div class="panel__head"><div>
+            <p class="panel__kicker">Credentials</p>
+            <h2 class="panel__title">Certificates</h2>
+          </div>
+          <a class="btn-ghost btn-ghost--sm" href="certificates.html">All</a></div>
+          <div id="dashCerts"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div id="site-foot"></div>
+
+<script src="../assets/vendor/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/data.js"></script>
+<script src="../assets/js/layout.js"></script>
+<script src="../assets/js/panel.js"></script>
+<script src="../assets/js/app.js"></script>
+<script>
+(function () {
+  var D = window.ZCS, U = window.ZCSUI, me = D.me;
+  var wing = D.wingBySlug(me.wing);
+
+  document.getElementById('dashHello').textContent = 'Welcome back, ' + me.name.split(' ')[0] + '.';
+  document.getElementById('dashSub').textContent =
+    me.position + ' · ' + (wing ? wing.name : 'no wing') + ' · member since ' + U.fmtDate(me.joined);
+
+  var unpaidClaims = me.claims.filter(function (c) { return c.status === 'pending'; }).length;
+
+  document.getElementById('dashKpis').innerHTML = [
+    ['Points', me.points, 'kpi__value--neon', 'Rank #' + me.rank + ' overall'],
+    ['Membership', 'Active', 'kpi__value--neon', 'Paid through Fall 2026'],
+    ['Certificates', me.certificates.length, '', 'All verifiable by code'],
+    ['Open claims', unpaidClaims, unpaidClaims ? 'kpi__value--alert' : '', 'Awaiting the treasurer']
+  ].map(function (k) {
+    return '<div class="kpi reveal"><p class="kpi__label">' + k[0] + '</p>' +
+      '<p class="kpi__value ' + k[2] + '">' + k[1] + '</p>' +
+      '<p class="kpi__delta">' + k[3] + '</p></div>';
+  }).join('');
+
+  document.getElementById('dashPasses').innerHTML = me.passes
+    .filter(function (p) { return p.state === 'upcoming'; })
+    .map(function (p) {
+      return '<a href="../event.html?id=' + p.event + '" style="display:flex;gap:14px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)">' +
+        '<img src="' + U.fakeQr(p.code) + '" alt="" style="width:48px;height:48px;background:#fff;padding:3px;flex-shrink:0">' +
+        '<span style="min-width:0">' +
+          '<span style="display:block;color:#fff;font-family:var(--f-display);font-weight:600;font-size:.95rem">' + p.title + '</span>' +
+          '<span class="mono" style="font-size:10.5px;color:var(--ink-3)">' + U.fmtDateTime(p.starts) + '</span>' +
+        '</span>' +
+        '<span class="tag tag--live" style="margin-left:auto">Ready</span>' +
+      '</a>';
+    }).join('') || '<div class="empty">No upcoming passes. <a href="../events.html">Find an event</a>.</div>';
+
+  var latest = me.fees[0];
+  document.getElementById('dashFees').innerHTML =
+    '<div class="alert-z alert-z--ok" style="margin-bottom:16px">' +
+      'Paid for <strong>' + latest.period + '</strong> on ' + U.fmtDate(latest.paid) + ' by ' + latest.method + '.' +
+    '</div>' +
+    '<div class="table-wrap"><table class="table-z" style="min-width:0">' +
+      '<thead><tr><th>Period</th><th>Method</th><th class="num">Amount</th><th>Status</th></tr></thead><tbody>' +
+      me.fees.slice(0, 3).map(function (f) {
+        return '<tr><td style="color:var(--ink)">' + f.period + '</td><td>' + f.method + '</td>' +
+          '<td class="num num--in">' + U.money(f.amount) + '</td>' +
+          '<td><span class="tag tag--live">' + f.status + '</span></td></tr>';
+      }).join('') +
+    '</tbody></table></div>';
+
+  document.getElementById('dashNotices').innerHTML = D.announcements.slice(0, 3).map(function (a) {
+    return '<div style="padding:11px 0;border-bottom:1px solid var(--line)">' +
+      '<span class="mono" style="font-size:10.5px;color:var(--ink-3);display:block">' + U.fmtDate(a.date) + '</span>' +
+      '<span style="color:#fff;font-size:.93rem">' + a.title + '</span></div>';
+  }).join('') + '<a class="btn-ghost btn-ghost--sm btn-ghost--block" href="../announcements.html" style="margin-top:14px">All announcements</a>';
+
+  document.getElementById('dashCerts').innerHTML = me.certificates.map(function (c) {
+    return '<div style="padding:11px 0;border-bottom:1px solid var(--line);display:flex;gap:10px;align-items:center">' +
+      '<span style="min-width:0">' +
+        '<span style="display:block;color:#fff;font-size:.92rem">' + c.title + '</span>' +
+        '<span class="mono" style="font-size:10.5px;color:var(--ink-3)">' + c.code + '</span>' +
+      '</span>' +
+      '<a class="btn-ghost btn-ghost--sm" style="margin-left:auto" href="../verify.html?code=' + c.code + '">Verify</a>' +
+    '</div>';
+  }).join('');
+
+  U.observeReveals();
+})();
+</script>
+</body>
+</html>

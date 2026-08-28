@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#03070a">
+<meta name="robots" content="noindex">
+<title>Content — ZCS admin</title>
+<link rel="icon" href="../assets/img/club-logo.png" type="image/png">
+<link href="../assets/vendor/bootstrap.min.css" rel="stylesheet">
+<link href="../assets/css/fonts.css" rel="stylesheet">
+<link href="../assets/css/style.css" rel="stylesheet">
+</head>
+<body data-page="admin-content" data-base="../" data-area="admin">
+
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="site-nav"></div>
+
+<div class="app">
+  <aside class="side" id="panel-side"></aside>
+
+  <main id="main">
+    <div style="margin-bottom:24px">
+      <p class="eyebrow">Admin panel</p>
+      <h1 class="phero__title" style="font-size:clamp(1.5rem,4vw,2rem);margin-bottom:8px">Content</h1>
+      <p class="muted" style="margin:0">Blog posts, events, announcements, wings, projects and partners.</p>
+    </div>
+
+    <div class="tabs" data-tabs="content" role="tablist">
+      <button type="button" data-tab="posts" class="is-active" role="tab" aria-selected="true">Blog</button>
+      <button type="button" data-tab="events" role="tab" aria-selected="false">Events</button>
+      <button type="button" data-tab="notices" role="tab" aria-selected="false">Announcements</button>
+      <button type="button" data-tab="wings" role="tab" aria-selected="false">Wings</button>
+      <button type="button" data-tab="projects" role="tab" aria-selected="false">Projects</button>
+      <button type="button" data-tab="partners" role="tab" aria-selected="false">Partners</button>
+      <button type="button" data-tab="gallery" role="tab" aria-selected="false">Gallery</button>
+    </div>
+
+    <!-- ======================================================== blog -->
+    <div class="tabpane is-active" data-tabpane="posts" data-tabpane-group="content">
+      <div class="panel">
+        <div class="panel__head"><div>
+          <p class="panel__kicker">Blog</p>
+          <h2 class="panel__title">Posts</h2>
+        </div>
+        <button class="btn-zcs btn-zcs--sm" type="button">New post</button></div>
+        <div class="table-wrap">
+          <table class="table-z">
+            <thead><tr><th>Title</th><th>Author</th><th>Category</th><th>Published</th><th>State</th><th></th></tr></thead>
+            <tbody id="cPosts"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====================================================== events -->
+    <div class="tabpane" data-tabpane="events" data-tabpane-group="content">
+      <div class="panel">
+        <div class="panel__head"><div>
+          <p class="panel__kicker">Events</p>
+          <h2 class="panel__title">Every event</h2>
+        </div>
+        <button class="btn-zcs btn-zcs--sm" type="button">New event</button></div>
+        <div class="table-wrap">
+          <table class="table-z">
+            <thead><tr><th>Event</th><th>Starts</th><th>Venue</th><th class="num">Fee</th><th class="num">Seats</th><th>Status</th><th></th></tr></thead>
+            <tbody id="cEvents"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- =============================================== announcements -->
+    <div class="tabpane" data-tabpane="notices" data-tabpane-group="content">
+      <div class="row g-4">
+        <div class="col-12 col-xl-7">
+          <div class="panel">
+            <div class="panel__head"><div>
+              <p class="panel__kicker">Notice board</p>
+              <h2 class="panel__title">Announcements</h2>
+            </div></div>
+            <div class="table-wrap">
+              <table class="table-z" style="min-width:520px">
+                <thead><tr><th>Title</th><th>Date</th><th>Level</th><th>Pinned</th><th></th></tr></thead>
+                <tbody id="cNotices"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-xl-5">
+          <section class="panel">
+            <div class="panel__head"><div>
+              <p class="panel__kicker">Compose</p>
+              <h2 class="panel__title">New announcement</h2>
+            </div></div>
+            <form data-validate novalidate>
+              <label class="lbl" for="n_title"><span>Title</span><em class="req">Required</em></label>
+              <input class="fld" type="text" id="n_title" data-rule="required|min:6">
+              <p class="err" id="err-n_title"></p>
+
+              <label class="lbl" for="n_level" style="margin-top:16px"><span>Level</span></label>
+              <div class="sel"><select class="fld" id="n_level">
+                <option value="normal">Normal</option>
+                <option value="urgent">Urgent</option>
+                <option value="info">Info</option>
+              </select></div>
+
+              <label class="lbl" for="n_body" style="margin-top:16px"><span>Body</span><em class="req">Required</em></label>
+              <textarea class="fld" id="n_body" data-rule="required|min:20"></textarea>
+              <p class="err" id="err-n_body"></p>
+
+              <label class="check" style="margin-top:16px">
+                <input type="checkbox" id="n_pin">
+                <span class="check__box"></span>
+                <span class="check__text">Pin to the top of the notice board</span>
+              </label>
+
+              <button class="btn-zcs btn-zcs--block" type="submit" style="margin-top:20px">
+                Publish <span class="spinner"></span>
+              </button>
+            </form>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================= wings -->
+    <div class="tabpane" data-tabpane="wings" data-tabpane-group="content">
+      <div class="panel">
+        <div class="panel__head"><div>
+          <p class="panel__kicker">Structure</p>
+          <h2 class="panel__title">Wings</h2>
+        </div>
+        <button class="btn-zcs btn-zcs--sm" type="button">New wing</button></div>
+        <div class="table-wrap">
+          <table class="table-z">
+            <thead><tr><th>Wing</th><th>Slug</th><th>Lead</th><th class="num">Members</th><th></th></tr></thead>
+            <tbody id="cWings"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================================================== projects -->
+    <div class="tabpane" data-tabpane="projects" data-tabpane-group="content">
+      <div class="panel">
+        <div class="panel__head"><div>
+          <p class="panel__kicker">Showcase</p>
+          <h2 class="panel__title">Projects</h2>
+        </div>
+        <button class="btn-zcs btn-zcs--sm" type="button">New project</button></div>
+        <div class="table-wrap">
+          <table class="table-z">
+            <thead><tr><th>Project</th><th>Wing</th><th>Year</th><th>Status</th><th class="num">Team</th><th></th></tr></thead>
+            <tbody id="cProjects"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================================================== partners -->
+    <div class="tabpane" data-tabpane="partners" data-tabpane-group="content">
+      <div class="panel">
+        <div class="panel__head"><div>
+          <p class="panel__kicker">Network</p>
+          <h2 class="panel__title">Partners</h2>
+        </div>
+        <button class="btn-zcs btn-zcs--sm" type="button">Add partner</button></div>
+        <div class="grid grid--4" id="cPartners"></div>
+      </div>
+    </div>
+
+    <!-- ===================================================== gallery -->
+    <div class="tabpane" data-tabpane="gallery" data-tabpane-group="content">
+      <div class="panel">
+        <div class="panel__head"><div>
+          <p class="panel__kicker">Photos</p>
+          <h2 class="panel__title">Albums</h2>
+        </div>
+        <button class="btn-zcs btn-zcs--sm" type="button">New album</button></div>
+        <div class="table-wrap">
+          <table class="table-z">
+            <thead><tr><th>Album</th><th>Date</th><th>Tied to</th><th class="num">Photos</th><th></th></tr></thead>
+            <tbody id="cAlbums"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<div id="site-foot"></div>
+
+<script src="../assets/vendor/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/data.js"></script>
+<script src="../assets/js/layout.js"></script>
+<script src="../assets/js/panel.js"></script>
+<script src="../assets/js/app.js"></script>
+<script>
+(function () {
+  var D = window.ZCS, U = window.ZCSUI;
+  var acts = '<td style="text-align:right;white-space:nowrap">' +
+    '<button class="btn-ghost btn-ghost--sm" type="button">Edit</button> ' +
+    '<button class="btn-ghost btn-ghost--sm btn-ghost--danger" type="button">Delete</button></td>';
+
+  document.getElementById('cPosts').innerHTML = D.posts.map(function (p, i) {
+    return '<tr><td style="color:var(--ink)">' + p.title + '</td><td>' + p.author + '</td>' +
+      '<td><span class="tag tag--cyan">' + p.category + '</span></td>' +
+      '<td>' + U.fmtDate(p.date) + '</td>' +
+      '<td><span class="tag ' + (i < 6 ? 'tag--live">published' : 'tag--soon">draft') + '</span></td>' + acts + '</tr>';
+  }).join('');
+
+  document.getElementById('cEvents').innerHTML = D.events.map(function (e) {
+    return '<tr><td style="color:var(--ink)">' + e.title + '</td>' +
+      '<td>' + U.fmtDate(e.starts) + '</td><td>' + e.venue + '</td>' +
+      '<td class="num">' + (e.fee ? U.money(e.fee) : 'Free') + '</td>' +
+      '<td class="num">' + e.taken + '/' + e.seats + '</td>' +
+      '<td><span class="tag ' + (e.status === 'upcoming' ? 'tag--live' : 'tag--past') + '">' + e.status + '</span></td>' +
+      acts + '</tr>';
+  }).join('');
+
+  document.getElementById('cNotices').innerHTML = D.announcements.map(function (a) {
+    return '<tr><td style="color:var(--ink)">' + a.title + '</td><td>' + U.fmtDate(a.date) + '</td>' +
+      '<td><span class="tag ' + (a.level === 'urgent' ? 'tag--alert' : a.level === 'info' ? 'tag--cyan' : '') + '">' + a.level + '</span></td>' +
+      '<td>' + (a.pinned ? '<span class="tag tag--live">pinned</span>' : '—') + '</td>' + acts + '</tr>';
+  }).join('');
+
+  document.getElementById('cWings').innerHTML = D.wings.map(function (w) {
+    return '<tr><td style="color:var(--ink)">' + w.name + '</td>' +
+      '<td class="mono" style="font-size:11px">' + w.slug + '</td><td>' + w.lead + '</td>' +
+      '<td class="num">' + w.members + '</td>' + acts + '</tr>';
+  }).join('');
+
+  document.getElementById('cProjects').innerHTML = D.projects.map(function (p) {
+    var w = D.wingBySlug(p.wing);
+    return '<tr><td style="color:var(--ink)">' + p.name + '</td><td>' + (w ? w.name : '—') + '</td>' +
+      '<td>' + p.year + '</td><td><span class="tag">' + p.status + '</span></td>' +
+      '<td class="num">' + p.team + '</td>' + acts + '</tr>';
+  }).join('');
+
+  document.getElementById('cPartners').innerHTML = D.partners.map(function (p) {
+    return '<div class="card-z" style="padding:14px;text-align:center">' +
+      '<div class="partners__cell" style="margin:0 auto 12px;max-width:none">' +
+        '<img src="../assets/img/partners/' + p.file + '" alt="' + p.name + '">' +
+      '</div>' +
+      '<p style="font-size:.85rem;color:var(--ink);margin:0 0 10px">' + p.name + '</p>' +
+      '<button class="btn-ghost btn-ghost--sm btn-ghost--danger" type="button">Remove</button>' +
+    '</div>';
+  }).join('');
+
+  document.getElementById('cAlbums').innerHTML = D.albums.map(function (a) {
+    var ev = a.event ? D.eventById(a.event) : null;
+    return '<tr><td style="color:var(--ink)">' + a.title + '</td><td>' + U.fmtDate(a.date) + '</td>' +
+      '<td>' + (ev ? ev.title : '—') + '</td><td class="num">' + a.count + '</td>' + acts + '</tr>';
+  }).join('');
+})();
+</script>
+</body>
+</html>

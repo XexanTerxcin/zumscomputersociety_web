@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#03070a">
+<meta name="robots" content="noindex">
+<title>Finance — ZCS admin</title>
+<link rel="icon" href="../assets/img/club-logo.png" type="image/png">
+<link href="../assets/vendor/bootstrap.min.css" rel="stylesheet">
+<link href="../assets/css/fonts.css" rel="stylesheet">
+<link href="../assets/css/style.css" rel="stylesheet">
+</head>
+<body data-page="admin-finance" data-base="../" data-area="admin">
+
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="site-nav"></div>
+
+<div class="app">
+  <aside class="side" id="panel-side"></aside>
+
+  <main id="main">
+    <div style="margin-bottom:24px">
+      <p class="eyebrow">Treasurer</p>
+      <h1 class="phero__title" style="font-size:clamp(1.5rem,4vw,2rem);margin-bottom:8px">Finance</h1>
+      <p class="muted" style="margin:0">
+        One ledger. Nothing is hard-deleted — a correction is a reversing entry, so history stays
+        intact and the audit trail survives the handover.
+      </p>
+    </div>
+
+    <div class="kpis" style="margin-bottom:24px" id="finKpis"></div>
+
+    <div class="tabs" data-tabs="fin" role="tablist">
+      <button type="button" data-tab="ledger" class="is-active" role="tab" aria-selected="true">Ledger</button>
+      <button type="button" data-tab="claims" role="tab" aria-selected="false">Claims</button>
+      <button type="button" data-tab="budgets" role="tab" aria-selected="false">Budgets</button>
+      <button type="button" data-tab="accounts" role="tab" aria-selected="false">Accounts</button>
+      <button type="button" data-tab="new" role="tab" aria-selected="false">New entry</button>
+    </div>
+
+    <!-- ====================================================== ledger -->
+    <div class="tabpane is-active" data-tabpane="ledger" data-tabpane-group="fin">
+      <div class="panel">
+        <div class="panel__head"><div>
+          <p class="panel__kicker">All movement</p>
+          <h2 class="panel__title">Ledger</h2>
+        </div>
+        <a class="btn-ghost btn-ghost--sm" href="#" download>Export CSV</a></div>
+
+        <div class="toolbar">
+          <button class="chip is-active" data-filter="all">All</button>
+          <button class="chip" data-filter="in">Income</button>
+          <button class="chip" data-filter="out">Expense</button>
+          <button class="chip" data-filter="pending">Pending</button>
+          <div class="search">
+            <span class="search__icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+            </span>
+            <input class="fld" type="search" id="lSearch" placeholder="Category, counterparty, account" aria-label="Search ledger">
+          </div>
+          <span class="mono" style="font-size:11px;color:var(--ink-3)" id="lCount"></span>
+        </div>
+
+        <div class="table-wrap">
+          <table class="table-z">
+            <thead><tr><th>Ref</th><th>Date</th><th>Category</th><th>Counterparty</th><th>Account</th><th class="num">Amount</th><th>Status</th><th></th></tr></thead>
+            <tbody id="finLedger"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====================================================== claims -->
+    <div class="tabpane" data-tabpane="claims" data-tabpane-group="fin">
+      <div class="panel">
+        <div class="panel__head"><div>
+          <p class="panel__kicker">Reimbursements</p>
+          <h2 class="panel__title">Claim queue</h2>
+        </div></div>
+        <div class="table-wrap">
+          <table class="table-z">
+            <thead><tr><th>Ref</th><th>Claimant</th><th>Filed</th><th>Reason</th><th class="num">Amount</th><th>Status</th><th></th></tr></thead>
+            <tbody id="finClaims"></tbody>
+          </table>
+        </div>
+        <p class="help" style="margin-top:14px">
+          Approving a claim writes one expense row into the ledger automatically. There is no second
+          entry to make, and no way for the two to disagree.
+        </p>
+      </div>
+    </div>
+
+    <!-- ===================================================== budgets -->
+    <div class="tabpane" data-tabpane="budgets" data-tabpane-group="fin">
+      <div class="panel">
+        <div class="panel__head"><div>
+          <p class="panel__kicker">Fiscal year 2025–26</p>
+          <h2 class="panel__title">Allocated vs spent</h2>
+        </div>
+        <button class="btn-zcs btn-zcs--sm" type="button">New budget</button></div>
+        <div id="finBudgets"></div>
+      </div>
+    </div>
+
+    <!-- ==================================================== accounts -->
+    <div class="tabpane" data-tabpane="accounts" data-tabpane-group="fin">
+      <div class="row g-4">
+        <div class="col-12 col-lg-7">
+          <div class="panel" style="height:100%">
+            <div class="panel__head"><div>
+              <p class="panel__kicker">Money lives here</p>
+              <h2 class="panel__title">Accounts</h2>
+            </div>
+            <button class="btn-zcs btn-zcs--sm" type="button">Add account</button></div>
+            <div class="table-wrap">
+              <table class="table-z" style="min-width:420px">
+                <thead><tr><th>Account</th><th class="num">Balance</th><th></th></tr></thead>
+                <tbody id="finAccounts"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-lg-5">
+          <div class="panel" style="height:100%">
+            <div class="panel__head"><div>
+              <p class="panel__kicker">Monthly</p>
+              <h2 class="panel__title">Reconciliation</h2>
+            </div></div>
+            <p class="muted" style="font-size:.92rem">
+              Confirm the computed balance against the real statement, one account at a time. An
+              unreconciled month is flagged on the admin overview until it is closed.
+            </p>
+            <label class="lbl" for="rec_month"><span>Month</span></label>
+            <input class="fld fld--mono" type="month" id="rec_month" value="2026-08">
+            <label class="lbl" for="rec_actual" style="margin-top:16px"><span>Statement balance</span></label>
+            <input class="fld fld--mono" type="number" id="rec_actual" placeholder="0">
+            <button class="btn-zcs btn-zcs--block" type="button" style="margin-top:18px">Reconcile</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =================================================== new entry -->
+    <div class="tabpane" data-tabpane="new" data-tabpane-group="fin">
+      <div class="row g-4">
+        <div class="col-12 col-lg-7">
+          <section class="panel">
+            <div class="panel__head"><div>
+              <p class="panel__kicker">Record</p>
+              <h2 class="panel__title">New ledger entry</h2>
+            </div></div>
+
+            <div class="alert-slot"></div>
+
+            <form data-validate data-done="entryDone" novalidate>
+              <label class="lbl lbl--group">Direction</label>
+              <div class="opts opts--2">
+                <label class="opt-card">
+                  <input type="radio" name="dir" value="in" id="dir_in" data-rule="required">
+                  <span class="opt-card__box"><span class="opt-card__name">Income</span><span class="opt-card__note">Money into a club account</span></span>
+                </label>
+                <label class="opt-card">
+                  <input type="radio" name="dir" value="out" id="dir_out">
+                  <span class="opt-card__box"><span class="opt-card__name">Expense</span><span class="opt-card__note">Money out of a club account</span></span>
+                </label>
+              </div>
+              <p class="err" id="err-dir_in"></p>
+
+              <div class="row g-3" style="margin-top:6px">
+                <div class="col-12 col-md-6">
+                  <label class="lbl" for="e_amount"><span>Amount (BDT)</span><em class="req">Required</em></label>
+                  <input class="fld fld--mono" type="number" id="e_amount" min="1" step="1" data-rule="required" placeholder="0">
+                  <p class="err" id="err-e_amount"></p>
+                  <p class="help">Stored as an integer in the smallest unit — never a float.</p>
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <label class="lbl" for="e_date"><span>Date</span><em class="req">Required</em></label>
+                  <input class="fld fld--mono" type="date" id="e_date" data-rule="required">
+                  <p class="err" id="err-e_date"></p>
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <label class="lbl" for="e_cat"><span>Category</span><em class="req">Required</em></label>
+                  <div class="sel"><select class="fld" id="e_cat" data-rule="required"></select></div>
+                  <p class="err" id="err-e_cat"></p>
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <label class="lbl" for="e_acct"><span>Account</span><em class="req">Required</em></label>
+                  <div class="sel"><select class="fld" id="e_acct" data-rule="required"></select></div>
+                  <p class="err" id="err-e_acct"></p>
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <label class="lbl" for="e_party"><span>Counterparty</span><em class="req">Required</em></label>
+                  <input class="fld" type="text" id="e_party" data-rule="required|min:2" placeholder="Who paid, or who was paid">
+                  <p class="err" id="err-e_party"></p>
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <label class="lbl" for="e_event"><span>Linked event</span><em class="opt">Optional</em></label>
+                  <div class="sel"><select class="fld" id="e_event"><option value="">None</option></select></div>
+                </div>
+
+                <div class="col-12">
+                  <label class="lbl" for="e_note"><span>Note</span><em class="opt">Optional</em></label>
+                  <textarea class="fld" id="e_note" style="min-height:90px" placeholder="Anything the next treasurer would want to know."></textarea>
+                </div>
+
+                <div class="col-12">
+                  <label class="lbl" for="e_receipt"><span>Receipt</span></label>
+                  <label class="drop" for="e_receipt">
+                    <input class="drop__input" type="file" id="e_receipt" accept="image/jpeg,image/png,image/webp,application/pdf">
+                    <span class="drop__body">
+                      <span class="drop__icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 3h9l4 4v14H6z"/><path d="M9 12h7M9 16h5"/></svg>
+                      </span>
+                      <span class="drop__text">
+                        <span class="drop__cta">Attach the receipt</span>
+                        <span class="drop__hint">Photo or PDF · validated by its own bytes, not its extension</span>
+                      </span>
+                      <span class="drop__meta"></span>
+                    </span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="btn-row" style="margin-top:22px">
+                <button class="btn-zcs" type="submit">Save as draft <span class="spinner"></span></button>
+                <button class="btn-ghost" type="button">Save and submit for approval</button>
+              </div>
+            </form>
+
+            <div id="entryDone" style="display:none">
+              <div class="alert-z alert-z--ok">Draft saved. Submit it when the receipt is attached.</div>
+            </div>
+          </section>
+        </div>
+
+        <div class="col-12 col-lg-5">
+          <div class="panel">
+            <div class="panel__head"><div>
+              <p class="panel__kicker">Approval rules</p>
+              <h2 class="panel__title">Who can sign this off</h2>
+            </div></div>
+            <dl class="dl-z">
+              <div><dt>Draft</dt><dd>Editable by the treasurer</dd></div>
+              <div><dt>Pending</dt><dd>Locked, awaiting approval</dd></div>
+              <div><dt>Second approver</dt><dd>Required above BDT 10,000</dd></div>
+              <div><dt>Approved</dt><dd>Counted in the balance</dd></div>
+              <div><dt>Settled</dt><dd>Cleared on the statement</dd></div>
+              <div><dt>Void</dt><dd>Reversed, never deleted</dd></div>
+            </dl>
+            <p class="help" style="margin-top:14px">
+              The treasurer cannot approve their own large spend. Every state change is written to
+              the <a href="audit.html">audit log</a> with actor and timestamp.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<div id="site-foot"></div>
+
+<script src="../assets/vendor/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/data.js"></script>
+<script src="../assets/js/layout.js"></script>
+<script src="../assets/js/panel.js"></script>
+<script src="../assets/js/app.js"></script>
+<script>
+(function () {
+  var D = window.ZCS, U = window.ZCSUI, f = D.finance;
+  var TONE = { pending: 'tag--soon', approved: 'tag--cyan', settled: 'tag--live', void: 'tag--alert', paid: 'tag--live', rejected: 'tag--alert' };
+  var sum = function (rows) { return rows.reduce(function (s, r) { return s + r.amount; }, 0); };
+
+  var totalIn = sum(f.income), totalOut = sum(f.expense);
+  var balance = f.accounts.reduce(function (s, a) { return s + a.balance; }, 0);
+  var pending = D.ledger.filter(function (l) { return l.status === 'pending'; }).length;
+  var openClaims = D.me.claims.filter(function (c) { return c.status === 'pending'; }).length;
+
+  document.getElementById('finKpis').innerHTML = [
+    ['Total balance', U.money(balance), 'kpi__value--neon', 'Across three accounts'],
+    ['Income this year', U.money(totalIn), 'kpi__value--neon', f.period],
+    ['Expense this year', U.money(totalOut), 'kpi__value--alert', f.period],
+    ['Pending approvals', pending, pending ? 'kpi__value--alert' : '', 'Ledger entries'],
+    ['Open claims', openClaims, openClaims ? 'kpi__value--alert' : '', 'Reimbursements'],
+    ['Fee collection', '87%', '', 'Fall 2026, 271 of 312']
+  ].map(function (k) {
+    return '<div class="kpi reveal"><p class="kpi__label">' + k[0] + '</p>' +
+      '<p class="kpi__value ' + k[2] + '" style="font-size:1.4rem">' + k[1] + '</p>' +
+      '<p class="kpi__delta">' + k[3] + '</p></div>';
+  }).join('');
+
+  U.listController({
+    host: '#finLedger',
+    countHost: '#lCount',
+    search: '#lSearch',
+    source: function () {
+      return D.ledger.slice().sort(function (a, b) { return new Date(b.date) - new Date(a.date); });
+    },
+    matchFilter: function (l, x) { return x === 'pending' ? l.status === 'pending' : l.dir === x; },
+    matchQuery: function (l, q) {
+      return (l.category + ' ' + l.party + ' ' + l.account + ' ' + l.id).toLowerCase().indexOf(q) > -1;
+    },
+    render: function (l) {
+      var ev = l.event ? D.eventById(l.event) : null;
+      return '<tr>' +
+        '<td class="mono" style="font-size:11px">' + l.id + '</td>' +
+        '<td>' + U.fmtDate(l.date) + '</td>' +
+        '<td style="color:var(--ink)">' + l.category + (ev ? '<br><span class="mono" style="font-size:10px;color:var(--ink-3)">' + ev.title + '</span>' : '') + '</td>' +
+        '<td>' + l.party + '</td>' +
+        '<td>' + l.account + '</td>' +
+        '<td class="num ' + (l.dir === 'in' ? 'num--in' : 'num--out') + '">' +
+          (l.dir === 'in' ? '+' : '−') + U.money(l.amount) + '</td>' +
+        '<td><span class="tag ' + (TONE[l.status] || '') + '">' + l.status + '</span></td>' +
+        '<td style="text-align:right;white-space:nowrap">' +
+          (l.status === 'pending'
+            ? '<button class="btn-ghost btn-ghost--sm" type="button">Approve</button> '
+            : '') +
+          '<button class="btn-ghost btn-ghost--sm btn-ghost--danger" type="button">Void</button></td>' +
+      '</tr>';
+    }
+  });
+
+  document.getElementById('finClaims').innerHTML = D.me.claims.map(function (c) {
+    return '<tr>' +
+      '<td class="mono" style="font-size:11px">' + c.id + '</td>' +
+      '<td style="color:var(--ink)">' + D.me.name + '</td>' +
+      '<td>' + U.fmtDate(c.filed) + '</td>' +
+      '<td>' + c.reason + '</td>' +
+      '<td class="num num--out">' + U.money(c.amount) + '</td>' +
+      '<td><span class="tag ' + (TONE[c.status] || '') + '">' + c.status + '</span></td>' +
+      '<td style="text-align:right;white-space:nowrap">' +
+        (c.status === 'pending'
+          ? '<button class="btn-ghost btn-ghost--sm" type="button">Approve</button> ' +
+            '<button class="btn-ghost btn-ghost--sm btn-ghost--danger" type="button">Reject</button>'
+          : c.status === 'approved'
+            ? '<button class="btn-ghost btn-ghost--sm" type="button">Mark paid</button>'
+            : '<button class="btn-ghost btn-ghost--sm" type="button">View</button>') +
+      '</td></tr>';
+  }).join('');
+
+  // budget: allocation vs actual, per expense category
+  document.getElementById('finBudgets').innerHTML = f.expense.map(function (e) {
+    var alloc = Math.round(e.amount * (1.05 + (e.amount % 7) / 20));
+    var pct = Math.round((e.amount / alloc) * 100);
+    var cls = pct >= 100 ? ' meter--over' : pct >= 85 ? ' meter--warn' : '';
+    return '<div style="margin-bottom:18px">' +
+      '<div style="display:flex;justify-content:space-between;gap:10px;margin-bottom:6px;flex-wrap:wrap">' +
+        '<span style="color:var(--ink);font-size:.93rem">' + e.category + '</span>' +
+        '<span class="mono" style="font-size:11px;color:var(--ink-3)">' +
+          U.money(e.amount) + ' of ' + U.money(alloc) + ' · ' + pct + '%</span>' +
+      '</div>' +
+      '<div class="meter' + cls + '"><div class="meter__fill" style="width:' + Math.min(100, pct) + '%"></div></div>' +
+    '</div>';
+  }).join('');
+
+  document.getElementById('finAccounts').innerHTML = f.accounts.map(function (a) {
+    return '<tr><td style="color:var(--ink)">' + a.name + '</td>' +
+      '<td class="num num--in">' + U.money(a.balance) + '</td>' +
+      '<td style="text-align:right"><button class="btn-ghost btn-ghost--sm" type="button">Edit</button></td></tr>';
+  }).join('');
+
+  document.getElementById('e_cat').innerHTML = '<option value="">Choose a category</option>' +
+    f.income.concat(f.expense).map(function (c) {
+      return '<option value="' + c.category + '">' + c.category + '</option>';
+    }).join('');
+
+  document.getElementById('e_acct').innerHTML = '<option value="">Choose an account</option>' +
+    f.accounts.map(function (a) { return '<option value="' + a.name + '">' + a.name + '</option>'; }).join('');
+
+  document.getElementById('e_event').innerHTML = '<option value="">None</option>' +
+    D.events.map(function (e) { return '<option value="' + e.id + '">' + e.title + '</option>'; }).join('');
+
+  U.observeReveals();
+})();
+</script>
+</body>
+</html>

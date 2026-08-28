@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#03070a">
+<meta name="description" content="Request a password reset link for your ZUMS Computer Society account.">
+<meta name="robots" content="noindex">
+<title>Forgot password — ZUMS Computer Society</title>
+<link rel="icon" href="assets/img/club-logo.png" type="image/png">
+<link href="assets/vendor/bootstrap.min.css" rel="stylesheet">
+<link href="assets/css/fonts.css" rel="stylesheet">
+<link href="assets/css/style.css" rel="stylesheet">
+</head>
+<body data-page="login" data-base="" data-area="site">
+
+<a class="skip-link" href="#forgotForm">Skip to the form</a>
+<div id="site-nav"></div>
+
+<main id="main" class="section">
+  <div class="shell shell--narrow" style="margin-inline:auto">
+    <ul class="crumbs"><li><a href="login.html">Sign in</a></li><li>Forgot password</li></ul>
+
+    <section class="panel">
+      <div class="panel__head"><div>
+        <p class="panel__kicker">Account recovery</p>
+        <h1 class="panel__title">Reset your password</h1>
+      </div></div>
+
+      <p class="muted">
+        Enter the email address on your membership record. If it matches an account we will send a
+        single-use reset link that expires in one hour.
+      </p>
+
+      <div class="alert-slot"></div>
+
+      <form id="forgotForm" data-validate data-done="forgotDone" novalidate>
+        <div class="hp" aria-hidden="true">
+          <label for="website">Website</label>
+          <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+        </div>
+
+        <label class="lbl" for="f_email"><span>Email address</span><em class="req">Required</em></label>
+        <input class="fld" type="email" id="f_email" name="email" autocomplete="email"
+               data-rule="required|email" placeholder="you@example.com">
+        <p class="err" id="err-f_email" aria-live="polite"></p>
+
+        <button class="btn-zcs btn-zcs--block" type="submit" style="margin-top:22px">
+          Send reset link <span class="spinner"></span>
+        </button>
+      </form>
+
+      <div id="forgotDone" style="display:none">
+        <div class="alert-z alert-z--ok" style="margin-bottom:18px">
+          If that address is on our records, a reset link is on its way. It expires in one hour and
+          can be used once.
+        </div>
+        <p class="help">
+          The response is deliberately identical for a known and an unknown address, so this form
+          cannot be used to work out who is a member.
+        </p>
+        <a class="btn-ghost btn-ghost--block" href="login.html" style="margin-top:14px">Back to sign in</a>
+      </div>
+
+      <div class="rule" style="margin:24px 0"></div>
+      <p class="help" style="margin:0">
+        No longer have access to that mailbox? <a href="contact.html">Write to the panel</a> from any
+        address and quote your ZCS ID or student ID.
+      </p>
+    </section>
+  </div>
+</main>
+
+<div id="site-foot"></div>
+
+<script src="assets/vendor/bootstrap.bundle.min.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/layout.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>

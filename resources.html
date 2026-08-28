@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#03070a">
+<meta name="description" content="Document library — constitution, forms, minutes, reports and the ZCS brand kit.">
+<title>Documents — ZUMS Computer Society</title>
+<link rel="icon" href="assets/img/club-logo.png" type="image/png">
+<link href="assets/vendor/bootstrap.min.css" rel="stylesheet">
+<link href="assets/css/fonts.css" rel="stylesheet">
+<link href="assets/css/style.css" rel="stylesheet">
+</head>
+<body data-page="resources" data-base="" data-area="site">
+
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="site-nav"></div>
+
+<main id="main">
+
+  <section class="phero">
+    <div class="shell">
+      <ul class="crumbs"><li><a href="index.html">Home</a></li><li>Documents</li></ul>
+      <p class="eyebrow">Library</p>
+      <h1 class="phero__title">Documents</h1>
+      <p class="phero__sub">
+        The constitution, the forms, the minutes and the reports. Anything marked
+        <span class="tag">members</span> needs you to be signed in; everything else is public.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <div class="toolbar">
+        <button class="chip is-active" data-filter="all">All</button>
+        <button class="chip" data-filter="public">Public</button>
+        <button class="chip" data-filter="members">Members only</button>
+        <div class="search">
+          <span class="search__icon" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          </span>
+          <input class="fld" type="search" id="docSearch" placeholder="Search documents" aria-label="Search documents">
+        </div>
+        <span class="mono" style="font-size:11px;color:var(--ink-3)" id="docCount"></span>
+      </div>
+
+      <div class="table-wrap">
+        <table class="table-z">
+          <thead>
+            <tr><th>Document</th><th>Type</th><th>Size</th><th>Updated</th><th>Access</th><th></th></tr>
+          </thead>
+          <tbody id="docList"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div id="site-foot"></div>
+
+<script src="assets/vendor/bootstrap.bundle.min.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/layout.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+(function () {
+  var D = window.ZCS, U = window.ZCSUI;
+
+  U.listController({
+    host: '#docList',
+    countHost: '#docCount',
+    search: '#docSearch',
+    source: function () {
+      return D.documents.slice().sort(function (a, b) { return new Date(b.updated) - new Date(a.updated); });
+    },
+    matchFilter: function (d, f) { return d.access === f; },
+    matchQuery: function (d, q) { return (d.name + ' ' + d.type).toLowerCase().indexOf(q) > -1; },
+    render: function (d) {
+      return '<tr>' +
+        '<td style="color:var(--ink)">' + d.name + '</td>' +
+        '<td><span class="tag">' + d.type + '</span></td>' +
+        '<td class="mono" style="font-size:11px">' + d.size + '</td>' +
+        '<td>' + U.fmtDate(d.updated) + '</td>' +
+        '<td>' + (d.access === 'public'
+          ? '<span class="tag tag--live">Public</span>'
+          : '<span class="tag tag--soon">Members</span>') + '</td>' +
+        '<td style="text-align:right">' + (d.access === 'public'
+          ? '<a class="btn-ghost btn-ghost--sm" href="#" download>Download</a>'
+          : '<a class="btn-ghost btn-ghost--sm" href="login.html">Sign in</a>') + '</td>' +
+      '</tr>';
+    }
+  });
+})();
+</script>
+</body>
+</html>

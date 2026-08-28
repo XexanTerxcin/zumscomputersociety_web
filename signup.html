@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#03070a">
+<meta name="description" content="Membership registration for ZUMS Computer Society, ZNRF University of Management Sciences.">
+<meta name="robots" content="noindex">
+<title>Become a member — ZUMS Computer Society</title>
+<link rel="icon" href="assets/img/club-logo.png" type="image/png">
+<link href="assets/vendor/bootstrap.min.css" rel="stylesheet">
+<link href="assets/css/fonts.css" rel="stylesheet">
+<link href="assets/css/style.css" rel="stylesheet">
+<link rel="preload" href="assets/fonts/chakra-petch-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
+</head>
+<body data-page="signup" data-base="" data-area="site">
+
+<a class="skip-link" href="#regForm">Skip to the form</a>
+<div id="site-nav"></div>
+
+<main id="main" class="section">
+  <div class="shell">
+    <div class="row g-4">
+
+      <!-- ------------------------------------------------------- left rail -->
+      <div class="col-12 col-lg-4">
+        <div style="position:sticky;top:calc(var(--nav-h) + 22px)">
+          <img src="assets/img/club-logo.png" alt="ZUMS Computer Society"
+               style="width:110px;margin-bottom:18px;filter:drop-shadow(0 0 18px rgba(0,255,65,.45))">
+          <p class="eyebrow">Membership intake // 2026</p>
+          <h1 class="phero__title" style="font-size:clamp(1.5rem,4vw,2rem)">Every mistake is a lesson</h1>
+          <p class="muted" style="max-width:42ch">
+            One form gets you into the labs, the workshops, the hackathon teams and the late-night
+            debugging sessions. Takes about three minutes.
+          </p>
+
+          <div class="loop" style="margin:22px 0" aria-hidden="true">
+            <span class="loop__node" data-node="1">TRY</span><span class="loop__link"></span>
+            <span class="loop__node" data-node="2">FAIL</span><span class="loop__link"></span>
+            <span class="loop__node" data-node="3">REPEAT</span><span class="loop__return"></span>
+          </div>
+
+          <div class="console d-none d-lg-block">
+            <p class="console__line">&gt; initialising member_registry</p>
+            <p class="console__line">&gt; channel: secure</p>
+            <p class="console__line console__line--cursor">&gt; awaiting your input</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ------------------------------------------------------- form card -->
+      <div class="col-12 col-lg-8">
+        <section class="panel" id="registration">
+          <div class="panel__head">
+            <div>
+              <p class="panel__kicker">ZUMS Computer Society</p>
+              <h2 class="panel__title">Membership registration</h2>
+            </div>
+            <img class="panel__mark d-none d-sm-block" src="assets/img/zums-mark.png" alt="" style="width:56px;opacity:.85">
+          </div>
+
+          <div class="steps">
+            <div class="steps__track"><div class="steps__fill"></div></div>
+            <ol class="steps__list">
+              <li class="steps__item is-current"><span>Identity</span></li>
+              <li class="steps__item"><span>Contact</span></li>
+              <li class="steps__item"><span>Payment</span></li>
+              <li class="steps__item"><span>Verify</span></li>
+            </ol>
+          </div>
+
+          <p class="reqnote">All fields are required unless marked optional.</p>
+          <div class="alert-slot"></div>
+
+          <form id="regForm" data-validate data-done="signupDone" novalidate autocomplete="on">
+
+            <div class="hp" aria-hidden="true">
+              <label for="website">Website</label>
+              <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+            </div>
+
+            <!-- ==================================================== identity -->
+            <fieldset class="fs">
+              <legend class="fs__legend">
+                <span class="fs__num">01</span>
+                <span>
+                  <span class="fs__title">Who you are?</span>
+                  <span class="fs__note">Match with your university record.</span>
+                </span>
+              </legend>
+
+              <div class="row g-3">
+                <div class="col-12">
+                  <label class="lbl" for="full_name"><span>Full name</span><em class="req">Required</em></label>
+                  <input class="fld" type="text" id="full_name" name="full_name" maxlength="80"
+                         autocomplete="name" data-rule="required|min:3" placeholder="According to your student ID">
+                  <p class="err" id="err-full_name" aria-live="polite"></p>
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <label class="lbl" for="student_id"><span>Student ID</span><em class="req">Required</em></label>
+                  <input class="fld fld--mono" type="text" id="student_id" name="student_id" maxlength="20"
+                         data-rule="required" placeholder="e.g. 0932XXXXXXXX">
+                  <p class="err" id="err-student_id" aria-live="polite"></p>
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <label class="lbl" for="session"><span>Session</span><em class="opt">Optional</em></label>
+                  <input class="fld fld--mono" type="text" id="session" name="session" maxlength="20" placeholder="e.g. Fall2026">
+                </div>
+
+                <div class="col-12">
+                  <label class="lbl" for="department"><span>Program</span><em class="req">Required</em></label>
+                  <div class="sel">
+                    <select class="fld" id="department" name="department" data-rule="required">
+                      <option value="">Select your program</option>
+                    </select>
+                  </div>
+                  <p class="err" id="err-department" aria-live="polite"></p>
+                </div>
+
+                <div class="col-12">
+                  <label class="lbl" for="photo"><span>Formal photo</span><em class="req">Required</em></label>
+                  <label class="drop" for="photo">
+                    <input class="drop__input" type="file" id="photo" name="photo" accept="image/jpeg,image/png,image/webp">
+                    <span class="drop__body">
+                      <span class="drop__icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3"/><path d="M8 5l1.5-2h5L16 5"/></svg>
+                      </span>
+                      <span class="drop__text">
+                        <span class="drop__cta">Choose a photo <span class="muted-2">or drop it here</span></span>
+                        <span class="drop__hint">JPG, PNG or WebP · up to 5 MB · plain background, face clearly visible</span>
+                      </span>
+                      <span class="drop__meta"></span>
+                    </span>
+                  </label>
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <label class="lbl" for="wing"><span>Primary wing</span><em class="req">Required</em></label>
+                  <div class="sel">
+                    <select class="fld" id="wing" name="wing" data-rule="required">
+                      <option value="">Where do you want to start?</option>
+                    </select>
+                  </div>
+                  <p class="err" id="err-wing" aria-live="polite"></p>
+                  <p class="help">You can switch later — one message, no fee.</p>
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <label class="lbl" for="skills"><span>Skills</span><em class="opt">Optional</em></label>
+                  <input class="fld" type="text" id="skills" name="skills" placeholder="Python, Figma, soldering…">
+                  <p class="help">Comma separated. Shown on your public profile.</p>
+                </div>
+              </div>
+            </fieldset>
+
+            <!-- ===================================================== contact -->
+            <fieldset class="fs">
+              <legend class="fs__legend">
+                <span class="fs__num">02</span>
+                <span>
+                  <span class="fs__title">How should we contact you?</span>
+                  <span class="fs__note">Announcements go out on WhatsApp; formal notifications by email.</span>
+                </span>
+              </legend>
+
+              <div class="row g-3">
+                <div class="col-12 col-md-6">
+                  <label class="lbl" for="email"><span>Email address</span><em class="req">Required</em></label>
+                  <input class="fld" type="email" id="email" name="email" autocomplete="email"
+                         data-rule="required|email" placeholder="you@example.com">
+                  <p class="err" id="err-email" aria-live="polite"></p>
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <label class="lbl" for="whatsapp"><span>WhatsApp number</span><em class="req">Required</em></label>
+                  <div class="phone">
+                    <span class="phone__cc">+880</span>
+                    <input class="fld fld--mono phone__input" type="tel" id="whatsapp" name="whatsapp"
+                           inputmode="numeric" data-rule="required|phone-bd" placeholder="01XXXXXXXXX">
+                  </div>
+                  <p class="err" id="err-whatsapp" aria-live="polite"></p>
+                  <p class="help">Please enter a Bangladeshi number. We will add you to the WhatsApp community.</p>
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <label class="lbl" for="password"><span>Choose a password</span><em class="req">Required</em></label>
+                  <input class="fld" type="password" id="password" name="password" autocomplete="new-password"
+                         data-rule="required|min:10" placeholder="At least 10 characters">
+                  <p class="err" id="err-password" aria-live="polite"></p>
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <label class="lbl" for="password2"><span>Repeat password</span><em class="req">Required</em></label>
+                  <input class="fld" type="password" id="password2" name="password2" autocomplete="new-password"
+                         data-rule="required|match:#password" placeholder="Type it again">
+                  <p class="err" id="err-password2" aria-live="polite"></p>
+                </div>
+              </div>
+            </fieldset>
+
+            <!-- ===================================================== payment -->
+            <fieldset class="fs">
+              <legend class="fs__legend">
+                <span class="fs__num">03</span>
+                <span>
+                  <span class="fs__title">Membership fee</span>
+                  <span class="fs__note">Registration is valid for one academic semester.</span>
+                </span>
+              </legend>
+
+              <div class="fee" style="margin-bottom:16px">
+                <span class="fee__label">Membership fee</span>
+                <span class="fee__value">BDT 20</span>
+              </div>
+
+              <label class="lbl lbl--group">How are you paying?</label>
+              <div class="opts opts--3">
+                <label class="opt-card">
+                  <input type="radio" name="payment_type" value="bkash" id="pay_bkash" data-rule="required">
+                  <span class="opt-card__box"><span class="opt-card__name">bKash</span><span class="opt-card__note">Send Money</span></span>
+                </label>
+                <label class="opt-card">
+                  <input type="radio" name="payment_type" value="upay" id="pay_upay">
+                  <span class="opt-card__box"><span class="opt-card__name">Upay</span><span class="opt-card__note">Send Money</span></span>
+                </label>
+                <label class="opt-card">
+                  <input type="radio" name="payment_type" value="cash" id="pay_cash">
+                  <span class="opt-card__box"><span class="opt-card__name">Cash</span><span class="opt-card__note">Handed to a panel member</span></span>
+                </label>
+              </div>
+              <p class="err" id="err-pay_bkash" aria-live="polite"></p>
+
+              <div class="branch" id="digitalBranch" hidden>
+                <div class="notice">
+                  <p class="notice__title">Send the fee to this number, then enter the transaction ID</p>
+                  <div class="notice__number">
+                    <span class="notice__digits">01575836669</span>
+                    <button class="copy-btn" type="button" data-copy="01575836669">Copy number</button>
+                  </div>
+                  <p class="notice__body">Use <strong>Send Money</strong>, not Payment. Keep the confirmation SMS until your membership is approved.</p>
+                </div>
+                <label class="lbl" for="trx"><span>Transaction ID</span></label>
+                <input class="fld fld--mono fld--upper" type="text" id="trx" name="trx" maxlength="24" placeholder="e.g. 9F2K1M7QX4">
+                <p class="help">TrxID from your bKash or Upay confirmation SMS.</p>
+              </div>
+
+              <div class="branch" id="cashBranch" hidden>
+                <label class="lbl" for="receiver"><span>Cash receiver's name</span></label>
+                <input class="fld" type="text" id="receiver" name="receiver" maxlength="60" placeholder="Name of the member who took the cash">
+                <p class="help">The panel member who collected your fee. Ask for a receipt.</p>
+              </div>
+            </fieldset>
+
+            <!-- ====================================================== verify -->
+            <fieldset class="fs">
+              <legend class="fs__legend">
+                <span class="fs__num">04</span>
+                <span>
+                  <span class="fs__title">Confirm and submit</span>
+                  <span class="fs__note">Approval takes 1–3 working days.</span>
+                </span>
+              </legend>
+
+              <label class="lbl lbl--group">Security check</label>
+              <div style="border:1px dashed var(--line-2);padding:18px;text-align:center;color:var(--ink-3);font-family:var(--f-mono);font-size:12px;margin-bottom:18px">
+                Cloudflare Turnstile widget mounts here once the site key is configured
+              </div>
+
+              <label class="check">
+                <input type="checkbox" id="consent" name="consent" data-rule="required">
+                <span class="check__box"></span>
+                <span class="check__text">
+                  The information above is accurate, and ZUMS Computer Society may use it to process
+                  my membership. I have read the <a href="privacy.html">privacy policy</a>.
+                </span>
+              </label>
+              <p class="err" id="err-consent" aria-live="polite"></p>
+
+              <button class="btn-zcs btn-zcs--block" type="submit" style="margin-top:22px">
+                Submit registration <span class="spinner"></span>
+              </button>
+              <p class="help text-center" style="margin-top:10px">
+                Already a member? <a href="login.html">Sign in instead</a>.
+              </p>
+            </fieldset>
+          </form>
+
+          <!-- success state -->
+          <div id="signupDone" style="display:none;text-align:center;padding:14px 0">
+            <div class="verify-card__seal" style="margin-inline:auto">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12l5 5L20 6"/></svg>
+            </div>
+            <h2 class="sec-head__title" style="font-size:1.5rem">You are in the queue.</h2>
+            <p class="muted" style="max-width:46ch;margin-inline:auto">
+              Your registration reached us and the panel will verify your payment next.
+            </p>
+
+            <div class="copybox" style="max-width:360px;margin:22px auto 0;justify-content:center">
+              <span>
+                <span class="mono" style="font-size:10.5px;color:var(--ink-3);display:block">Registration ID</span>
+                <span class="copybox__value">ZCS-R-10242</span>
+              </span>
+              <button class="copy-btn" type="button" data-copy="ZCS-R-10242">Copy</button>
+            </div>
+            <p class="help">Save this. Quote it in any message to the panel.</p>
+
+            <h3 style="font-size:1rem;margin:28px 0 10px;text-align:left">What happens next</h3>
+            <ol class="prose" style="text-align:left;font-size:.93rem">
+              <li>The panel checks your payment against our records.</li>
+              <li>You get a confirmation email within 2–3 working days.</li>
+              <li>You are added to the members' WhatsApp group.</li>
+            </ol>
+
+            <div class="btn-row justify-content-center" style="margin-top:22px">
+              <a class="btn-ghost" href="index.html">Back to the site</a>
+              <button class="btn-ghost" type="button" onclick="window.print()">Save as PDF</button>
+            </div>
+          </div>
+
+        </section>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div id="site-foot"></div>
+
+<script src="assets/vendor/bootstrap.bundle.min.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/layout.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+(function () {
+  var D = window.ZCS, U = window.ZCSUI;
+
+  document.getElementById('department').innerHTML =
+    '<option value="">Select your program</option>' +
+    D.departments.map(function (d) { return '<option value="' + d.key + '">' + d.name + '</option>'; }).join('');
+
+  document.getElementById('wing').innerHTML =
+    '<option value="">Where do you want to start?</option>' +
+    D.wings.map(function (w) { return '<option value="' + w.slug + '">' + w.name + '</option>'; }).join('');
+
+  var digital = document.getElementById('digitalBranch');
+  var cash = document.getElementById('cashBranch');
+  U.$$('input[name="payment_type"]').forEach(function (r) {
+    r.addEventListener('change', function () {
+      digital.hidden = (r.value === 'cash');
+      cash.hidden = (r.value !== 'cash');
+    });
+  });
+})();
+</script>
+</body>
+</html>

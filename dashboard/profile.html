@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#03070a">
+<meta name="robots" content="noindex">
+<title>My profile — ZUMS Computer Society</title>
+<link rel="icon" href="../assets/img/club-logo.png" type="image/png">
+<link href="../assets/vendor/bootstrap.min.css" rel="stylesheet">
+<link href="../assets/css/fonts.css" rel="stylesheet">
+<link href="../assets/css/style.css" rel="stylesheet">
+</head>
+<body data-page="dash-profile" data-base="../" data-area="dash">
+
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="site-nav"></div>
+
+<div class="app">
+  <aside class="side" id="panel-side"></aside>
+
+  <main id="main">
+    <div style="margin-bottom:26px">
+      <p class="eyebrow">Member dashboard</p>
+      <h1 class="phero__title" style="font-size:clamp(1.5rem,4vw,2rem);margin-bottom:8px">My profile</h1>
+      <p class="muted" style="margin:0">
+        What the club holds about you. The public half is shown on your
+        <a href="#" id="pubLink">public profile</a>; the private half is only visible to the panel.
+      </p>
+    </div>
+
+    <div class="alert-slot"></div>
+
+    <form data-validate novalidate>
+      <div class="row g-4">
+        <div class="col-12 col-xl-8">
+
+          <section class="panel" style="margin-bottom:22px">
+            <div class="panel__head"><div>
+              <p class="panel__kicker">Public</p>
+              <h2 class="panel__title">Shown in the member directory</h2>
+            </div></div>
+
+            <div class="row g-3">
+              <div class="col-12 col-md-6">
+                <label class="lbl" for="p_name"><span>Full name</span><em class="req">Required</em></label>
+                <input class="fld" type="text" id="p_name" data-rule="required|min:3">
+                <p class="err" id="err-p_name"></p>
+              </div>
+
+              <div class="col-12 col-md-6">
+                <label class="lbl" for="p_wing"><span>Primary wing</span></label>
+                <div class="sel"><select class="fld" id="p_wing"></select></div>
+              </div>
+
+              <div class="col-12">
+                <label class="lbl" for="p_skills"><span>Skills</span><em class="opt">Optional</em></label>
+                <input class="fld" type="text" id="p_skills" placeholder="Comma separated">
+                <p class="help">These are searchable in the directory, so keep them specific.</p>
+              </div>
+
+              <div class="col-12">
+                <label class="lbl" for="p_bio"><span>Short bio</span><em class="opt">Optional</em></label>
+                <textarea class="fld" id="p_bio" style="min-height:110px" placeholder="Two sentences. What you work on, and what you want to work on next."></textarea>
+              </div>
+
+              <div class="col-12">
+                <label class="lbl" for="p_photo"><span>Profile photo</span></label>
+                <label class="drop" for="p_photo">
+                  <input class="drop__input" type="file" id="p_photo" accept="image/jpeg,image/png,image/webp">
+                  <span class="drop__body">
+                    <img class="drop__preview" id="p_current" src="" alt="">
+                    <span class="drop__text">
+                      <span class="drop__cta">Replace photo <span class="muted-2">or drop it here</span></span>
+                      <span class="drop__hint">JPG, PNG or WebP · up to 5 MB · plain background</span>
+                    </span>
+                    <span class="drop__meta"></span>
+                  </span>
+                </label>
+              </div>
+
+              <div class="col-12">
+                <label class="check">
+                  <input type="checkbox" id="p_listed" checked>
+                  <span class="check__box"></span>
+                  <span class="check__text">List me in the public member directory.</span>
+                </label>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel__head"><div>
+              <p class="panel__kicker">Private</p>
+              <h2 class="panel__title">Only the panel sees this</h2>
+            </div></div>
+
+            <div class="row g-3">
+              <div class="col-12 col-md-6">
+                <label class="lbl" for="p_email"><span>Email</span><em class="req">Required</em></label>
+                <input class="fld" type="email" id="p_email" data-rule="required|email">
+                <p class="err" id="err-p_email"></p>
+              </div>
+
+              <div class="col-12 col-md-6">
+                <label class="lbl" for="p_phone"><span>WhatsApp number</span><em class="req">Required</em></label>
+                <div class="phone">
+                  <span class="phone__cc">+880</span>
+                  <input class="fld fld--mono phone__input" type="tel" id="p_phone" data-rule="required|phone-bd">
+                </div>
+                <p class="err" id="err-p_phone"></p>
+              </div>
+
+              <div class="col-12 col-md-6">
+                <label class="lbl" for="p_student"><span>Student ID</span></label>
+                <input class="fld fld--mono" type="text" id="p_student" disabled>
+                <p class="help">Locked. Ask the panel to correct it.</p>
+              </div>
+
+              <div class="col-12 col-md-6">
+                <label class="lbl" for="p_dept"><span>Program</span></label>
+                <div class="sel"><select class="fld" id="p_dept"></select></div>
+              </div>
+
+              <div class="col-12 col-md-6">
+                <label class="lbl" for="p_session"><span>Session</span></label>
+                <input class="fld fld--mono" type="text" id="p_session">
+              </div>
+
+              <div class="col-12 col-md-6">
+                <label class="lbl" for="p_grad"><span>Expected graduation</span><em class="opt">Optional</em></label>
+                <input class="fld fld--mono" type="text" id="p_grad" placeholder="e.g. 2028">
+                <p class="help">Setting this moves you to the alumni directory on graduation.</p>
+              </div>
+            </div>
+
+            <div class="btn-row" style="margin-top:24px">
+              <button class="btn-zcs" type="submit">Save changes <span class="spinner"></span></button>
+              <a class="btn-ghost" href="index.html">Cancel</a>
+            </div>
+          </section>
+        </div>
+
+        <div class="col-12 col-xl-4">
+          <div class="panel" style="margin-bottom:22px">
+            <div class="panel__head"><div>
+              <p class="panel__kicker">Account</p>
+              <h2 class="panel__title">Read-only</h2>
+            </div></div>
+            <dl class="dl-z" id="acctFacts"></dl>
+          </div>
+
+          <div class="panel">
+            <div class="panel__head"><div>
+              <p class="panel__kicker">Security</p>
+              <h2 class="panel__title">Password and sessions</h2>
+            </div></div>
+            <p class="muted" style="font-size:.9rem">
+              Changing your password signs out every other session on your account.
+            </p>
+            <a class="btn-ghost btn-ghost--block" href="../reset.html">Change password</a>
+            <a class="btn-ghost btn-ghost--block btn-ghost--danger" href="../contact.html" style="margin-top:10px">Request data deletion</a>
+          </div>
+        </div>
+      </div>
+    </form>
+  </main>
+</div>
+
+<div id="site-foot"></div>
+
+<script src="../assets/vendor/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/data.js"></script>
+<script src="../assets/js/layout.js"></script>
+<script src="../assets/js/panel.js"></script>
+<script src="../assets/js/app.js"></script>
+<script>
+(function () {
+  var D = window.ZCS, U = window.ZCSUI, me = D.me;
+
+  document.getElementById('pubLink').href = '../member.html?uid=' + me.uid;
+  document.getElementById('p_name').value = me.name;
+  document.getElementById('p_skills').value = me.skills.join(', ');
+  document.getElementById('p_email').value = me.email;
+  document.getElementById('p_phone').value = me.phone;
+  document.getElementById('p_student').value = me.studentId;
+  document.getElementById('p_session').value = me.session;
+  document.getElementById('p_current').src = D.avatarFor(me.name);
+
+  document.getElementById('p_wing').innerHTML = D.wings.map(function (w) {
+    return '<option value="' + w.slug + '"' + (w.slug === me.wing ? ' selected' : '') + '>' + w.name + '</option>';
+  }).join('');
+
+  document.getElementById('p_dept').innerHTML = D.departments.map(function (d) {
+    return '<option value="' + d.key + '"' + (d.name === me.dept ? ' selected' : '') + '>' + d.name + '</option>';
+  }).join('');
+
+  document.getElementById('acctFacts').innerHTML = [
+    ['ZCS ID', me.uid],
+    ['Position', me.position],
+    ['Status', '<span class="tag tag--live">' + me.status + '</span>'],
+    ['Joined', U.fmtDate(me.joined)],
+    ['Points', me.points],
+    ['Rank', '#' + me.rank]
+  ].map(function (f) { return '<div><dt>' + f[0] + '</dt><dd>' + f[1] + '</dd></div>'; }).join('');
+})();
+</script>
+</body>
+</html>

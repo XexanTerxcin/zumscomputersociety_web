@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#03070a">
+<meta name="description" content="Photo albums from ZUMS Computer Society events, workshops and open labs.">
+<title>Gallery — ZUMS Computer Society</title>
+<link rel="icon" href="assets/img/club-logo.png" type="image/png">
+<link href="assets/vendor/bootstrap.min.css" rel="stylesheet">
+<link href="assets/css/fonts.css" rel="stylesheet">
+<link href="assets/css/style.css" rel="stylesheet">
+</head>
+<body data-page="gallery" data-base="" data-area="site">
+
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="site-nav"></div>
+
+<main id="main">
+
+  <section class="phero">
+    <div class="shell">
+      <ul class="crumbs"><li><a href="index.html">Home</a></li><li>Gallery</li></ul>
+      <p class="eyebrow">Albums</p>
+      <h1 class="phero__title">Gallery</h1>
+      <p class="phero__sub">
+        Photographs from events, workshops and the open labs, grouped into albums and tied to the
+        event they came from. Members can request a takedown of any photo they appear in.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <div class="grid" id="albumList"></div>
+    </div>
+  </section>
+
+</main>
+
+<div id="site-foot"></div>
+
+<script src="assets/vendor/bootstrap.bundle.min.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/layout.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+(function () {
+  var D = window.ZCS, U = window.ZCSUI;
+  document.getElementById('albumList').innerHTML = D.albums
+    .slice().sort(function (a, b) { return new Date(b.date) - new Date(a.date); })
+    .map(U.albumCard).join('');
+  U.observeReveals();
+})();
+</script>
+</body>
+</html>

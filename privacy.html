@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#03070a">
+<meta name="description" content="What ZUMS Computer Society collects, why, how long it is kept and how to have it removed.">
+<title>Privacy policy — ZUMS Computer Society</title>
+<link rel="icon" href="assets/img/club-logo.png" type="image/png">
+<link href="assets/vendor/bootstrap.min.css" rel="stylesheet">
+<link href="assets/css/fonts.css" rel="stylesheet">
+<link href="assets/css/style.css" rel="stylesheet">
+</head>
+<body data-page="privacy" data-base="" data-area="site">
+
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="site-nav"></div>
+
+<main id="main">
+
+  <section class="phero">
+    <div class="shell">
+      <ul class="crumbs"><li><a href="index.html">Home</a></li><li>Privacy</li></ul>
+      <p class="eyebrow">Last updated 14 March 2026</p>
+      <h1 class="phero__title">Privacy policy</h1>
+      <p class="phero__sub">
+        Short version: we collect what running a membership needs, we keep it while you are a
+        member, and we never sell or share it.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell shell--narrow" style="margin-inline:auto">
+      <article class="prose">
+        <h2>What we collect</h2>
+        <ul>
+          <li><strong>At registration:</strong> full name, student ID, program, academic session, email address, WhatsApp number, a formal photograph and your chosen wing.</li>
+          <li><strong>For the fee:</strong> the payment method, the transaction ID or the name of the panel member who took cash, and the period the payment covers.</li>
+          <li><strong>While you are a member:</strong> event registrations, attendance check-ins, certificates issued to you, points awarded, and any reimbursement claim you file.</li>
+          <li><strong>Technical:</strong> a session cookie, and request logs kept for abuse control.</li>
+        </ul>
+
+        <h2>Why we collect it</h2>
+        <p>
+          To run your membership: to confirm you are an enrolled student, to match your fee against
+          a payment, to put your name on a certificate, and to reach you when an event changes.
+          Nothing is collected for advertising, and there is no third-party analytics on this site.
+        </p>
+
+        <h2>What is public</h2>
+        <p>
+          Your public profile shows your name, ZCS ID, position, wing, program, skills, points and
+          certificates. It never shows your email address, phone number, student ID or payment
+          details. You can ask for your profile to be hidden from the directory at any time.
+        </p>
+
+        <h2>Who can see the rest</h2>
+        <ul>
+          <li>The executive committee, for the parts of it their role needs.</li>
+          <li>The treasurer, for fee and reimbursement records only.</li>
+          <li>Nobody outside the club, ever. We do not sell, rent or share member data.</li>
+        </ul>
+
+        <h2>How long we keep it</h2>
+        <p>
+          Membership records are kept while you are a member and for two years afterwards, so that
+          a certificate can still be verified and an alumni record can be maintained. Payment
+          records are kept for seven years as part of the club ledger. Request logs are kept for
+          thirty days.
+        </p>
+
+        <h2>Your choices</h2>
+        <ul>
+          <li>See everything we hold about you from your dashboard.</li>
+          <li>Correct anything wrong yourself, on the profile page.</li>
+          <li>Ask for your photo to be removed from any album you appear in.</li>
+          <li>Ask for deletion. We will remove everything except the ledger rows we are required to keep, which are reduced to an amount and a date.</li>
+        </ul>
+
+        <h2>Security</h2>
+        <p>
+          Passwords are hashed, never stored in plain text. Uploads are validated by inspecting the
+          file's own bytes rather than trusting its extension. Forms carry a CSRF token, public
+          forms are rate limited, and sign-in is locked out per address and per account.
+        </p>
+
+        <h2>Contact</h2>
+        <p>
+          Any question about this policy goes to <a id="privEmail" href="#">the panel</a>, or through
+          the <a href="contact.html">contact form</a>. We answer within two working days.
+        </p>
+      </article>
+    </div>
+  </section>
+
+</main>
+
+<div id="site-foot"></div>
+
+<script src="assets/vendor/bootstrap.bundle.min.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/layout.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+(function () {
+  var a = document.getElementById('privEmail');
+  a.href = 'mailto:' + window.ZCS_CLUB.email;
+  a.textContent = window.ZCS_CLUB.email;
+})();
+</script>
+</body>
+</html>

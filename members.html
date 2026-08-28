@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#03070a">
+<meta name="description" content="Public member directory of ZUMS Computer Society — searchable by name, wing, position and skill.">
+<title>Members — ZUMS Computer Society</title>
+<link rel="icon" href="assets/img/club-logo.png" type="image/png">
+<link href="assets/vendor/bootstrap.min.css" rel="stylesheet">
+<link href="assets/css/fonts.css" rel="stylesheet">
+<link href="assets/css/style.css" rel="stylesheet">
+</head>
+<body data-page="members" data-base="" data-area="site">
+
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="site-nav"></div>
+
+<main id="main">
+
+  <section class="phero">
+    <div class="shell">
+      <ul class="crumbs"><li><a href="index.html">Home</a></li><li>Members</li></ul>
+      <p class="eyebrow">Directory</p>
+      <h1 class="phero__title">The people who show up</h1>
+      <p class="phero__sub">
+        Every approved member with a public profile. Search by name, wing, program or skill.
+        A profile shows what somebody works on — it never shows contact details.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <div class="toolbar">
+        <button class="chip is-active" data-filter="all">Everyone</button>
+        <button class="chip" data-filter="panel">Panel</button>
+        <button class="chip" data-filter="competitive-programming">CP</button>
+        <button class="chip" data-filter="software-development">Software</button>
+        <button class="chip" data-filter="ai-ml">AI &amp; ML</button>
+        <button class="chip" data-filter="cybersecurity">Security</button>
+        <button class="chip" data-filter="robotics-iot">Robotics</button>
+        <button class="chip" data-filter="design-media">Design</button>
+        <div class="search">
+          <span class="search__icon" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          </span>
+          <input class="fld" type="search" id="memSearch" placeholder="Search name, ZCS ID, skill" aria-label="Search members">
+        </div>
+        <span class="mono" style="font-size:11px;color:var(--ink-3)" id="memCount"></span>
+      </div>
+
+      <div class="grid grid--4" id="memberList"></div>
+    </div>
+  </section>
+
+</main>
+
+<div id="site-foot"></div>
+
+<script src="assets/vendor/bootstrap.bundle.min.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/layout.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+(function () {
+  var D = window.ZCS, U = window.ZCSUI;
+  var PANEL = ['President', 'Vice President', 'General Secretary', 'Treasurer', 'Organising Secretary', 'Wing Lead'];
+
+  U.listController({
+    host: '#memberList',
+    countHost: '#memCount',
+    search: '#memSearch',
+    source: function () {
+      return D.members.filter(function (m) { return m.status === 'active'; });
+    },
+    matchFilter: function (m, f) {
+      if (f === 'panel') return PANEL.indexOf(m.position) > -1;
+      return m.wing === f;
+    },
+    matchQuery: function (m, q) {
+      return (m.name + ' ' + m.uid + ' ' + m.position + ' ' + m.dept + ' ' + m.skills.join(' '))
+        .toLowerCase().indexOf(q) > -1;
+    },
+    render: U.memberCard
+  });
+})();
+</script>
+</body>
+</html>

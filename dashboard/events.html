@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#03070a">
+<meta name="robots" content="noindex">
+<title>My event passes — ZUMS Computer Society</title>
+<link rel="icon" href="../assets/img/club-logo.png" type="image/png">
+<link href="../assets/vendor/bootstrap.min.css" rel="stylesheet">
+<link href="../assets/css/fonts.css" rel="stylesheet">
+<link href="../assets/css/style.css" rel="stylesheet">
+</head>
+<body data-page="dash-events" data-base="../" data-area="dash">
+
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="site-nav"></div>
+
+<div class="app">
+  <aside class="side" id="panel-side"></aside>
+
+  <main id="main">
+    <div style="margin-bottom:26px">
+      <p class="eyebrow">Member dashboard</p>
+      <h1 class="phero__title" style="font-size:clamp(1.5rem,4vw,2rem);margin-bottom:8px">Event passes</h1>
+      <p class="muted" style="margin:0">
+        One pass per registration. Show the code at the door — the scan writes your attendance,
+        and attendance is what a participation certificate is issued from.
+      </p>
+    </div>
+
+    <div class="tabs" data-tabs="pass" role="tablist" style="max-width:340px">
+      <button type="button" data-tab="upcoming" class="is-active" role="tab" aria-selected="true">Upcoming</button>
+      <button type="button" data-tab="attended" role="tab" aria-selected="false">Attended</button>
+    </div>
+
+    <div class="tabpane is-active" data-tabpane="upcoming" data-tabpane-group="pass">
+      <div class="grid grid--2" id="passUpcoming"></div>
+    </div>
+    <div class="tabpane" data-tabpane="attended" data-tabpane-group="pass">
+      <div class="grid grid--2" id="passAttended"></div>
+    </div>
+
+    <div class="panel" style="margin-top:26px">
+      <div class="panel__head"><div>
+        <p class="panel__kicker">Cannot make it?</p>
+        <h2 class="panel__title">Release your seat</h2>
+      </div></div>
+      <p class="muted" style="font-size:.93rem">
+        Cancel at least 72 hours before the start and the fee is refunded and the seat goes to the
+        next person on the waiting list. After that the seat is still released, but the fee is not
+        refunded.
+      </p>
+      <a class="btn-ghost" href="../events.html">Find another event</a>
+    </div>
+  </main>
+</div>
+
+<div id="site-foot"></div>
+
+<script src="../assets/vendor/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/data.js"></script>
+<script src="../assets/js/layout.js"></script>
+<script src="../assets/js/panel.js"></script>
+<script src="../assets/js/app.js"></script>
+<script>
+(function () {
+  var D = window.ZCS, U = window.ZCSUI, me = D.me;
+
+  function pass(p) {
+    var ev = D.eventById(p.event);
+    var attended = p.state === 'attended';
+    return '<article class="pass reveal">' +
+      '<div style="display:flex;gap:18px;flex-wrap:wrap;position:relative;z-index:1">' +
+        '<div style="flex:1;min-width:190px">' +
+          '<span class="tag ' + (attended ? 'tag--past' : 'tag--live') + '">' + (attended ? 'Attended' : 'Valid') + '</span>' +
+          '<h3 style="font-size:1.05rem;margin:12px 0 6px">' + p.title + '</h3>' +
+          '<p class="mono" style="font-size:11px;color:var(--ink-3);margin:0 0 4px">' + U.fmtDateTime(p.starts) + '</p>' +
+          (ev ? '<p class="mono" style="font-size:11px;color:var(--ink-3);margin:0 0 14px">' + ev.venue + '</p>' : '') +
+          '<p class="pass__code" style="margin:0 0 14px">' + p.code + '</p>' +
+          '<div class="btn-row">' +
+            (ev ? '<a class="btn-ghost btn-ghost--sm" href="../event.html?id=' + ev.id + '">Event page</a>' : '') +
+            (attended
+              ? '<a class="btn-ghost btn-ghost--sm" href="certificates.html">Certificate</a>'
+              : '<button class="btn-ghost btn-ghost--sm btn-ghost--danger" type="button">Release seat</button>') +
+          '</div>' +
+        '</div>' +
+        '<img class="pass__qr" src="' + U.fakeQr(p.code) + '" alt="Pass code ' + p.code + '">' +
+      '</div>' +
+    '</article>';
+  }
+
+  var up = me.passes.filter(function (p) { return p.state === 'upcoming'; });
+  var done = me.passes.filter(function (p) { return p.state === 'attended'; });
+
+  document.getElementById('passUpcoming').innerHTML = up.length
+    ? up.map(pass).join('')
+    : '<div class="empty" style="grid-column:1/-1">No upcoming passes. <a href="../events.html">Register for something</a>.</div>';
+
+  document.getElementById('passAttended').innerHTML = done.length
+    ? done.map(pass).join('')
+    : '<div class="empty" style="grid-column:1/-1">Nothing attended yet.</div>';
+
+  U.observeReveals();
+})();
+</script>
+</body>
+</html>

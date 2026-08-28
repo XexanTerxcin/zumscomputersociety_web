@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#03070a">
+<meta name="description" content="The six wings of ZUMS Computer Society: competitive programming, software development, AI and ML, cybersecurity, robotics and IoT, design and media.">
+<title>Wings — ZUMS Computer Society</title>
+<link rel="icon" href="assets/img/club-logo.png" type="image/png">
+<link href="assets/vendor/bootstrap.min.css" rel="stylesheet">
+<link href="assets/css/fonts.css" rel="stylesheet">
+<link href="assets/css/style.css" rel="stylesheet">
+</head>
+<body data-page="wings" data-base="" data-area="site">
+
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="site-nav"></div>
+
+<main id="main">
+
+  <section class="phero">
+    <div class="shell">
+      <ul class="crumbs"><li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li><li>Wings</li></ul>
+      <p class="eyebrow">Six wings</p>
+      <h1 class="phero__title">Where the work actually happens</h1>
+      <p class="phero__sub">
+        A wing is a standing group with its own lead, its own weekly slot and its own budget line.
+        Pick a primary wing when you join so somebody is responsible for you — then attend anything
+        else you like. Most members end up in two.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <div class="grid" id="wingList"></div>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="shell shell--narrow">
+      <div class="panel">
+        <div class="panel__head">
+          <div>
+            <p class="panel__kicker">Not sure yet?</p>
+            <h2 class="panel__title">You do not have to decide today</h2>
+          </div>
+        </div>
+        <p class="muted">
+          Join the club first and mark any wing as your primary. Wing leads run an open session
+          in the first two weeks of every semester, and switching afterwards is one message to the
+          general secretary — no form, no fee.
+        </p>
+        <div class="btn-row" style="margin-top:20px">
+          <a class="btn-zcs" href="signup.html">Become a member</a>
+          <a class="btn-ghost" href="events.html">See the open sessions</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div id="site-foot"></div>
+
+<script src="assets/vendor/bootstrap.bundle.min.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/layout.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+(function () {
+  var D = window.ZCS, U = window.ZCSUI;
+  document.getElementById('wingList').innerHTML = D.wings.map(U.wingCard).join('');
+  U.observeReveals();
+})();
+</script>
+</body>
+</html>

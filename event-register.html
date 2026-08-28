@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#03070a">
+<meta name="description" content="Register for a ZUMS Computer Society event.">
+<meta name="robots" content="noindex">
+<title>Event registration — ZUMS Computer Society</title>
+<link rel="icon" href="assets/img/club-logo.png" type="image/png">
+<link href="assets/vendor/bootstrap.min.css" rel="stylesheet">
+<link href="assets/css/fonts.css" rel="stylesheet">
+<link href="assets/css/style.css" rel="stylesheet">
+</head>
+<body data-page="events" data-base="" data-area="site">
+
+<a class="skip-link" href="#regForm">Skip to the form</a>
+<div id="site-nav"></div>
+
+<main id="main" class="section">
+  <div class="shell">
+    <div class="row g-4">
+
+      <div class="col-12 col-lg-4">
+        <ul class="crumbs"><li><a href="events.html">Events</a></li><li>Register</li></ul>
+        <div id="evSummary"></div>
+      </div>
+
+      <div class="col-12 col-lg-8">
+        <section class="panel">
+          <div class="panel__head">
+            <div>
+              <p class="panel__kicker">Event registration</p>
+              <h1 class="panel__title" id="regTitle">Register</h1>
+            </div>
+          </div>
+
+          <div class="steps">
+            <div class="steps__track"><div class="steps__fill"></div></div>
+            <ol class="steps__list">
+              <li class="steps__item is-current"><span>You</span></li>
+              <li class="steps__item"><span>Contact</span></li>
+              <li class="steps__item"><span>Payment</span></li>
+              <li class="steps__item"><span>Confirm</span></li>
+            </ol>
+          </div>
+
+          <p class="reqnote">All fields are required unless marked optional.</p>
+          <div class="alert-slot"></div>
+
+          <form id="regForm" class="form" data-validate data-done="regDone" novalidate autocomplete="on">
+
+            <div class="hp" aria-hidden="true">
+              <label for="website">Website</label>
+              <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+            </div>
+
+            <fieldset class="fs">
+              <legend class="fs__legend">
+                <span class="fs__num">01</span>
+                <span>
+                  <span class="fs__title">Who is coming?</span>
+                  <span class="fs__note">Match your university record — the door list is checked against it.</span>
+                </span>
+              </legend>
+
+              <div class="row g-3">
+                <div class="col-12">
+                  <label class="lbl" for="full_name"><span>Full name</span><em class="req">Required</em></label>
+                  <input class="fld" type="text" id="full_name" name="full_name" maxlength="80"
+                         autocomplete="name" data-rule="required|min:3" placeholder="According to your student ID">
+                  <p class="err" id="err-full_name" aria-live="polite"></p>
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <label class="lbl" for="student_id"><span>Student ID</span><em class="req">Required</em></label>
+                  <input class="fld fld--mono" type="text" id="student_id" name="student_id" maxlength="20"
+                         data-rule="required" placeholder="e.g. 0932XXXXXXXX">
+                  <p class="err" id="err-student_id" aria-live="polite"></p>
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <label class="lbl" for="department"><span>Program</span><em class="req">Required</em></label>
+                  <div class="sel">
+                    <select class="fld" id="department" name="department" data-rule="required">
+                      <option value="">Select your program</option>
+                    </select>
+                  </div>
+                  <p class="err" id="err-department" aria-live="polite"></p>
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <label class="lbl" for="zcs_id"><span>ZCS member ID</span><em class="opt">Optional</em></label>
+                  <input class="fld fld--mono" type="text" id="zcs_id" name="zcs_id" maxlength="20" placeholder="ZCS-2025-0000">
+                  <p class="help">Members get priority when seats run out.</p>
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <label class="lbl" for="team"><span>Team name</span><em class="opt">Optional</em></label>
+                  <input class="fld" type="text" id="team" name="team" maxlength="40" placeholder="Only for team formats">
+                </div>
+              </div>
+            </fieldset>
+
+            <fieldset class="fs">
+              <legend class="fs__legend">
+                <span class="fs__num">02</span>
+                <span>
+                  <span class="fs__title">How do we reach you?</span>
+                  <span class="fs__note">Schedule changes go out on WhatsApp; the pass goes by email.</span>
+                </span>
+              </legend>
+
+              <div class="row g-3">
+                <div class="col-12 col-md-6">
+                  <label class="lbl" for="email"><span>Email address</span><em class="req">Required</em></label>
+                  <input class="fld" type="email" id="email" name="email" autocomplete="email"
+                         data-rule="required|email" placeholder="you@example.com">
+                  <p class="err" id="err-email" aria-live="polite"></p>
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <label class="lbl" for="whatsapp"><span>WhatsApp number</span><em class="req">Required</em></label>
+                  <div class="phone">
+                    <span class="phone__cc">+880</span>
+                    <input class="fld fld--mono phone__input" type="tel" id="whatsapp" name="whatsapp"
+                           inputmode="numeric" data-rule="required|phone-bd" placeholder="01XXXXXXXXX">
+                  </div>
+                  <p class="err" id="err-whatsapp" aria-live="polite"></p>
+                </div>
+              </div>
+            </fieldset>
+
+            <fieldset class="fs" id="payFs">
+              <legend class="fs__legend">
+                <span class="fs__num">03</span>
+                <span>
+                  <span class="fs__title">Entry fee</span>
+                  <span class="fs__note">Send Money, not Payment. Keep the confirmation SMS until you are checked in.</span>
+                </span>
+              </legend>
+
+              <div class="fee" style="margin-bottom:14px">
+                <span class="fee__label">Entry fee</span>
+                <span class="fee__value" id="feeValue">—</span>
+              </div>
+
+              <label class="lbl lbl--group">How are you paying?</label>
+              <div class="opts opts--3">
+                <label class="opt-card">
+                  <input type="radio" name="payment_type" value="bkash" data-rule="required" id="pay_bkash">
+                  <span class="opt-card__box"><span class="opt-card__name">bKash</span><span class="opt-card__note">Send Money</span></span>
+                </label>
+                <label class="opt-card">
+                  <input type="radio" name="payment_type" value="upay" id="pay_upay">
+                  <span class="opt-card__box"><span class="opt-card__name">Upay</span><span class="opt-card__note">Send Money</span></span>
+                </label>
+                <label class="opt-card">
+                  <input type="radio" name="payment_type" value="cash" id="pay_cash">
+                  <span class="opt-card__box"><span class="opt-card__name">Cash</span><span class="opt-card__note">Handed to a panel member</span></span>
+                </label>
+              </div>
+              <p class="err" id="err-pay_bkash" aria-live="polite"></p>
+
+              <div class="branch" id="digitalBranch" hidden>
+                <div class="notice">
+                  <p class="notice__title">Send the fee to this number, then enter the transaction ID</p>
+                  <div class="notice__number">
+                    <span class="notice__digits">01575836669</span>
+                    <button class="copy-btn" type="button" data-copy="01575836669">Copy number</button>
+                  </div>
+                  <p class="notice__body">Use <strong>Send Money</strong>, not Payment. Keep the confirmation SMS until your registration is approved.</p>
+                </div>
+                <label class="lbl" for="trx"><span>Transaction ID</span></label>
+                <input class="fld fld--mono fld--upper" type="text" id="trx" name="trx" maxlength="24" placeholder="e.g. 9F2K1M7QX4">
+                <p class="help">TrxID from your bKash or Upay confirmation SMS.</p>
+              </div>
+
+              <div class="branch" id="cashBranch" hidden>
+                <label class="lbl" for="receiver"><span>Cash receiver's name</span></label>
+                <input class="fld" type="text" id="receiver" name="receiver" maxlength="60" placeholder="Name of the member who took the cash">
+                <p class="help">Ask for a receipt. The treasurer reconciles cash weekly.</p>
+              </div>
+            </fieldset>
+
+            <fieldset class="fs">
+              <legend class="fs__legend">
+                <span class="fs__num">04</span>
+                <span>
+                  <span class="fs__title">Confirm and submit</span>
+                  <span class="fs__note">You get a QR pass by email once the payment is matched.</span>
+                </span>
+              </legend>
+
+              <label class="check">
+                <input type="checkbox" id="consent" name="consent" data-rule="required">
+                <span class="check__box"></span>
+                <span class="check__text">The information above is accurate, and ZUMS Computer Society may use it to process this registration.</span>
+              </label>
+              <p class="err" id="err-consent" aria-live="polite"></p>
+
+              <button class="btn-zcs btn-zcs--block" type="submit" style="margin-top:22px">
+                Submit registration <span class="spinner"></span>
+              </button>
+              <p class="help text-center" style="margin-top:10px">Approval takes 1–3 working days.</p>
+            </fieldset>
+          </form>
+
+          <!-- success state the backend will drive -->
+          <div id="regDone" style="display:none;text-align:center;padding:14px 0">
+            <div class="verify-card__seal" style="margin-inline:auto">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12l5 5L20 6"/></svg>
+            </div>
+            <h2 class="sec-head__title" style="font-size:1.5rem">You are in the queue.</h2>
+            <p class="muted" style="max-width:46ch;margin-inline:auto">
+              Your registration reached us. The panel verifies the payment next, then your QR pass
+              is emailed to you.
+            </p>
+            <div class="copybox" style="max-width:340px;margin:22px auto 0;justify-content:center">
+              <span>
+                <span class="mono" style="font-size:10.5px;color:var(--ink-3);display:block">Registration ID</span>
+                <span class="copybox__value" id="doneId">ZCS-R-10242</span>
+              </span>
+              <button class="copy-btn" type="button" data-copy="ZCS-R-10242">Copy</button>
+            </div>
+            <div class="btn-row justify-content-center" style="margin-top:26px">
+              <a class="btn-ghost" href="events.html">Back to events</a>
+              <a class="btn-ghost" href="dashboard/events.html">My passes</a>
+            </div>
+          </div>
+
+        </section>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div id="site-foot"></div>
+
+<script src="assets/vendor/bootstrap.bundle.min.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/layout.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+(function () {
+  var D = window.ZCS, U = window.ZCSUI;
+  var ev = D.eventById(U.param('id')) || D.events[0];
+  var wing = D.wingBySlug(ev.wing);
+
+  document.title = 'Register — ' + ev.title;
+  document.getElementById('regTitle').textContent = ev.title;
+  document.getElementById('feeValue').textContent = ev.fee ? U.money(ev.fee) : 'Free';
+
+  document.getElementById('evSummary').innerHTML =
+    '<div class="panel">' +
+      '<div class="panel__head"><div>' +
+        '<p class="panel__kicker">You are registering for</p>' +
+        '<h2 class="panel__title">' + ev.title + '</h2>' +
+      '</div></div>' +
+      '<img src="' + D.placeholder(ev.id, ev.title) + '" alt="" style="width:100%;border:1px solid var(--line);margin-bottom:16px">' +
+      '<dl class="dl-z">' +
+        [['Starts', U.fmtDateTime(ev.starts)],
+         ['Venue', ev.venue],
+         ['Wing', wing ? wing.name : 'Club-wide'],
+         ['Fee', ev.fee ? U.money(ev.fee) : 'Free'],
+         ['Seats left', Math.max(0, ev.seats - ev.taken)]]
+        .map(function (f) { return '<div><dt>' + f[0] + '</dt><dd>' + f[1] + '</dd></div>'; }).join('') +
+      '</dl>' +
+      '<a class="btn-ghost btn-ghost--block" href="event.html?id=' + ev.id + '" style="margin-top:18px">Event details</a>' +
+    '</div>';
+
+  var sel = document.getElementById('department');
+  sel.innerHTML = '<option value="">Select your program</option>' +
+    D.departments.map(function (d) { return '<option value="' + d.key + '">' + d.name + '</option>'; }).join('');
+
+  if (!ev.fee) {
+    document.getElementById('payFs').style.display = 'none';
+    U.$$('#payFs [data-rule]').forEach(function (f) { f.removeAttribute('data-rule'); });
+  }
+
+  // payment branches
+  var digital = document.getElementById('digitalBranch');
+  var cash = document.getElementById('cashBranch');
+  U.$$('input[name="payment_type"]').forEach(function (r) {
+    r.addEventListener('change', function () {
+      digital.hidden = (r.value === 'cash');
+      cash.hidden = (r.value !== 'cash');
+    });
+  });
+})();
+</script>
+</body>
+</html>

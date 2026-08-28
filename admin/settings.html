@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#03070a">
+<meta name="robots" content="noindex">
+<title>Site settings — ZCS admin</title>
+<link rel="icon" href="../assets/img/club-logo.png" type="image/png">
+<link href="../assets/vendor/bootstrap.min.css" rel="stylesheet">
+<link href="../assets/css/fonts.css" rel="stylesheet">
+<link href="../assets/css/style.css" rel="stylesheet">
+</head>
+<body data-page="admin-settings" data-base="../" data-area="admin">
+
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="site-nav"></div>
+
+<div class="app">
+  <aside class="side" id="panel-side"></aside>
+
+  <main id="main">
+    <div style="margin-bottom:24px">
+      <p class="eyebrow">Admin panel</p>
+      <h1 class="phero__title" style="font-size:clamp(1.5rem,4vw,2rem);margin-bottom:8px">Site settings</h1>
+      <p class="muted" style="margin:0">Everything the public site reads from the settings table, in one form.</p>
+    </div>
+
+    <div class="tabs" data-tabs="set" role="tablist">
+      <button type="button" data-tab="general" class="is-active" role="tab" aria-selected="true">General</button>
+      <button type="button" data-tab="hero" role="tab" aria-selected="false">Hero &amp; stats</button>
+      <button type="button" data-tab="contactset" role="tab" aria-selected="false">Contact</button>
+      <button type="button" data-tab="money" role="tab" aria-selected="false">Fees &amp; payment</button>
+      <button type="button" data-tab="legal" role="tab" aria-selected="false">Legal</button>
+      <button type="button" data-tab="ops" role="tab" aria-selected="false">Cache &amp; ops</button>
+    </div>
+
+    <form data-validate novalidate>
+
+      <div class="tabpane is-active" data-tabpane="general" data-tabpane-group="set">
+        <div class="panel">
+          <div class="panel__head"><div>
+            <p class="panel__kicker">Identity</p>
+            <h2 class="panel__title">Club and university</h2>
+          </div></div>
+          <div class="row g-3">
+            <div class="col-12 col-md-6">
+              <label class="lbl" for="s_club"><span>Club name</span></label>
+              <input class="fld" type="text" id="s_club" data-rule="required">
+              <p class="err" id="err-s_club"></p>
+            </div>
+            <div class="col-12 col-md-6">
+              <label class="lbl" for="s_uni"><span>University</span></label>
+              <input class="fld" type="text" id="s_uni" data-rule="required">
+              <p class="err" id="err-s_uni"></p>
+            </div>
+            <div class="col-12 col-md-6">
+              <label class="lbl" for="s_tz"><span>Timezone</span></label>
+              <div class="sel"><select class="fld" id="s_tz">
+                <option selected>Asia/Dhaka</option><option>UTC</option>
+              </select></div>
+            </div>
+            <div class="col-12 col-md-6">
+              <label class="lbl" for="s_lang"><span>Default language</span></label>
+              <div class="sel"><select class="fld" id="s_lang">
+                <option value="en" selected>English</option><option value="bn">বাংলা</option>
+              </select></div>
+            </div>
+            <div class="col-12">
+              <label class="lbl" for="s_logo"><span>Club logo</span></label>
+              <label class="drop" for="s_logo">
+                <input class="drop__input" type="file" id="s_logo" accept="image/png,image/webp">
+                <span class="drop__body">
+                  <img class="drop__preview" src="../assets/img/club-logo.png" alt="">
+                  <span class="drop__text">
+                    <span class="drop__cta">Replace the logo</span>
+                    <span class="drop__hint">PNG or WebP with transparency · square</span>
+                  </span>
+                  <span class="drop__meta"></span>
+                </span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tabpane" data-tabpane="hero" data-tabpane-group="set">
+        <div class="panel">
+          <div class="panel__head"><div>
+            <p class="panel__kicker">Home page</p>
+            <h2 class="panel__title">Hero and counters</h2>
+          </div></div>
+          <div class="row g-3">
+            <div class="col-12">
+              <label class="lbl" for="s_htitle"><span>Hero title</span></label>
+              <input class="fld" type="text" id="s_htitle" value="Every mistake is a lesson.">
+            </div>
+            <div class="col-12">
+              <label class="lbl" for="s_hsub"><span>Hero subtitle</span></label>
+              <textarea class="fld" id="s_hsub" style="min-height:90px">ZUMS Computer Society is where students of ZNRF University of Management Sciences build things, break them in public, and teach each other what they learned on the way.</textarea>
+            </div>
+            <div class="col-12">
+              <label class="lbl" for="s_hmedia"><span>Hero background media</span></label>
+              <label class="drop" for="s_hmedia">
+                <input class="drop__input" type="file" id="s_hmedia" accept="image/*,video/mp4,video/webm">
+                <span class="drop__body">
+                  <span class="drop__icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M10 9l5 3-5 3z"/></svg>
+                  </span>
+                  <span class="drop__text">
+                    <span class="drop__cta">Upload an image or a video</span>
+                    <span class="drop__hint">Validated by magic bytes, not by file extension</span>
+                  </span>
+                  <span class="drop__meta"></span>
+                </span>
+              </label>
+            </div>
+          </div>
+
+          <div class="rule" style="margin:24px 0"></div>
+          <p class="lbl lbl--group">Stat counters</p>
+          <div class="row g-3" id="statFields"></div>
+        </div>
+      </div>
+
+      <div class="tabpane" data-tabpane="contactset" data-tabpane-group="set">
+        <div class="panel">
+          <div class="panel__head"><div>
+            <p class="panel__kicker">Footer and contact page</p>
+            <h2 class="panel__title">Contact details</h2>
+          </div></div>
+          <div class="row g-3">
+            <div class="col-12 col-md-6">
+              <label class="lbl" for="s_email"><span>Public email</span></label>
+              <input class="fld" type="email" id="s_email" data-rule="required|email">
+              <p class="err" id="err-s_email"></p>
+            </div>
+            <div class="col-12 col-md-6">
+              <label class="lbl" for="s_phone"><span>General phone</span></label>
+              <input class="fld fld--mono" type="tel" id="s_phone">
+            </div>
+            <div class="col-12 col-md-6">
+              <label class="lbl" for="s_evphone"><span>Event phone</span></label>
+              <input class="fld fld--mono" type="tel" id="s_evphone" value="+880 1575-836669">
+            </div>
+            <div class="col-12 col-md-6">
+              <label class="lbl" for="s_hours"><span>Office hours</span></label>
+              <input class="fld" type="text" id="s_hours">
+            </div>
+            <div class="col-12">
+              <label class="lbl" for="s_addr"><span>Office address</span></label>
+              <textarea class="fld" id="s_addr" style="min-height:80px"></textarea>
+            </div>
+          </div>
+
+          <div class="rule" style="margin:24px 0"></div>
+          <p class="lbl lbl--group">Social links</p>
+          <div class="row g-3" id="socialFields"></div>
+        </div>
+      </div>
+
+      <div class="tabpane" data-tabpane="money" data-tabpane-group="set">
+        <div class="panel">
+          <div class="panel__head"><div>
+            <p class="panel__kicker">Membership</p>
+            <h2 class="panel__title">Fees and payment channels</h2>
+          </div></div>
+          <div class="row g-3">
+            <div class="col-12 col-md-4">
+              <label class="lbl" for="s_fee"><span>Semester fee (BDT)</span></label>
+              <input class="fld fld--mono" type="number" id="s_fee" value="20" min="0">
+            </div>
+            <div class="col-12 col-md-4">
+              <label class="lbl" for="s_paynum"><span>bKash / Upay number</span></label>
+              <input class="fld fld--mono" type="tel" id="s_paynum" value="01575836669">
+            </div>
+            <div class="col-12 col-md-4">
+              <label class="lbl" for="s_prefix"><span>ZCS ID prefix</span></label>
+              <input class="fld fld--mono" type="text" id="s_prefix" value="ZCS">
+            </div>
+            <div class="col-12">
+              <label class="check">
+                <input type="checkbox" id="s_open" checked>
+                <span class="check__box"></span>
+                <span class="check__text">Membership registration is open</span>
+              </label>
+              <p class="help">Turning this off replaces the signup form with a closed notice.</p>
+            </div>
+            <div class="col-12">
+              <label class="check">
+                <input type="checkbox" id="s_cash" checked>
+                <span class="check__box"></span>
+                <span class="check__text">Allow cash payment to a panel member</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tabpane" data-tabpane="legal" data-tabpane-group="set">
+        <div class="panel">
+          <div class="panel__head"><div>
+            <p class="panel__kicker">Editable pages</p>
+            <h2 class="panel__title">Privacy and terms</h2>
+          </div></div>
+          <label class="lbl" for="s_privacy"><span>Privacy policy (HTML)</span></label>
+          <textarea class="fld fld--mono" id="s_privacy" style="min-height:170px">&lt;h2&gt;What we collect&lt;/h2&gt;
+&lt;p&gt;…&lt;/p&gt;</textarea>
+          <label class="lbl" for="s_terms" style="margin-top:18px"><span>Terms (HTML)</span></label>
+          <textarea class="fld fld--mono" id="s_terms" style="min-height:170px">&lt;h2&gt;1. Who may join&lt;/h2&gt;
+&lt;p&gt;…&lt;/p&gt;</textarea>
+          <p class="help">Both are sanitised on save; script tags and event attributes are stripped.</p>
+        </div>
+      </div>
+
+      <div class="tabpane" data-tabpane="ops" data-tabpane-group="set">
+        <div class="row g-4">
+          <div class="col-12 col-lg-6">
+            <div class="panel" style="height:100%">
+              <div class="panel__head"><div>
+                <p class="panel__kicker">Page cache</p>
+                <h2 class="panel__title">Cache manager</h2>
+              </div></div>
+              <dl class="dl-z">
+                <div><dt>Keys stored</dt><dd>218</dd></div>
+                <div><dt>Disk used</dt><dd>3.4 MB</dd></div>
+                <div><dt>Hit rate (24h)</dt><dd>91%</dd></div>
+                <div><dt>Oldest entry</dt><dd>4 hours ago</dd></div>
+              </dl>
+              <div class="btn-row" style="margin-top:18px">
+                <button class="btn-ghost btn-ghost--sm" type="button">Clear events</button>
+                <button class="btn-ghost btn-ghost--sm" type="button">Clear blog</button>
+                <button class="btn-ghost btn-ghost--sm btn-ghost--danger" type="button">Clear everything</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-lg-6">
+            <div class="panel" style="height:100%">
+              <div class="panel__head"><div>
+                <p class="panel__kicker">Security</p>
+                <h2 class="panel__title">Abuse controls</h2>
+              </div></div>
+              <div class="row g-3">
+                <div class="col-6">
+                  <label class="lbl" for="s_lockip"><span>Lockout per IP</span></label>
+                  <input class="fld fld--mono" type="number" id="s_lockip" value="10">
+                </div>
+                <div class="col-6">
+                  <label class="lbl" for="s_lockacct"><span>Lockout per account</span></label>
+                  <input class="fld fld--mono" type="number" id="s_lockacct" value="6">
+                </div>
+                <div class="col-6">
+                  <label class="lbl" for="s_ratemax"><span>Form posts / hour</span></label>
+                  <input class="fld fld--mono" type="number" id="s_ratemax" value="50">
+                </div>
+                <div class="col-6">
+                  <label class="lbl" for="s_proxy"><span>Trusted proxy hops</span></label>
+                  <input class="fld fld--mono" type="number" id="s_proxy" value="1">
+                </div>
+                <div class="col-12">
+                  <label class="check">
+                    <input type="checkbox" id="s_hsts" checked>
+                    <span class="check__box"></span>
+                    <span class="check__text">Send HSTS header</span>
+                  </label>
+                </div>
+                <div class="col-12">
+                  <label class="check">
+                    <input type="checkbox" id="s_turnstile" checked>
+                    <span class="check__box"></span>
+                    <span class="check__text">Require Turnstile on public forms</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel" style="margin-top:22px;position:sticky;bottom:12px;--notch:12px">
+        <div class="btn-row" style="justify-content:flex-end">
+          <a class="btn-ghost" href="index.html">Discard</a>
+          <button class="btn-zcs" type="submit">Save settings <span class="spinner"></span></button>
+        </div>
+      </div>
+    </form>
+  </main>
+</div>
+
+<div id="site-foot"></div>
+
+<script src="../assets/vendor/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/data.js"></script>
+<script src="../assets/js/layout.js"></script>
+<script src="../assets/js/panel.js"></script>
+<script src="../assets/js/app.js"></script>
+<script>
+(function () {
+  var D = window.ZCS, C = window.ZCS_CLUB;
+
+  document.getElementById('s_club').value = C.name;
+  document.getElementById('s_uni').value = C.university;
+  document.getElementById('s_email').value = C.email;
+  document.getElementById('s_phone').value = C.phone;
+  document.getElementById('s_hours').value = C.hours;
+  document.getElementById('s_addr').value = C.address;
+
+  document.getElementById('statFields').innerHTML = D.stats.map(function (s, i) {
+    return '<div class="col-12 col-md-3">' +
+      '<label class="lbl" for="stat' + i + '"><span>' + s.label + '</span></label>' +
+      '<input class="fld fld--mono" type="number" id="stat' + i + '" value="' + s.value + '"></div>';
+  }).join('');
+
+  document.getElementById('socialFields').innerHTML =
+    ['Facebook', 'Instagram', 'LinkedIn', 'YouTube', 'GitHub', 'WhatsApp community'].map(function (n, i) {
+      return '<div class="col-12 col-md-6">' +
+        '<label class="lbl" for="soc' + i + '"><span>' + n + '</span></label>' +
+        '<input class="fld" type="url" id="soc' + i + '" data-rule="url" placeholder="https://"></div>';
+    }).join('');
+})();
+</script>
+</body>
+</html>

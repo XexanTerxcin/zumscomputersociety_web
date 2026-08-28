@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#03070a">
+<meta name="description" content="Set a new password for your ZUMS Computer Society account.">
+<meta name="robots" content="noindex">
+<title>Set a new password — ZUMS Computer Society</title>
+<link rel="icon" href="assets/img/club-logo.png" type="image/png">
+<link href="assets/vendor/bootstrap.min.css" rel="stylesheet">
+<link href="assets/css/fonts.css" rel="stylesheet">
+<link href="assets/css/style.css" rel="stylesheet">
+</head>
+<body data-page="login" data-base="" data-area="site">
+
+<a class="skip-link" href="#resetForm">Skip to the form</a>
+<div id="site-nav"></div>
+
+<main id="main" class="section">
+  <div class="shell shell--narrow" style="margin-inline:auto">
+    <ul class="crumbs"><li><a href="login.html">Sign in</a></li><li>New password</li></ul>
+
+    <section class="panel">
+      <div class="panel__head"><div>
+        <p class="panel__kicker">Account recovery</p>
+        <h1 class="panel__title">Set a new password</h1>
+      </div></div>
+
+      <p class="muted">
+        This link is single-use. Choosing a new password signs out every other session on your
+        account.
+      </p>
+
+      <div class="alert-slot"></div>
+
+      <form id="resetForm" data-validate data-done="resetDone" novalidate>
+        <label class="lbl" for="r_pass"><span>New password</span><em class="req">Required</em></label>
+        <input class="fld" type="password" id="r_pass" name="password" autocomplete="new-password"
+               data-rule="required|min:10" placeholder="At least 10 characters">
+        <p class="err" id="err-r_pass" aria-live="polite"></p>
+
+        <div class="meter" style="margin:12px 0 6px"><div class="meter__fill" id="pwBar" style="width:0"></div></div>
+        <p class="help" id="pwHint" style="margin-top:0">Use a passphrase — length beats punctuation.</p>
+
+        <label class="lbl" for="r_pass2" style="margin-top:18px"><span>Repeat password</span><em class="req">Required</em></label>
+        <input class="fld" type="password" id="r_pass2" name="password2" autocomplete="new-password"
+               data-rule="required|match:#r_pass" placeholder="Type it again">
+        <p class="err" id="err-r_pass2" aria-live="polite"></p>
+
+        <button class="btn-zcs btn-zcs--block" type="submit" style="margin-top:22px">
+          Save new password <span class="spinner"></span>
+        </button>
+      </form>
+
+      <div id="resetDone" style="display:none">
+        <div class="alert-z alert-z--ok" style="margin-bottom:18px">
+          Password changed. Every other session has been signed out.
+        </div>
+        <a class="btn-zcs btn-zcs--block" href="login.html">Sign in</a>
+      </div>
+    </section>
+  </div>
+</main>
+
+<div id="site-foot"></div>
+
+<script src="assets/vendor/bootstrap.bundle.min.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/layout.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+(function () {
+  var pass = document.getElementById('r_pass');
+  var bar = document.getElementById('pwBar');
+  var hint = document.getElementById('pwHint');
+  var meter = bar.parentNode;
+
+  // Advisory only. The server runs the real policy check.
+  pass.addEventListener('input', function () {
+    var v = pass.value;
+    var score = Math.min(100, v.length * 6 +
+      (/[a-z]/.test(v) ? 8 : 0) + (/[A-Z]/.test(v) ? 8 : 0) +
+      (/\d/.test(v) ? 8 : 0) + (/[^\w\s]/.test(v) ? 12 : 0));
+    bar.style.width = score + '%';
+    meter.classList.toggle('meter--over', score < 40);
+    meter.classList.toggle('meter--warn', score >= 40 && score < 70);
+    hint.textContent = score < 40 ? 'Too easy to guess — make it longer.'
+      : score < 70 ? 'Acceptable. Longer is still better.'
+      : 'Strong enough.';
+  });
+})();
+</script>
+</body>
+</html>

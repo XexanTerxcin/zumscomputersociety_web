@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#03070a">
+<meta name="robots" content="noindex">
+<title>Certifications — ZCS admin</title>
+<link rel="icon" href="../assets/img/club-logo.png" type="image/png">
+<link href="../assets/vendor/bootstrap.min.css" rel="stylesheet">
+<link href="../assets/css/fonts.css" rel="stylesheet">
+<link href="../assets/css/style.css" rel="stylesheet">
+</head>
+<body data-page="admin-certs" data-base="../" data-area="admin">
+
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="site-nav"></div>
+
+<div class="app">
+  <aside class="side" id="panel-side"></aside>
+
+  <main id="main">
+    <div style="margin-bottom:24px">
+      <p class="eyebrow">Admin panel</p>
+      <h1 class="phero__title" style="font-size:clamp(1.5rem,4vw,2rem);margin-bottom:8px">Certifications</h1>
+      <p class="muted" style="margin:0">
+        Define a certificate once, then issue it to members against verified attendance. Every
+        issue and revocation is written to the audit log.
+      </p>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-12 col-xl-7">
+        <div class="panel" style="margin-bottom:22px">
+          <div class="panel__head"><div>
+            <p class="panel__kicker">Issued</p>
+            <h2 class="panel__title">Certificates in the wild</h2>
+          </div>
+          <a class="btn-ghost btn-ghost--sm" href="#" download>Export CSV</a></div>
+          <div class="table-wrap">
+            <table class="table-z">
+              <thead><tr><th>Code</th><th>Holder</th><th>Certificate</th><th>Issued</th><th>Status</th><th></th></tr></thead>
+              <tbody id="certRows"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel__head"><div>
+            <p class="panel__kicker">Templates</p>
+            <h2 class="panel__title">Defined certificates</h2>
+          </div>
+          <button class="btn-zcs btn-zcs--sm" type="button">New template</button></div>
+          <div class="table-wrap">
+            <table class="table-z" style="min-width:520px">
+              <thead><tr><th>Template</th><th>Signed by</th><th class="num">Issued</th><th></th></tr></thead>
+              <tbody id="tplRows"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-xl-5">
+        <section class="panel">
+          <div class="panel__head"><div>
+            <p class="panel__kicker">Issue</p>
+            <h2 class="panel__title">Issue a certificate</h2>
+          </div></div>
+
+          <div class="alert-slot"></div>
+
+          <form data-validate data-done="issueDone" novalidate>
+            <label class="lbl" for="i_member"><span>Member</span><em class="req">Required</em></label>
+            <div class="sel"><select class="fld" id="i_member" data-rule="required"></select></div>
+            <p class="err" id="err-i_member"></p>
+
+            <label class="lbl" for="i_tpl" style="margin-top:18px"><span>Certificate</span><em class="req">Required</em></label>
+            <div class="sel"><select class="fld" id="i_tpl" data-rule="required"></select></div>
+            <p class="err" id="err-i_tpl"></p>
+
+            <label class="lbl" for="i_event" style="margin-top:18px"><span>Against attendance at</span><em class="opt">Optional</em></label>
+            <div class="sel"><select class="fld" id="i_event"><option value="">Not tied to an event</option></select></div>
+            <p class="help">Leaving this empty means the certificate is not backed by a check-in record.</p>
+
+            <label class="lbl" for="i_date" style="margin-top:18px"><span>Issue date</span><em class="req">Required</em></label>
+            <input class="fld fld--mono" type="date" id="i_date" data-rule="required">
+            <p class="err" id="err-i_date"></p>
+
+            <button class="btn-zcs btn-zcs--block" type="submit" style="margin-top:22px">
+              Issue certificate <span class="spinner"></span>
+            </button>
+          </form>
+
+          <div id="issueDone" style="display:none">
+            <div class="alert-z alert-z--ok">Issued. The holder can see it in their dashboard immediately.</div>
+          </div>
+
+          <div class="rule" style="margin:22px 0"></div>
+          <p class="help" style="margin:0">
+            Revoking a certificate does not delete it — the public verification page reports it as
+            revoked, which is the point of publishing a code in the first place.
+          </p>
+        </section>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div id="site-foot"></div>
+
+<script src="../assets/vendor/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/data.js"></script>
+<script src="../assets/js/layout.js"></script>
+<script src="../assets/js/panel.js"></script>
+<script src="../assets/js/app.js"></script>
+<script>
+(function () {
+  var D = window.ZCS, U = window.ZCSUI;
+
+  document.getElementById('certRows').innerHTML = Object.keys(D.certificates).map(function (code) {
+    var c = D.certificates[code];
+    var valid = c.status === 'valid';
+    return '<tr>' +
+      '<td class="mono" style="font-size:11px">' + code + '</td>' +
+      '<td style="color:var(--ink)">' + c.holder + '</td>' +
+      '<td>' + c.title + '</td>' +
+      '<td>' + U.fmtDate(c.issued) + '</td>' +
+      '<td><span class="tag ' + (valid ? 'tag--live' : 'tag--alert') + '">' + c.status + '</span></td>' +
+      '<td style="text-align:right;white-space:nowrap">' +
+        '<a class="btn-ghost btn-ghost--sm" href="../verify.html?code=' + code + '">Public</a> ' +
+        (valid
+          ? '<button class="btn-ghost btn-ghost--sm btn-ghost--danger" type="button">Revoke</button>'
+          : '<button class="btn-ghost btn-ghost--sm" type="button">Reinstate</button>') +
+      '</td></tr>';
+  }).join('');
+
+  var templates = [
+    { name: 'Participation — event', by: 'Wing lead', n: 214 },
+    { name: 'Volunteer — event', by: 'General Secretary', n: 68 },
+    { name: 'Winner — contest', by: 'President', n: 41 },
+    { name: 'Runner-up — contest', by: 'President', n: 39 },
+    { name: 'Completion — workshop', by: 'Wing lead', n: 126 },
+    { name: 'Panel service', by: 'President', n: 22 }
+  ];
+
+  document.getElementById('tplRows').innerHTML = templates.map(function (t) {
+    return '<tr><td style="color:var(--ink)">' + t.name + '</td><td>' + t.by + '</td>' +
+      '<td class="num">' + t.n + '</td>' +
+      '<td style="text-align:right;white-space:nowrap">' +
+        '<button class="btn-ghost btn-ghost--sm" type="button">Edit</button> ' +
+        '<button class="btn-ghost btn-ghost--sm btn-ghost--danger" type="button">Delete</button></td></tr>';
+  }).join('');
+
+  document.getElementById('i_member').innerHTML = '<option value="">Choose a member</option>' +
+    D.members.map(function (m) {
+      return '<option value="' + m.uid + '">' + m.name + ' · ' + m.uid + '</option>';
+    }).join('');
+
+  document.getElementById('i_tpl').innerHTML = '<option value="">Choose a certificate</option>' +
+    templates.map(function (t) { return '<option value="' + t.name + '">' + t.name + '</option>'; }).join('');
+
+  document.getElementById('i_event').innerHTML = '<option value="">Not tied to an event</option>' +
+    D.events.map(function (e) { return '<option value="' + e.id + '">' + e.title + '</option>'; }).join('');
+})();
+</script>
+</body>
+</html>

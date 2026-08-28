@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#03070a">
+<meta name="description" content="A photo album from a ZUMS Computer Society event.">
+<title>Album — ZUMS Computer Society</title>
+<link rel="icon" href="assets/img/club-logo.png" type="image/png">
+<link href="assets/vendor/bootstrap.min.css" rel="stylesheet">
+<link href="assets/css/fonts.css" rel="stylesheet">
+<link href="assets/css/style.css" rel="stylesheet">
+</head>
+<body data-page="gallery" data-base="" data-area="site">
+
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="site-nav"></div>
+
+<main id="main">
+  <div id="albHero"></div>
+
+  <section class="section">
+    <div class="shell">
+      <div class="masonry" id="albGrid"></div>
+      <p class="help" style="margin-top:22px">
+        Click any photo to open it full size. Use the arrow keys to move through the album,
+        Escape to close.
+      </p>
+    </div>
+  </section>
+</main>
+
+<div id="site-foot"></div>
+
+<script src="assets/vendor/bootstrap.bundle.min.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/layout.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+(function () {
+  var D = window.ZCS, U = window.ZCSUI;
+  var a = D.albumById(U.param('id')) || D.albums[0];
+  var ev = a.event ? D.eventById(a.event) : null;
+
+  document.title = a.title + ' — ZUMS Computer Society';
+
+  document.getElementById('albHero').innerHTML =
+    '<section class="phero"><div class="shell">' +
+      '<ul class="crumbs"><li><a href="index.html">Home</a></li><li><a href="gallery.html">Gallery</a></li><li>' + a.title + '</li></ul>' +
+      '<h1 class="phero__title">' + a.title + '</h1>' +
+      '<p class="phero__sub">' + U.fmtDate(a.date) + ' · ' + a.count + ' photos' +
+        (ev ? ' · from <a href="event.html?id=' + ev.id + '">' + ev.title + '</a>' : '') + '</p>' +
+    '</div></section>';
+
+  var caps = ['Opening brief', 'The floor at hour three', 'Mentor session', 'Judging round',
+              'Team huddle', 'Soldering bench', 'Scoreboard', 'Prize handover',
+              'Panel photo', 'Late night', 'Demo table', 'Wrap-up', 'Setup', 'Doors open'];
+
+  var cells = [];
+  for (var i = 0; i < a.count; i++) {
+    var h = [520, 700, 460, 620, 560][i % 5];
+    var src = D.placeholder(a.id + '-' + i, caps[i % caps.length], 800, h);
+    cells.push(
+      '<a class="masonry__item" href="' + src + '" data-lightbox="' + a.id + '" ' +
+        'data-full="' + src + '" data-cap="' + caps[i % caps.length] + ' — ' + a.title + '">' +
+        '<img src="' + src + '" alt="' + caps[i % caps.length] + '" loading="lazy">' +
+        '<span class="masonry__cap">' + caps[i % caps.length] + '</span>' +
+      '</a>');
+  }
+  document.getElementById('albGrid').innerHTML = cells.join('');
+})();
+</script>
+</body>
+</html>

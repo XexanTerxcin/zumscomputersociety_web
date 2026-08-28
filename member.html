@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#03070a">
+<meta name="description" content="A public member profile at ZUMS Computer Society.">
+<title>Member — ZUMS Computer Society</title>
+<link rel="icon" href="assets/img/club-logo.png" type="image/png">
+<link href="assets/vendor/bootstrap.min.css" rel="stylesheet">
+<link href="assets/css/fonts.css" rel="stylesheet">
+<link href="assets/css/style.css" rel="stylesheet">
+</head>
+<body data-page="members" data-base="" data-area="site">
+
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="site-nav"></div>
+
+<main id="main" class="section">
+  <div class="shell">
+    <ul class="crumbs"><li><a href="index.html">Home</a></li><li><a href="members.html">Members</a></li><li id="crumbName">Profile</li></ul>
+    <div id="profile"></div>
+  </div>
+</main>
+
+<div id="site-foot"></div>
+
+<script src="assets/vendor/bootstrap.bundle.min.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/layout.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+(function () {
+  var D = window.ZCS, U = window.ZCSUI;
+  var m = D.memberByUid(U.param('uid')) || D.members[0];
+  var wing = D.wingBySlug(m.wing);
+  var rank = D.members.slice().sort(function (a, b) { return b.points - a.points; })
+              .findIndex(function (x) { return x.uid === m.uid; }) + 1;
+
+  document.title = m.name + ' — ZUMS Computer Society';
+  document.getElementById('crumbName').textContent = m.name;
+
+  document.getElementById('profile').innerHTML =
+    '<div class="profile">' +
+      '<div>' +
+        '<img class="profile__photo" src="' + D.avatarFor(m.name) + '" alt="' + m.name + '">' +
+        '<div class="panel" style="margin-top:20px;--notch:14px">' +
+          '<dl class="dl-z">' +
+            [['ZCS ID', m.uid],
+             ['Position', m.position],
+             ['Wing', wing ? wing.name : '—'],
+             ['Program', m.dept],
+             ['Session', m.session],
+             ['Member since', U.fmtDate(m.joined)],
+             ['Points', m.points],
+             ['Leaderboard', '#' + rank]]
+            .map(function (f) { return '<div><dt>' + f[0] + '</dt><dd>' + f[1] + '</dd></div>'; }).join('') +
+          '</dl>' +
+        '</div>' +
+      '</div>' +
+
+      '<div>' +
+        '<p class="eyebrow">' + m.position + '</p>' +
+        '<h1 class="phero__title" style="font-size:clamp(1.7rem,4.6vw,2.4rem)">' + m.name + '</h1>' +
+        '<p class="phero__sub" style="margin-bottom:20px">' +
+          m.name.split(' ')[0] + ' has been with the club since ' + U.fmtDate(m.joined) +
+          (wing ? ' and works out of the ' + wing.name + ' wing' : '') + '. ' +
+          'Public profiles show contribution, not contact details.' +
+        '</p>' +
+
+        '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:28px">' +
+          (wing ? '<span class="tag tag--cyan">' + wing.name + '</span>' : '') +
+          '<span class="tag tag--live">' + m.position + '</span>' +
+          '<span class="tag">Year ' + m.year + '</span>' +
+        '</div>' +
+
+        '<h2 class="sec-head__title" style="font-size:1.25rem;margin-bottom:14px">Skills</h2>' +
+        '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:32px">' +
+          m.skills.map(function (s) { return '<span class="tag tag--violet">' + s + '</span>'; }).join('') +
+        '</div>' +
+
+        '<h2 class="sec-head__title" style="font-size:1.25rem;margin-bottom:14px">Activity</h2>' +
+        '<ul class="timeline" style="margin-bottom:32px">' +
+          '<li><p class="timeline__when">' + U.fmtDate(m.joined) + '</p>' +
+            '<p class="timeline__what">Joined ZUMS Computer Society</p>' +
+            '<p class="timeline__note">Assigned to the ' + (wing ? wing.name : 'general') + ' wing.</p></li>' +
+          '<li><p class="timeline__when">2026</p>' +
+            '<p class="timeline__what">Appointed ' + m.position + '</p>' +
+            '<p class="timeline__note">Elected at the annual general meeting.</p></li>' +
+          '<li style="padding-bottom:0"><p class="timeline__when">Current</p>' +
+            '<p class="timeline__what">' + m.points + ' points earned</p>' +
+            '<p class="timeline__note">From event attendance, on-time fees and wing contributions.</p></li>' +
+        '</ul>' +
+
+        '<h2 class="sec-head__title" style="font-size:1.25rem;margin-bottom:14px">Certificates</h2>' +
+        '<div class="table-wrap"><table class="table-z"><thead><tr>' +
+          '<th>Code</th><th>Certificate</th><th>Issued</th><th>Status</th>' +
+        '</tr></thead><tbody id="memCerts"></tbody></table></div>' +
+      '</div>' +
+    '</div>';
+
+  var certs = Object.keys(D.certificates)
+    .filter(function (c) { return D.certificates[c].uid === m.uid; })
+    .map(function (c) {
+      var x = D.certificates[c];
+      return '<tr><td class="mono" style="font-size:11px">' + c + '</td><td>' + x.title + '</td>' +
+        '<td>' + U.fmtDate(x.issued) + '</td>' +
+        '<td>' + (x.status === 'valid'
+          ? '<a class="tag tag--live" href="verify.html?code=' + c + '">Verify</a>'
+          : '<span class="tag tag--alert">Revoked</span>') + '</td></tr>';
+    }).join('');
+
+  document.getElementById('memCerts').innerHTML = certs ||
+    '<tr><td colspan="4" class="muted-2">No certificates issued yet.</td></tr>';
+})();
+</script>
+</body>
+</html>

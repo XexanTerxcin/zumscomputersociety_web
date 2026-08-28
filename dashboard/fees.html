@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#03070a">
+<meta name="robots" content="noindex">
+<title>My fees — ZUMS Computer Society</title>
+<link rel="icon" href="../assets/img/club-logo.png" type="image/png">
+<link href="../assets/vendor/bootstrap.min.css" rel="stylesheet">
+<link href="../assets/css/fonts.css" rel="stylesheet">
+<link href="../assets/css/style.css" rel="stylesheet">
+</head>
+<body data-page="dash-fees" data-base="../" data-area="dash">
+
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="site-nav"></div>
+
+<div class="app">
+  <aside class="side" id="panel-side"></aside>
+
+  <main id="main">
+    <div style="margin-bottom:26px">
+      <p class="eyebrow">Member dashboard</p>
+      <h1 class="phero__title" style="font-size:clamp(1.5rem,4vw,2rem);margin-bottom:8px">Fees</h1>
+      <p class="muted" style="margin:0">
+        Your own payment history. The club fee is BDT 20 per academic semester —
+        every payment here also appears as one income row in the club ledger.
+      </p>
+    </div>
+
+    <div class="kpis" style="margin-bottom:26px" id="feeKpis"></div>
+
+    <div class="row g-4">
+      <div class="col-12 col-xl-8">
+        <div class="panel">
+          <div class="panel__head"><div>
+            <p class="panel__kicker">History</p>
+            <h2 class="panel__title">Every payment on record</h2>
+          </div>
+          <button class="btn-ghost btn-ghost--sm" type="button" onclick="window.print()">Print</button></div>
+
+          <div class="table-wrap">
+            <table class="table-z">
+              <thead><tr><th>Period</th><th>Paid on</th><th>Method</th><th>Transaction</th><th class="num">Amount</th><th>Status</th></tr></thead>
+              <tbody id="feeRows"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-xl-4">
+        <div class="panel" style="margin-bottom:22px">
+          <div class="panel__head"><div>
+            <p class="panel__kicker">Next payment</p>
+            <h2 class="panel__title">Spring 2027</h2>
+          </div></div>
+
+          <div class="fee" style="margin-bottom:16px">
+            <span class="fee__label">Amount due</span>
+            <span class="fee__value">BDT 20</span>
+          </div>
+          <p class="muted" style="font-size:.9rem">
+            Collection opens in January. Pay by bKash or Upay <strong>Send Money</strong>, or hand
+            cash to a panel member and take a receipt.
+          </p>
+
+          <div class="copybox" style="margin-bottom:14px">
+            <span>
+              <span class="mono" style="font-size:10.5px;color:var(--ink-3);display:block">bKash / Upay</span>
+              <span class="copybox__value">01575836669</span>
+            </span>
+            <button class="copy-btn" type="button" data-copy="01575836669">Copy</button>
+          </div>
+          <p class="help" style="margin:0">Keep the confirmation SMS until the treasurer marks it received.</p>
+        </div>
+
+        <div class="panel">
+          <div class="panel__head"><div>
+            <p class="panel__kicker">Problem?</p>
+            <h2 class="panel__title">Payment not showing</h2>
+          </div></div>
+          <div class="prose" style="font-size:.92rem">
+            <ul>
+              <li>Check you used <strong>Send Money</strong>, not Payment.</li>
+              <li>Check the transaction ID matches your SMS exactly.</li>
+              <li>Allow 1–3 working days for the treasurer to reconcile.</li>
+            </ul>
+          </div>
+          <a class="btn-ghost btn-ghost--block" href="../contact.html">Report a payment problem</a>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div id="site-foot"></div>
+
+<script src="../assets/vendor/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/data.js"></script>
+<script src="../assets/js/layout.js"></script>
+<script src="../assets/js/panel.js"></script>
+<script src="../assets/js/app.js"></script>
+<script>
+(function () {
+  var D = window.ZCS, U = window.ZCSUI, me = D.me;
+  var total = me.fees.reduce(function (s, f) { return s + f.amount; }, 0);
+
+  document.getElementById('feeKpis').innerHTML = [
+    ['Semesters paid', me.fees.length, 'kpi__value--neon', 'Unbroken since ' + U.fmtDate(me.joined)],
+    ['Paid in total', U.money(total), '', 'Across all periods'],
+    ['Current period', 'Fall 2026', 'kpi__value--neon', 'Settled ' + U.fmtDate(me.fees[0].paid)],
+    ['Outstanding', U.money(0), '', 'Nothing due right now']
+  ].map(function (k) {
+    return '<div class="kpi reveal"><p class="kpi__label">' + k[0] + '</p>' +
+      '<p class="kpi__value ' + k[2] + '" style="font-size:1.4rem">' + k[1] + '</p>' +
+      '<p class="kpi__delta">' + k[3] + '</p></div>';
+  }).join('');
+
+  document.getElementById('feeRows').innerHTML = me.fees.map(function (f) {
+    return '<tr>' +
+      '<td style="color:var(--ink)">' + f.period + '</td>' +
+      '<td>' + U.fmtDate(f.paid) + '</td>' +
+      '<td>' + f.method + '</td>' +
+      '<td class="mono" style="font-size:11px">' + f.trx + '</td>' +
+      '<td class="num num--in">' + U.money(f.amount) + '</td>' +
+      '<td><span class="tag tag--live">' + f.status + '</span></td>' +
+    '</tr>';
+  }).join('');
+
+  U.observeReveals();
+})();
+</script>
+</body>
+</html>

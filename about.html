@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#03070a">
+<meta name="description" content="How ZUMS Computer Society started, what the six wings do, and how the club is run and funded.">
+<title>About — ZUMS Computer Society</title>
+<link rel="icon" href="assets/img/club-logo.png" type="image/png">
+<link href="assets/vendor/bootstrap.min.css" rel="stylesheet">
+<link href="assets/css/fonts.css" rel="stylesheet">
+<link href="assets/css/style.css" rel="stylesheet">
+</head>
+<body data-page="about" data-base="" data-area="site">
+
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="site-nav"></div>
+
+<main id="main">
+
+  <section class="phero">
+    <div class="shell">
+      <ul class="crumbs"><li><a href="index.html">Home</a></li><li>About</li></ul>
+      <p class="eyebrow">Since 2023</p>
+      <h1 class="phero__title">A club built to make failing cheap.</h1>
+      <p class="phero__sub">
+        ZUMS Computer Society is the student technology community of ZNRF University of
+        Management Sciences. We exist so that a first-year who has never opened a terminal
+        can get to a working project without paying for the privilege of being a beginner.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <div class="row g-5">
+        <div class="col-12 col-lg-7">
+          <div class="prose">
+            <h2>What we do</h2>
+            <p>
+              Six wings run their own weekly rhythm — a contest, a build night, a lab rota, a
+              critique session. On top of that sit the things the whole club shows up for: the
+              hackathon, the CTF night, the orientation, and the semester showcase where every
+              wing has to demo something that runs.
+            </p>
+            <p>
+              Everything is deliberately low-ceremony. There is no audition. There is a form, a
+              twenty-taka semester fee, and a WhatsApp group you get added to once the panel has
+              matched your payment.
+            </p>
+
+            <h2>How we are run</h2>
+            <p>
+              An executive committee is elected each academic year and hands over in writing.
+              The treasurer keeps a single ledger, and period totals from that ledger are
+              published on the <a href="finance.html">transparency page</a> — no member names,
+              no receipts, just where the money went.
+            </p>
+            <p>
+              Certificates are issued against <em>attendance</em>, not registration, and every
+              issued certificate carries a code that anyone — including an employer — can check
+              on the <a href="verify.html">verification page</a>.
+            </p>
+
+            <h2>The motto is not decoration</h2>
+            <blockquote>TRY · FAIL · REPEAT</blockquote>
+            <p>
+              It is printed on the logo because it describes the method. Sessions are built so
+              the first attempt is expected to break. Projects are picked so a failed one still
+              teaches. Handover notes are published so next year's panel fails at new things
+              instead of the same ones.
+            </p>
+          </div>
+        </div>
+
+        <div class="col-12 col-lg-5">
+          <div class="panel" style="margin-bottom:22px">
+            <div class="panel__head">
+              <div>
+                <p class="panel__kicker">At a glance</p>
+                <h2 class="panel__title">The club in numbers</h2>
+              </div>
+            </div>
+            <dl class="dl-z" id="aboutFacts"></dl>
+          </div>
+
+          <div class="panel">
+            <div class="panel__head">
+              <div>
+                <p class="panel__kicker">History</p>
+                <h2 class="panel__title">How we got here</h2>
+              </div>
+            </div>
+            <ul class="timeline" style="margin-bottom:0">
+              <li>
+                <p class="timeline__when">2023</p>
+                <p class="timeline__what">Eleven people and a whiteboard</p>
+                <p class="timeline__note">The club is founded with two wings — programming and hardware — and no budget at all.</p>
+              </li>
+              <li>
+                <p class="timeline__when">2024</p>
+                <p class="timeline__what">Six wings, first HackFest</p>
+                <p class="timeline__note">The design wing produces the brand you are looking at. HackFest runs for the first time, for 90 people.</p>
+              </li>
+              <li>
+                <p class="timeline__when">2025</p>
+                <p class="timeline__what">Certificates and a real ledger</p>
+                <p class="timeline__note">Attendance-based certificates go live. The treasurer moves the accounts off a spreadsheet.</p>
+              </li>
+              <li style="padding-bottom:0">
+                <p class="timeline__when">2026</p>
+                <p class="timeline__what">312 members, 13 partners</p>
+                <p class="timeline__note">The member portal replaces the paper forms, and the transparency page goes public.</p>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="shell">
+      <div class="sec-head sec-head--center">
+        <p class="eyebrow">Structure</p>
+        <h2 class="sec-head__title">Six wings, one club</h2>
+      </div>
+      <div class="grid" id="aboutWings"></div>
+    </div>
+  </section>
+
+  <section class="section" id="partners">
+    <div class="shell">
+      <div class="sec-head sec-head--center">
+        <p class="eyebrow">Partners</p>
+        <h2 class="sec-head__title">Who we work with</h2>
+        <p class="sec-head__sub">Sponsors, host organisations and sister clubs who put money, venues or mentors behind what we run.</p>
+      </div>
+      <div class="partners__strip" id="aboutPartners"></div>
+      <div class="text-center" style="margin-top:26px">
+        <a class="btn-ghost" href="contact.html">Partner with us</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div id="site-foot"></div>
+
+<script src="assets/vendor/bootstrap.bundle.min.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/layout.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+(function () {
+  var D = window.ZCS, U = window.ZCSUI;
+
+  var facts = [
+    ['Founded', '2023'],
+    ['Active members', D.stats[0].value],
+    ['Wings', D.wings.length],
+    ['Events run', D.stats[1].value],
+    ['Projects shipped', D.stats[2].value],
+    ['Partners', D.partners.length],
+    ['Semester fee', U.money(20)],
+    ['Office hours', window.ZCS_CLUB.hours]
+  ];
+  document.getElementById('aboutFacts').innerHTML = facts.map(function (f) {
+    return '<div><dt>' + f[0] + '</dt><dd>' + f[1] + '</dd></div>';
+  }).join('');
+
+  document.getElementById('aboutWings').innerHTML = D.wings.map(U.wingCard).join('');
+  document.getElementById('aboutPartners').innerHTML = U.partnerStrip();
+  U.observeReveals();
+})();
+</script>
+</body>
+</html>

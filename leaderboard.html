@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#03070a">
+<meta name="description" content="Points leaderboard for ZUMS Computer Society — awarded for attendance, contribution and on-time fees.">
+<title>Leaderboard — ZUMS Computer Society</title>
+<link rel="icon" href="assets/img/club-logo.png" type="image/png">
+<link href="assets/vendor/bootstrap.min.css" rel="stylesheet">
+<link href="assets/css/fonts.css" rel="stylesheet">
+<link href="assets/css/style.css" rel="stylesheet">
+</head>
+<body data-page="leaderboard" data-base="" data-area="site">
+
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="site-nav"></div>
+
+<main id="main">
+
+  <section class="phero">
+    <div class="shell">
+      <ul class="crumbs"><li><a href="index.html">Home</a></li><li><a href="members.html">Members</a></li><li>Leaderboard</li></ul>
+      <p class="eyebrow">Points</p>
+      <h1 class="phero__title">Leaderboard</h1>
+      <p class="phero__sub">
+        Points are an append-only ledger — one row per award, never a running total that can drift.
+        They come from turning up, contributing and paying on time, and they reset per semester
+        on the semester view.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <div class="row g-4">
+        <div class="col-12 col-lg-8">
+          <div class="toolbar">
+            <button class="chip is-active" data-filter="all">Overall</button>
+            <button class="chip" data-filter="competitive-programming">CP</button>
+            <button class="chip" data-filter="software-development">Software</button>
+            <button class="chip" data-filter="ai-ml">AI &amp; ML</button>
+            <button class="chip" data-filter="cybersecurity">Security</button>
+            <button class="chip" data-filter="robotics-iot">Robotics</button>
+            <button class="chip" data-filter="design-media">Design</button>
+            <span class="mono" style="font-size:11px;color:var(--ink-3)" id="lbCount"></span>
+          </div>
+          <div id="lbList"></div>
+        </div>
+
+        <div class="col-12 col-lg-4">
+          <div class="panel" style="margin-bottom:22px">
+            <div class="panel__head"><div>
+              <p class="panel__kicker">Scoring</p>
+              <h2 class="panel__title">How points are awarded</h2>
+            </div></div>
+            <dl class="dl-z">
+              <div><dt>Attend an event</dt><dd>+50</dd></div>
+              <div><dt>Volunteer at an event</dt><dd>+120</dd></div>
+              <div><dt>Ship a project</dt><dd>+200</dd></div>
+              <div><dt>Publish a write-up</dt><dd>+80</dd></div>
+              <div><dt>Fee paid on time</dt><dd>+30</dd></div>
+              <div><dt>Win a contest</dt><dd>+250</dd></div>
+            </dl>
+            <p class="help" style="margin-top:14px">
+              Attendance points need the door check-in, so a registration alone earns nothing.
+            </p>
+          </div>
+
+          <div class="panel">
+            <div class="panel__head"><div>
+              <p class="panel__kicker">Wings</p>
+              <h2 class="panel__title">Points per wing</h2>
+            </div></div>
+            <div id="lbWings"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div id="site-foot"></div>
+
+<script src="assets/vendor/bootstrap.bundle.min.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/layout.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+(function () {
+  var D = window.ZCS, U = window.ZCSUI;
+  var idx = 0;
+
+  U.listController({
+    host: '#lbList',
+    countHost: '#lbCount',
+    source: function () {
+      idx = 0;
+      return D.members.slice().sort(function (a, b) { return b.points - a.points; });
+    },
+    matchFilter: function (m, f) { return m.wing === f; },
+    matchQuery: function () { return true; },
+    render: function (m) { return U.rankRow(m, idx++); }
+  });
+
+  var totals = D.wings.map(function (w) {
+    return {
+      name: w.name,
+      pts: D.members.filter(function (m) { return m.wing === w.slug; })
+             .reduce(function (s, m) { return s + m.points; }, 0)
+    };
+  }).sort(function (a, b) { return b.pts - a.pts; });
+
+  var max = totals[0].pts || 1;
+  document.getElementById('lbWings').innerHTML = totals.map(function (t) {
+    return '<div style="margin-bottom:14px">' +
+      '<div style="display:flex;justify-content:space-between;gap:10px;margin-bottom:6px">' +
+        '<span style="font-size:.9rem;color:var(--ink)">' + t.name + '</span>' +
+        '<span class="mono" style="font-size:11px;color:var(--neon)">' + t.pts.toLocaleString('en-US') + '</span>' +
+      '</div>' +
+      '<div class="meter"><div class="meter__fill" style="width:' + Math.round((t.pts / max) * 100) + '%"></div></div>' +
+    '</div>';
+  }).join('');
+})();
+</script>
+</body>
+</html>

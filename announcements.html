@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#03070a">
+<meta name="description" content="Short, dated notices from the ZUMS Computer Society panel.">
+<title>Announcements — ZUMS Computer Society</title>
+<link rel="icon" href="assets/img/club-logo.png" type="image/png">
+<link href="assets/vendor/bootstrap.min.css" rel="stylesheet">
+<link href="assets/css/fonts.css" rel="stylesheet">
+<link href="assets/css/style.css" rel="stylesheet">
+</head>
+<body data-page="announcements" data-base="" data-area="site">
+
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="site-nav"></div>
+
+<main id="main">
+
+  <section class="phero">
+    <div class="shell">
+      <ul class="crumbs"><li><a href="index.html">Home</a></li><li>Announcements</li></ul>
+      <p class="eyebrow">Notice board</p>
+      <h1 class="phero__title">Announcements</h1>
+      <p class="phero__sub">
+        Short, dated notices from the panel. Deadlines, closures and anything that needs to reach
+        every member the same day. Longer pieces go on the <a href="blog.html">blog</a>.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell shell--narrow" style="margin-inline:auto">
+      <div class="toolbar">
+        <button class="chip is-active" data-filter="all">All</button>
+        <button class="chip" data-filter="pinned">Pinned</button>
+        <button class="chip" data-filter="urgent">Urgent</button>
+        <span class="mono" style="font-size:11px;color:var(--ink-3)" id="anCount"></span>
+      </div>
+      <div id="anList"></div>
+    </div>
+  </section>
+
+</main>
+
+<div id="site-foot"></div>
+
+<script src="assets/vendor/bootstrap.bundle.min.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/layout.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+(function () {
+  var D = window.ZCS, U = window.ZCSUI;
+
+  U.listController({
+    host: '#anList',
+    countHost: '#anCount',
+    source: function () {
+      return D.announcements.slice().sort(function (a, b) {
+        if (a.pinned !== b.pinned) return a.pinned ? -1 : 1;
+        return new Date(b.date) - new Date(a.date);
+      });
+    },
+    matchFilter: function (a, f) { return f === 'pinned' ? a.pinned : a.level === f; },
+    matchQuery: function (a, q) { return (a.title + ' ' + a.body).toLowerCase().indexOf(q) > -1; },
+    render: function (a) {
+      var tone = a.level === 'urgent' ? 'tag--alert' : (a.level === 'info' ? 'tag--cyan' : 'tag--live');
+      return '<article class="reveal" style="border:1px solid var(--line);border-left:3px solid ' +
+        (a.level === 'urgent' ? 'var(--alert)' : a.level === 'info' ? 'var(--cyan)' : 'var(--neon)') +
+        ';background:var(--glass-2);padding:18px 20px;margin-bottom:12px">' +
+        '<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:8px">' +
+          (a.pinned ? '<span class="tag ' + tone + '">Pinned</span>' : '<span class="tag ' + tone + '">' + a.level + '</span>') +
+          '<span class="mono" style="font-size:10.5px;color:var(--ink-3)">' + U.fmtDate(a.date) + '</span>' +
+        '</div>' +
+        '<h2 style="font-size:1.06rem;margin:0 0 7px">' + a.title + '</h2>' +
+        '<p class="muted" style="margin:0;font-size:.93rem">' + a.body + '</p>' +
+      '</article>';
+    }
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#03070a">
+<meta name="description" content="Write-ups, tutorials and post-mortems from the wings of ZUMS Computer Society.">
+<title>Blog — ZUMS Computer Society</title>
+<link rel="icon" href="assets/img/club-logo.png" type="image/png">
+<link rel="alternate" type="application/rss+xml" title="ZCS blog" href="feed.xml">
+<link href="assets/vendor/bootstrap.min.css" rel="stylesheet">
+<link href="assets/css/fonts.css" rel="stylesheet">
+<link href="assets/css/style.css" rel="stylesheet">
+</head>
+<body data-page="blog" data-base="" data-area="site">
+
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="site-nav"></div>
+
+<main id="main">
+
+  <section class="phero">
+    <div class="shell">
+      <ul class="crumbs"><li><a href="index.html">Home</a></li><li>Blog</li></ul>
+      <p class="eyebrow">Writing</p>
+      <h1 class="phero__title">Write-ups, ladders and post-mortems</h1>
+      <p class="phero__sub">
+        What the wings learned, written down so the next intake does not have to learn it again.
+        Every CTF night gets a full write-up; every failed project gets an honest one.
+      </p>
+      <div class="btn-row" style="margin-top:18px">
+        <a class="btn-ghost btn-ghost--sm" href="feed.xml">RSS feed</a>
+        <a class="btn-ghost btn-ghost--sm" href="announcements.html">Announcements instead</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <div class="toolbar">
+        <button class="chip is-active" data-filter="all">All</button>
+        <button class="chip" data-filter="Culture">Culture</button>
+        <button class="chip" data-filter="Engineering">Engineering</button>
+        <button class="chip" data-filter="Competitive Programming">CP</button>
+        <button class="chip" data-filter="Cybersecurity">Security</button>
+        <button class="chip" data-filter="AI &amp; ML">AI &amp; ML</button>
+        <button class="chip" data-filter="Robotics">Robotics</button>
+        <button class="chip" data-filter="Design">Design</button>
+        <div class="search">
+          <span class="search__icon" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          </span>
+          <input class="fld" type="search" id="blogSearch" placeholder="Search posts and authors" aria-label="Search posts">
+        </div>
+        <span class="mono" style="font-size:11px;color:var(--ink-3)" id="blogCount"></span>
+      </div>
+
+      <div class="grid" id="blogList"></div>
+
+      <nav class="pager" aria-label="Pagination">
+        <span class="is-current">1</span>
+        <a href="#">2</a>
+        <a href="#">3</a>
+        <a href="#">Next &rarr;</a>
+      </nav>
+    </div>
+  </section>
+
+</main>
+
+<div id="site-foot"></div>
+
+<script src="assets/vendor/bootstrap.bundle.min.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/layout.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+(function () {
+  var D = window.ZCS, U = window.ZCSUI;
+  U.listController({
+    host: '#blogList',
+    countHost: '#blogCount',
+    search: '#blogSearch',
+    source: function () { return D.posts; },
+    matchFilter: function (p, f) { return p.category === f; },
+    matchQuery: function (p, q) {
+      return (p.title + ' ' + p.author + ' ' + p.excerpt + ' ' + p.category).toLowerCase().indexOf(q) > -1;
+    },
+    render: U.postCard
+  });
+})();
+</script>
+</body>
+</html>
